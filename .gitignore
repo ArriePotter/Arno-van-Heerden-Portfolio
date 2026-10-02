@@ -1,0 +1,22 @@
+# secrets & env
+.env
+.env.*
+!.env.example
+
+# research data that must never be public (POPIA)
+research-private/
+*.mp4
+*.m4a
+*.mov
+
+# deps & builds
+node_modules/
+.next/
+out/
+dist/
+.vercel/
+
+# os / editor
+.DS_Store
+*.log
+.claude/settings.local.json
