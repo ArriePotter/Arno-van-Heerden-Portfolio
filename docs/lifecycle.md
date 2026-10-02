@@ -20,6 +20,7 @@ Every piece of work, whether that's a page, a case study, a feature or a fix, ru
 | 9 | **Measure & learn** | Research + Product | Live product | Metrics vs goal, retro notes, case-study update | **Retro** |
 
 ## Rituals (what they look like in a company, and how we do them here)
+
 - **Kickoff.** The team aligns on the brief. Here, Claude opens the phase with a short kickoff and Arno confirms.
 - **Design crit** (Explore). This is a *divergent* critique of work in progress. The presenter states the goal and what feedback they want, and feedback ties to the goal, not to taste. Here, the `design-critic` agent reviews and Arno decides.
 - **Design review** (Design). This is a *convergent* quality gate against standards: is it ready? Here, the `design-critic` agent runs in review mode.
@@ -28,6 +29,7 @@ Every piece of work, whether that's a page, a case study, a feature or a fix, ru
 - **Retro.** What went well, what didn't, what we change. This feeds the "Reflection" section of a case study.
 
 ## Rules
+
 - **No build without a "Ready for dev" design.** Exception: throwaway spikes on a `spike/*` branch, which never merge.
 - **No merge without QA.** The `qa-auditor` agent runs on every PR that changes UI.
 - **Decisions are logged at the moment they're made** (`docs/decisions/`), not reconstructed later.
@@ -35,6 +37,7 @@ Every piece of work, whether that's a page, a case study, a feature or a fix, ru
 - **Timeboxes.** Each phase gets an appetite from the brief. When the time runs out, ship what passes the gate or cut scope; don't extend silently.
 
 ## Where artefacts live
+
 | Artefact | Location |
 |---|---|
 | Brief, scope | `docs/projects/<project>/brief.md` |

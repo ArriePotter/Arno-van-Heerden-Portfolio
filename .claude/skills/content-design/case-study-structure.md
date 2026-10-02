@@ -15,6 +15,7 @@ The target is a 5-minute read that works as a 30-second skim. The headings alone
 10. **Reflection:** what Arno would do next and what was learned.
 
 Rules:
+
 - Every claim of improvement shows its evidence.
 - Every image has a caption that says *what to notice*.
 - Use a **decision callout** pattern: "Decision → Why → Evidence" (pull these from `docs/decisions/`).
