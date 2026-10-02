@@ -44,10 +44,33 @@ When work spans departments, load each relevant skill. When starting a phase, op
 ## Environment facts (verified Oct 2026, see `docs/sources.md`)
 
 - **Figma Professional:** no branching, no Code Connect, no design-system analytics. Has team libraries, Dev Mode, "Ready for dev" status, up to 10 variable modes per collection, Figma Motion timeline, unlimited version history. Use named versions + page structure instead of branches.
-- **Figma MCP (remote):** 200 read calls/day, 10/min, only when the file lives in the Pro team.
+- **Figma access:** through the **claude.ai Figma connector** (`mcp__claude_ai_Figma__*`) on team **"Arno's Team"** (Pro, Full seat). Reads: 200 calls/day, 10/min, only for files in that team. Writes (`use_figma` etc.) work too; load the `figma-use` skill before writing. Use them for audits, scaffolding and demos, not for Arno's design work.
 - **GitHub Free:** branch protection and rulesets only work on **public** repos, so this repo is public.
 - **Stack** (decision pending, see `docs/decisions/`): Next.js 16, React 19, Tailwind CSS v4 (`@theme` in CSS), Motion for React, deployed on Vercel. Domain is at GoDaddy, email goes through Resend.
 - **Legal context:** South Africa, POPIA. Opt-in consent before any non-essential tracking.
+
+## Memory
+
+Project memory (auto-memory) carries context between chats. Keep it current without waiting to be asked.
+
+**Save immediately when Arno:**
+
+- states a preference, correction or rule ("from now on", "always", "don't", "I prefer"). Save as `feedback`.
+- makes or approves a decision. Save as `project`, plus a `docs/decisions/` record if it's about the product.
+- changes an account, tool, plan or link. Save as `reference`.
+
+**Checkpoint "Where we left off"** (in `design-career-roadmap.md`) at milestones: a gate passed, a PR merged or pushed, a phase started, or the end of a work block. Record what shipped, what's next and what's pending.
+
+**Don't save** anything the repo already records (code, docs, git history) or anything only relevant to the current conversation. Update existing memories instead of duplicating, and delete ones that turn out to be wrong. After saving, tell Arno in one line.
+
+**Hooks back this up** (`.claude/settings.json` → `.claude/hooks/memory_nudge.py`). They inject a reminder in these cases:
+
+- decision or preference phrases
+- every 12 prompts
+- after a push or merge
+- after context compaction or resume
+
+The reminder is a prompt, not a command, so judgement still applies.
 
 ## Repo map
 
