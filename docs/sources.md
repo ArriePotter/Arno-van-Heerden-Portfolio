@@ -5,7 +5,7 @@ These are the approved sources behind every rule in this repo. When a skill stat
 ## Source tiers (strongest first)
 
 1. **Our own evidence:** research with our users, test results, and analytics from this product.
-2. **Standards & specifications:** W3C (WCAG, ARIA APG, DTCG), the POPIA statute and Information Regulator guidance.
+2. **Standards, specifications & replicated peer-reviewed research:** W3C (WCAG, ARIA APG, DTCG), the POPIA statute, Information Regulator guidance, and replicated studies in perception and cognitive science (tracked in `docs/research/portfolio/desk/evidence-ledger.md`, graded A/B/C).
 3. **Platform owners:** Apple HIG, Material Design 3, Figma Help Center, MDN, framework docs.
 4. **Large-sample research bodies:** Nielsen Norman Group, Baymard Institute.
 5. **Recognised practitioners & books:** Refactoring UI, Butterick, Krug, Portigal, Hall, Torres, Emil Kowalski, Josh Comeau.

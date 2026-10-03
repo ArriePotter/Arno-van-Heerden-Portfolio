@@ -14,4 +14,6 @@ This is a lightweight version of the Architecture Decision Records (ADRs) that e
 
 | # | Decision | Dept | Status |
 |---|---|---|---|
-| — | *(none yet)* | | |
+| [0001](0001-lead-as-product-designer.md) | Lead as Product Designer, AI-assisted design-to-code as differentiator | Product strategy | Accepted |
+| [0002](0002-payroll-as-transferable-skills-only.md) | Payroll only as transferable skills, never identity | Content design | Accepted |
+| [0003](0003-portfolio-v1-now-figma-only.md) | Start portfolio v1 now, Figma-only, alongside Stage 1 | Product strategy | Accepted |
