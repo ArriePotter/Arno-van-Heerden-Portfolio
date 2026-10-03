@@ -39,6 +39,7 @@ Follow the mentor protocol in `CLAUDE.md`. **Never invent values.** Every colour
 - Use Radix's 12-step roles as the model: 1–2 backgrounds, 3–5 component backgrounds/states, 6–8 borders/focus, 9–10 solid fills, 11–12 text.
 - **Dark mode** remaps *semantic tokens*; it doesn't invert hex values. Use desaturated, lighter accents and elevation by lighter surfaces, not shadows (HIG / M3).
 - Never use colour as the only signal (WCAG 1.4.1).
+- **Depth:** use one consistent light source from above (the visual system's light-from-above prior). Shadows lit from below or from several directions look wrong (evidence ledger).
 
 ## Contrast: WCAG 2.2 AA (legal standard; WCAG 3/APCA are not adopted)
 
@@ -60,6 +61,16 @@ Follow the mentor protocol in `CLAUDE.md`. **Never invent values.** Every colour
 ## Review checklist
 
 Run [checklist.md](checklist.md) before any design review.
+
+## Evidence, not lore
+
+Visual claims cite the evidence ledger (`docs/research/portfolio/desk/evidence-ledger.md`). Never justify a design with debunked lore:
+
+- golden-ratio layouts
+- the serif-vs-sans legibility myth
+- single-colour psychology ("blue = trust")
+- "dyslexia fonts"
+- "4.5:1 guarantees readability"
 
 ## Red flags to call out
 

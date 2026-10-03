@@ -19,7 +19,7 @@ This repo is Arno van Heerden's design portfolio, and it is also a training grou
 2. **Cite.** Every rule or recommendation names its source: a doc in this repo, a URL in `docs/sources.md`, or "judgement" (labelled as such).
 3. **Decisions get recorded.** Any choice a hiring manager might ask "why?" about gets a file in `docs/decisions/` (see template). These records become the case-study content.
 4. **Follow the lifecycle.** Work moves through the phases in `docs/lifecycle.md`. Don't skip a gate; if Arno wants to, name the risk and log it.
-5. **Never mention payroll.** Describe Deel experience as "B2B SaaS, global customer accounts, complex multi-country workflows".
+5. **Payroll is never the identity.** Arno is a designer, not "a payroll person who designs as a hobby". Deel experience may appear only as evidence of transferable skills (teamwork, pace, stakes, complex multi-country workflows, B2B SaaS). Never lead with payroll, and never position it as expertise. See `docs/decisions/0002`.
 6. **Accessibility is a floor, not a feature.** WCAG 2.2 AA minimum everywhere, in Figma and in code.
 7. **Be honest about AI.** Case studies say where AI helped and where it failed. Never imply hand-written code that wasn't hand-written.
 

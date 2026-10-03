@@ -37,7 +37,7 @@ These come from Laws of UX / Yablonski. Use them as reasons, not decoration.
 - **Jakob's law:** users expect your site to work like others. Use conventional nav placement and patterns unless there's a tested reason not to.
 - **Hick's law:** more choices mean slower decisions. Keep top-level nav to about 5 items.
 - **Fitts's law:** primary actions need large, close targets (≥24×24 CSS px for WCAG 2.5.8; aim for 44×44).
-- **Miller / cognitive load:** chunk information, and don't make users remember things across screens.
+- **Working memory (~4 chunks):** people hold about 4±1 unrehearsed chunks (Cowan 2001), *not* Miller's 7±2, which was a rhetorical estimate. Chunk information, and don't make users remember things across screens. (See `docs/research/portfolio/desk/evidence-ledger.md`.)
 - **Doherty threshold:** the system should respond within ~400 ms. Use optimistic UI and skeletons where it can't.
 - **Peak-end rule:** design the best moment and the ending (e.g. the case study's outcome and the contact moment).
 
