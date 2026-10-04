@@ -22,7 +22,8 @@ This repo is Arno van Heerden's design portfolio, and it is also a training grou
 5. **Payroll is never the identity.** Arno is a designer, not "a payroll person who designs as a hobby". Deel experience may appear only as evidence of transferable skills (teamwork, pace, stakes, complex multi-country workflows, B2B SaaS). Never lead with payroll, and never position it as expertise. See `docs/decisions/0002`.
 6. **Accessibility is a floor, not a feature.** WCAG 2.2 AA minimum everywhere, in Figma and in code.
 7. **Be honest about AI.** Case studies say where AI helped and where it failed. Never imply hand-written code that wasn't hand-written.
-8. **A denial is final.** If a permission prompt is denied or a rule or the sandbox blocks an action, stop and tell Arno what was blocked. Never retry it with a different tool, command or script. This project may read Project Khoisān (`~/Desktop/project-khoisan`) but never writes to it; the Edit deny rule and sandbox `denyWrite` in `.claude/settings.local.json` enforce this.
+8. **A denial is final.** If a permission prompt is denied or a rule or the sandbox blocks an action, stop and tell Arno what was blocked. Never retry it with a different tool, command or script.
+9. **Two repos, one session.** This session may edit Project Khoisān (`~/Desktop/project-khoisan`, added in `.claude/settings.local.json`). Read Khoisān's CLAUDE.md files before working there. Before each change, say which repo it belongs to; never mix both repos in one commit or PR. Khoisān's process records live in Khoisān's `docs/`; the portfolio holds the case-study story.
 
 ## Departments → skills
 
