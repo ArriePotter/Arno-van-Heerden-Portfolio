@@ -93,6 +93,22 @@ This is the **source of truth for "proves the why"**. Every scientific claim the
 | Aesthetics can compensate for usability at first, but the halo fades with exposure | A | Moshagen et al. 2009; Sonderegger & Sauer 2010; Sonderegger et al. 2012 | ⏳ | Beauty wins the first visit; real usability wins repeat use |
 | Beauty is a trust signal, and therefore dual-use: it can lower users' guard against dark patterns | Ethics | Reinecke 2013; Brignull (deceptive patterns) | ⏳ | Never use craft to manipulate |
 
+## How reviewers read a portfolio (brief risk #2)
+
+Desk research, 18 Oct 2026. No rigorous study of portfolio *timing* exists. The timing evidence below is about web pages and résumés in general, so treat it as a proxy.
+
+| Claim | Grade | Primary source | Verified | Applies to |
+|---|---|---|---|---|
+| Hiring managers want the process, not just the final product: the problem, your role, constraints, timeline, how research shaped the work, and what was left out and why. They rarely read word for word, so portfolios should be scannable. 3–5 detailed case studies, quality over quantity | B (survey of 204 hiring UX professionals; only quotes reported, thin method) | Krause, "5 Steps to Creating a UX-Design Portfolio", NN/g, 4 Aug 2019: <https://www.nngroup.com/articles/ux-design-portfolios/> | ✅ (article read 18 Oct) | Case-study template: role + constraints + process + "what we cut and why"; headings carry the story |
+| 90% of hiring managers say the portfolio is an important part of the application. A hiring manager (nCino) says teams "only have time to skim 1–2 case studies" | B (survey n ≈ 500; the 1–2 figure is one person's opinion) | UX Design Institute, *State of UX Hiring Report 2024*: <https://www.uxdesigninstitute.com/state-of-ux-hiring> | ⏳ (landing page only; full report gated) | Put the best case study first; plan for 1–2 to be read |
+| Visual appeal is judged within 50 ms, and those ratings agree with judgements made after longer viewing | A (peer-reviewed) | Lindgaard, Fernandes, Dudek & Brown 2006, *Behaviour & IT* 25:115–126 | ⏳ (only secondary write-ups checked) | The first screen's visual craft sets the frame for everything after |
+| On web pages generally, the first ~10 s decide whether people stay. Past ~30 s, leaving slows sharply | A (data: 205,873 pages, >2 bn dwell times; the "10 s" is Nielsen's reading of the curve) | Liu, White & Dumais 2010, SIGIR; summary: <https://www.nngroup.com/articles/how-long-do-users-stay-on-web-pages/> | ⏳ (NN/g summary, not the paper) | Role + differentiator readable within 10 s |
+| Recruiters' initial résumé screen averaged 7.4 s. Simple layouts with clear sections and headings held attention, while clutter, multiple columns and long sentences did poorly | B (industry eye-tracking study; résumés, not portfolios; small, thinly reported sample) | Ladders 2018 eye-tracking study; report: <https://www.hrdive.com/news/eye-tracking-study-shows-recruiters-look-at-resumes-for-7-seconds/541582/> | ⏳ (secondary) | Recruiter mode / CV view: clear sections, one column |
+
+**What this means for risk #2** ("reviewers decide in about 2–10 s, then inspect details for minutes"): it is *partly supported*. The first judgement is fast (50 ms for visual appeal, ~10 s to stay or leave). The deeper read is a skim of 1–2 case studies, not minutes of close reading. There's no portfolio-specific timing data.
+
+**Not used (unknown method):** the "54% of hiring managers spend 5–10 min on a portfolio" figure (ADPList blog; UX Collective). No sample or method is given, so never cite it.
+
 ## Myths we never claim
 
 Golden ratio layouts (Markowsky 1992; Fechner's rectangle study never replicated) · the strong "savanna genes" hypothesis · "nature restores executive attention" (mixed replication) · Miller's 7±2 for menus · the "8-second attention span" · a universal F-pattern · the 3-click rule · "users don't scroll" · single-colour psychology · "dyslexia fonts" · the strong paradox of choice · "4.5:1 guarantees readability".
