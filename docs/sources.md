@@ -67,6 +67,8 @@ Last verified: **2 Oct 2026**. Re-verify tool and plan facts every quarter, beca
 
 - NN/g: Which UX research methods: <https://www.nngroup.com/articles/which-ux-research-methods/>
 - NN/g: Why you only need to test with 5 users: <https://www.nngroup.com/articles/why-you-only-need-to-test-with-5-users/>
+- NN/g: 5 steps to creating a UX-design portfolio (survey of 204 hiring managers): <https://www.nngroup.com/articles/ux-design-portfolios/>
+- NN/g: How long do users stay on web pages: <https://www.nngroup.com/articles/how-long-do-users-stay-on-web-pages/>
 - NN/g: Synthetic users: <https://www.nngroup.com/articles/synthetic-users/>
 - ASSAf POPIA framework for research: <https://www.assaf.org.za/popia/>
 - Books: *Just Enough Research* (Hall), *The Mom Test* (Fitzpatrick), *Interviewing Users* (Portigal), *Continuous Discovery Habits* (Torres)
