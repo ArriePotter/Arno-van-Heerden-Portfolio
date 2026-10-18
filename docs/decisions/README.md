@@ -19,3 +19,6 @@ This is a lightweight version of the Architecture Decision Records (ADRs) that e
 | [0003](0003-portfolio-v1-now-figma-only.md) | Start portfolio v1 now, Figma-only, alongside Stage 1 | Product strategy | Accepted |
 | [0004](0004-skip-discover-interviews.md) | Skip design-lead interviews in Discover; test with the v1 prototype instead | UX research | Accepted |
 | [0005](0005-khoisan-is-case-study-1.md) | Project Khoisān is Case Study 1; Finanza is dropped | Product strategy | Accepted |
+| [0006](0006-positioning-line.md) | Positioning: "Product Designer who proves the why" | Product strategy | Accepted |
+| [0007](0007-site-map.md) | Site map: one "book" home page plus case-study pages | Product strategy | Accepted |
+| [0008](0008-case-study-template.md) | Case-study template: 7 chapters on the lifecycle spine | Product strategy | Accepted |
