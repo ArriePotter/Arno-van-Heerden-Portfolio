@@ -20,20 +20,6 @@
   aspect-ratio: 1440 / 900;
 }
 
-/* The big background "Why": same size and height on every page (Figma 830px at 1440). */
-.why {
-  position: absolute;
-  top: 10.9cqw; /* Figma 194px, nudged so the glyph top lines up with the face (browser font metrics differ) */
-  margin: 0;
-  font: italic 400 57.64cqw/0.9 var(--font-stix);
-  letter-spacing: -0.02em;
-  color: var(--color-why-wash);
-  white-space: nowrap;
-  pointer-events: none;
-  user-select: none;
-  will-change: transform;
-}
-
 /* Phones and narrow windows: drop the fixed composition and stack the content. */
 @container page (width < 760px) {
   .inner {

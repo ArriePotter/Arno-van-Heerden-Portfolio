@@ -1,0 +1,31 @@
+/* Fixed layer behind the pages, sized like a page's composition so cqw values match Figma. */
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.comp {
+  container: comp / inline-size;
+  position: relative;
+  width: min(100%, 100svh * 1.6);
+  aspect-ratio: 1440 / 900;
+}
+
+/* Same size as Figma (830px at 1440). */
+.why {
+  position: absolute;
+  left: 47.57cqw;
+  top: 10.9cqw; /* Figma 194px, nudged so the glyph top lines up with the face */
+  margin: 0;
+  font: italic 400 57.64cqw/0.9 var(--font-stix);
+  letter-spacing: -0.02em;
+  color: var(--color-why-wash);
+  white-space: nowrap;
+  user-select: none;
+  will-change: transform;
+}

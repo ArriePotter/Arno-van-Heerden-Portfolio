@@ -23,7 +23,7 @@
   background: var(--color-accent);
 }
 
-/* The page title rides under the tallest tick. */
+/* The page title rides under the tallest tick, starting on its line. */
 .label {
   position: absolute;
   top: 34px;

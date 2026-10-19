@@ -36,7 +36,7 @@ export function ScrollNav() {
         const chapter = chapters.reduce((a, b) =>
           Math.abs(b.tick - state.pos) < Math.abs(a.tick - state.pos) ? b : a,
         );
-        if (label.current) label.current.style.transform = `translateX(${state.pos * STEP}px) translateX(-50%)`;
+        if (label.current) label.current.style.transform = `translateX(${state.pos * STEP}px)`;
         if (chapter.id !== current) {
           current = chapter.id;
           setActive(chapter.id);
