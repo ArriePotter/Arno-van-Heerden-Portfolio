@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "./gsap";
+import { gsap, ScrollTrigger, useGSAP } from "./gsap";
 import styles from "./BackgroundWhy.module.css";
 
 // One faint "Why" behind the whole page. It stays put while the pages scroll up over it,
@@ -14,16 +14,23 @@ export function BackgroundWhy() {
     if (!el) return;
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      // Straight left, from its cover position to where the whole "y" is on screen, reached exactly when
+      // Straight left, from its cover position to its final spot, reached exactly when
       // the Intro page fills the screen. After that it stays put.
       const comp = el.parentElement as HTMLElement;
       gsap.to(el, {
-        // Ends with the right edge of the "y" 40px inside the window (plus a little for the
-        // italic overhang), so the "y" isn't cut off.
+        // Ends with equal margins left and right: the visible letters (from the left edge of
+        // the W to the right edge of the y, measured from the font itself, since the italic y
+        // sticks out past its box) are centred in the window.
         x: () => {
-          const right = comp.getBoundingClientRect().left + el.offsetLeft + el.offsetWidth;
-          const overhang = parseFloat(getComputedStyle(el).fontSize) * 0.04;
-          return window.innerWidth - 40 - overhang - right;
+          const style = getComputedStyle(el);
+          const ctx = document.createElement("canvas").getContext("2d");
+          if (!ctx) return 0;
+          ctx.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+          ctx.letterSpacing = style.letterSpacing;
+          const m = ctx.measureText(el.textContent ?? "");
+          const boxLeft = comp.getBoundingClientRect().left + el.offsetLeft;
+          const glyphCentre = boxLeft + (m.actualBoundingBoxRight - m.actualBoundingBoxLeft) / 2;
+          return window.innerWidth / 2 - glyphCentre;
         },
         ease: "none",
         scrollTrigger: {
@@ -35,6 +42,7 @@ export function BackgroundWhy() {
         },
       });
     });
+    document.fonts.ready.then(() => ScrollTrigger.refresh());
     return () => mm.revert();
   });
 
