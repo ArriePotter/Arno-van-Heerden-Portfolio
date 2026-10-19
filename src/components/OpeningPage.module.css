@@ -1,0 +1,39 @@
+/* Two columns: left word (right-aligned) and phrase (left-aligned). */
+.statements {
+  position: absolute;
+  top: 24.86cqw;
+  left: 50%;
+  translate: -50% 0;
+  display: grid;
+  /* Two equal columns, so the gap between them sits exactly on the page's centre line
+     (where the book splits open into Work). */
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1.67cqw;
+  row-gap: 1.11cqw;
+  align-items: center;
+  font: 400 max(1.75rem, 3.06cqw)/1.15 var(--font-stix);
+}
+
+.statements li {
+  display: contents;
+}
+
+.left {
+  justify-self: end;
+}
+
+.right {
+  font-style: italic;
+}
+
+
+@container page (width < 760px) {
+  .statements {
+    position: relative;
+    inset: auto;
+    translate: none;
+    align-self: center;
+    column-gap: 12px;
+    row-gap: 8px;
+  }
+}

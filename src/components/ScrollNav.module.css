@@ -1,0 +1,195 @@
+.root {
+  position: relative;
+  width: calc(var(--ticks) * 8px - 7px);
+  height: 52px;
+}
+
+/* An invisible zone around the whole nav, so the hover starts just below or beside the lines.
+   ::before paints under the page links, so they stay clickable. */
+.root::before {
+  content: "";
+  position: absolute;
+  inset: -12px -20px -28px;
+}
+
+.ticks {
+  display: flex;
+  gap: 7px;
+  align-items: flex-start;
+}
+
+/* Holds the motion-blur filter; takes no space. */
+.filterDefs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* Heights are set by GSAP as scaleY (transform only, so it stays smooth). */
+.tick {
+  width: 1px;
+  height: 28px;
+  transform-origin: top;
+  background: var(--color-text-muted);
+}
+
+.tick[data-current="true"],
+.tick[data-here="true"] {
+  width: 1.5px;
+  background: var(--color-accent);
+}
+
+/* A zero-width point that rides under the tallest tick; words are centred on it. */
+.anchor {
+  position: absolute;
+  top: 34px;
+  left: 0;
+  width: 0;
+  will-change: transform;
+}
+
+/* Each word clips its letters, so they appear to rise out of and into a slot. */
+.word {
+  position: absolute;
+  left: 0;
+  translate: -50% 0;
+  display: flex;
+  overflow: hidden;
+  padding-bottom: 2px;
+  font: 400 0.75rem/1 var(--font-geist-mono);
+  color: var(--color-accent);
+  white-space: pre;
+}
+
+.letter {
+  display: inline-block;
+}
+
+.links li {
+  position: absolute;
+  top: 0;
+  translate: -50% 0;
+}
+
+/* Each page link is a 24px-wide target over its tick (WCAG 2.5.8). */
+.links a {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 52px;
+}
+
+/* Every page name, under its own line. Hidden until the nav is hovered or focused;
+   then the riding accent word steps aside so the names don't double up. */
+.label {
+  position: absolute;
+  top: 34px;
+  left: 50%;
+  translate: -50% 0;
+  font: 400 0.75rem/1 var(--font-geist-mono);
+  color: var(--color-text);
+  white-space: pre;
+  opacity: 0;
+  transform-origin: 50% 0;
+  transition:
+    opacity 0.2s ease-out,
+    color 0.2s ease-out,
+    scale 0.2s ease-out;
+}
+
+/* A larger invisible hit area around each name, so hovering just below or beside it counts. */
+.label::before {
+  content: "";
+  position: absolute;
+  inset: -12px -20px -28px;
+}
+
+/* The page name under the pointer (or keyboard focus) turns the brand colour and grows
+   slightly (scale, not font-size, so nothing reflows). */
+.links a:hover .label,
+.links a:focus-visible .label {
+  color: var(--color-accent);
+  scale: 1.15;
+}
+
+.anchor {
+  transition: opacity 0.2s ease-out;
+}
+
+.root:hover .label,
+.root:focus-within .label,
+.links a:focus-visible .label {
+  opacity: 1;
+}
+
+.root:hover .anchor,
+.root:focus-within .anchor {
+  opacity: 0;
+}
+
+/* ---- Vertical (a case study's chapter nav on the left): the same nav, stood up. Lines grow
+   rightwards, the word and the names sit to the right of the lines. ---- */
+.vertical {
+  width: 52px;
+  height: calc(var(--ticks) * 8px - 7px);
+}
+
+/* The hover zone reaches right past the longest section name (--reach, set by the script). */
+.vertical::before {
+  inset: -20px calc(-1 * var(--reach, 120px)) -20px -12px;
+}
+
+.vertical .ticks {
+  flex-direction: column;
+}
+
+.vertical .tick {
+  width: 28px;
+  height: 1px;
+  transform-origin: left;
+}
+
+.vertical .tick[data-current="true"],
+.vertical .tick[data-here="true"] {
+  width: 28px;
+  height: 1.5px;
+}
+
+.vertical .anchor {
+  top: 0;
+  left: 34px;
+  width: auto;
+  height: 0;
+}
+
+.vertical .word {
+  translate: 0 -50%;
+}
+
+.vertical .links li {
+  left: 0;
+  translate: 0 -50%;
+}
+
+.vertical .links a {
+  width: 52px;
+  height: 24px;
+}
+
+.vertical .label {
+  top: 50%;
+  left: 34px;
+  translate: 0 -50%;
+  transform-origin: 0 50%;
+}
+
+.vertical .label::before {
+  inset: -12px -28px -12px -20px;
+}
+
+/* No room for the lines on small screens; the Menu still reaches every page. */
+@media (width < 960px) {
+  .root {
+    display: none;
+  }
+}

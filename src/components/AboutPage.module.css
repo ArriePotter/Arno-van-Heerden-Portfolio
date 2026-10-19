@@ -1,0 +1,223 @@
+.about {
+  position: relative;
+  min-height: 100svh;
+  padding: 140px var(--page-gutter) 0;
+}
+
+/* Statement headline: muted, with the key words in full text colour. */
+.headline {
+  max-width: 22ch;
+  font: 400 clamp(2.25rem, 4.6vw, 4.5rem)/1.1 var(--font-stix);
+  color: var(--color-text-muted);
+}
+
+.headline strong {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.headline em {
+  color: var(--color-text);
+}
+
+/* Photo left, text right. */
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  /* The row gap is the whitespace kept between the text card and the next page's skills
+     strip as the strip comes up. */
+  gap: 160px clamp(32px, 6vw, 120px);
+  margin-top: clamp(48px, 8vw, 120px);
+}
+
+/* Flush with the left edge of the screen (reaches back through the page margin); only the
+   right corners are rounded. */
+/* Sticks to the top of the screen once it gets there, while the next page (starting with
+   the skills strip) slides up over it; it lets go at the end of .body. */
+.photo {
+  view-timeline: --about-photo;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  overflow: hidden;
+  margin-left: calc(-1 * var(--page-gutter));
+  aspect-ratio: 4 / 5;
+  border-radius: 0 16px 16px 0;
+  /* A neutral grey for the placeholder, so it doesn't merge with the orange-wash Why. */
+  background: color-mix(in srgb, var(--color-text) 7%, var(--color-bg));
+  font: 400 0.75rem/1 var(--font-geist-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.photoInner {
+  position: absolute;
+  inset: -10% 0;
+  display: grid;
+  place-items: center;
+}
+
+/* The text column fills the photo's row; inside it the card sticks in the vertical centre of
+   the screen (--card-h is its height, set by CentreSticky) until the column ends, which is
+   one row gap above the next page, so the strip never touches the card. */
+.textCol {
+  align-self: stretch;
+  /* The glass panel reaches 40px above the text (.text::before), so this lines the panel's
+     top edge up with the photo frame's top edge. */
+  padding-top: 40px;
+}
+
+.text {
+  position: sticky;
+  top: calc(50svh - var(--card-h, 0px) / 2);
+  isolation: isolate;
+  display: grid;
+  align-content: start;
+  gap: 40px;
+  max-width: 36rem;
+}
+
+/* A frosted-glass panel behind the text: the background (the big Why) is blurred inside a
+   thin rounded border, extending a little past the text on every side. */
+.text::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -40px -48px;
+  border: 1px solid color-mix(in srgb, var(--color-text-muted) 45%, transparent);
+  border-radius: 16px;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+/* Opening paragraph with a large opening quote mark hanging in the margin. */
+.intro {
+  position: relative;
+  padding-left: 56px;
+  font: 400 clamp(1.25rem, 1.8vw, 1.75rem)/1.45 var(--font-geist);
+}
+
+.intro::before {
+  content: "\201C";
+  position: absolute;
+  top: -0.15em;
+  left: 0;
+  font: 400 4rem/1 var(--font-stix);
+  color: var(--color-accent);
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--color-text-muted);
+  opacity: 0.4;
+}
+
+/* The two paragraphs, one under the other. */
+.columns {
+  display: grid;
+  gap: 24px;
+  font: 400 clamp(1.125rem, 1.4vw, 1.375rem)/1.6 var(--font-geist);
+  color: var(--color-text-muted);
+}
+
+/* Key phrases: a highlighter stroke drawn over the words from left to right, up to --fill
+   (set by HighlightOnScroll; 100% without JS). The words keep their colour. The stroke is a
+   hand-drawn marker shape (wavy edges, rough ends, a slight tilt that differs per phrase), so
+   it looks like a person drew it, not a ruler. */
+.key {
+  --fill: 100%;
+  --tilt: -0.8deg;
+  position: relative;
+  isolation: isolate;
+  display: inline-block; /* keeps each phrase on one line, so the stroke is one piece */
+  font-weight: inherit;
+}
+
+.key::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0.28em -0.18em 0.02em -0.12em;
+  background: color-mix(in srgb, var(--color-why) 34%, transparent);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M2 7C30 4 70 6 110 4S175 5 198 6L197 15C165 17 120 15 80 17S25 16 3 16L1 11Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  clip-path: inset(0 calc(100% - var(--fill)) 0 0);
+  transform: rotate(var(--tilt));
+}
+
+.key:nth-of-type(3n + 2) {
+  --tilt: 0.6deg;
+}
+
+.key:nth-of-type(3n + 2)::before {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 5C45 7 80 3 125 5S180 6 197 4L199 14C150 16 115 14 70 16S20 15 2 15L3 10Z'/%3E%3C/svg%3E");
+  inset: 0.32em -0.1em 0 -0.2em;
+}
+
+.key:nth-of-type(3n)::before {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M1 6C35 5 85 7 120 5S170 3 199 6L197 16C160 15 110 17 75 15S30 17 2 15L2 10Z'/%3E%3C/svg%3E");
+  inset: 0.24em -0.22em 0.04em -0.1em;
+}
+
+.key:nth-of-type(3n) {
+  --tilt: -0.3deg;
+}
+
+/*
+  Parallax as a depth stack (research card "Parallax needs depth, not lag", Figma Research):
+  nearer layers move faster, and each keeps one speed the whole way.
+  - far: the background Why (fixed)
+  - the picture inside the photo frame: a little slower than the page
+  - the text card holds in the vertical centre of the screen (sticky, see .text).
+  CSS scroll-driven animations, so the browser keeps them in step with the scroll.
+  Off with reduced motion; browsers without support scroll normally.
+*/
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .photoInner {
+      animation: about-far linear both;
+      animation-timeline: --about-photo;
+      animation-range: cover;
+    }
+  }
+}
+
+/* Drifts down inside the frame as the frame scrolls up, so it lags behind (farther). */
+@keyframes about-far {
+  from {
+    transform: translateY(-8%);
+  }
+  to {
+    transform: translateY(8%);
+  }
+}
+
+
+/* The space the next page slides up through, over the stuck photo. */
+.spacer {
+  grid-column: 1 / -1;
+  height: 100svh;
+}
+
+/* Narrow screens: one column; the photo still runs to the left edge. */
+@media (width < 760px) {
+  .about {
+    padding-top: 112px;
+  }
+
+  .body {
+    grid-template-columns: 1fr;
+  }
+
+  .photo {
+    width: 80%;
+  }
+
+  .intro {
+    padding-left: 40px;
+  }
+
+  .intro::before {
+    font-size: 3rem;
+  }
+}

@@ -1,0 +1,41 @@
+/* Full screen width, thin rules above and below, scrolling slowly left forever. Pauses on
+   hover; still (and scrollable) with reduced motion. */
+.marquee {
+  overflow: hidden;
+  border-block: 1px solid color-mix(in srgb, var(--color-text-muted) 40%, transparent);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: marquee 45s linear infinite;
+}
+
+.marquee:hover .track {
+  animation-play-state: paused;
+}
+
+.items {
+  display: flex;
+  gap: 64px;
+  padding: 28px 32px;
+  white-space: nowrap;
+  font: 400 1.375rem/1 var(--font-stix);
+  color: var(--color-text);
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+
+  .marquee {
+    overflow-x: auto;
+  }
+}

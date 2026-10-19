@@ -1,0 +1,35 @@
+/* One screen of stage plus the scroll lengths of the book opening and of the Work cards
+   rising into place; the stage stays stuck to the top while both play. */
+.scene {
+  --zoom-length: 150svh;
+  --cards-length: 100svh;
+  position: relative;
+  height: calc(100svh + var(--zoom-length) + var(--cards-length));
+}
+
+.anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.workAnchor {
+  top: var(--zoom-length);
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+}
+
+/* Work covers the background Why: as the book opens, the gap wipes the Why away. */
+.work {
+  background: var(--color-bg);
+}

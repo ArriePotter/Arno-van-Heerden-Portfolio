@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+/* Tokens mirror Figma collection "Direction A" (mode Light = default, Dark = [data-theme="dark"]). */
+:root {
+  --color-bg: #fafafa;
+  --color-text: #141414;
+  --color-text-muted: #6b6b6b;
+  --color-accent: #b4530a; /* small orange text and ticks: 5.0:1 on bg */
+  --color-why: #e1791e; /* display only: 3.0:1 on bg */
+  --color-why-wash: #fff2e7;
+  --color-text-on-why: #141414;
+
+  /* Page side margin: Menu, Resume and full-width content (Work cards) all line up on it. */
+  --page-gutter: 40px;
+}
+
+@media (width < 760px) {
+  :root {
+    --page-gutter: 24px;
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #292719;
+  --color-text: #f7f4f2;
+  --color-text-muted: #b9b4a8;
+  --color-accent: #ffea00;
+  --color-why: #d1390a;
+  --color-why-wash: #3a3424;
+  --color-text-on-why: #141414;
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-accent: var(--color-accent);
+  --color-why: var(--color-why);
+  --color-why-wash: var(--color-why-wash);
+  --font-serif: var(--font-stix);
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+  --font-signature: var(--font-signature);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-geist), system-ui, sans-serif;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 50;
+  padding: 0.5rem 1rem;
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}

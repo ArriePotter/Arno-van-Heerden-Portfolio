@@ -1,0 +1,115 @@
+/* Positions are Figma px ÷ 14.4 → cqw (A v3 · 01 Cover). */
+.face {
+  position: absolute;
+  left: 5.56cqw;
+  top: 13.89cqw;
+  width: 29.17cqw;
+  height: auto;
+}
+
+.positioning {
+  position: absolute;
+  top: 26.04cqw;
+  /* Fixed spot to the right of the face (no longer tied to the scroll nav, which is now
+     too wide: lined up under "Home", the title would run into the face). */
+  left: calc(50% - 202.4px);
+  width: 36.11cqw;
+  display: grid;
+  gap: 1.39cqw;
+}
+
+/*
+  Title hold: for the first 30% of a screen of scrolling the title stands still while the
+  face moves up, then it smoothly starts scrolling. It moves down exactly as fast as the
+  page moves up at first (ease-out-quad starts at slope 2 × 15vh/30vh = 1), slowing to zero,
+  so there's no jolt. A CSS scroll-driven animation runs on the compositor, so it doesn't
+  jitter like a script would. Browsers without support simply scroll it normally.
+*/
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .positioning {
+      animation: title-hold linear both;
+      animation-timing-function: cubic-bezier(0.5, 1, 0.89, 1);
+      animation-timeline: scroll(root);
+      animation-range: 0 30vh;
+    }
+  }
+}
+
+/*
+  Face parallax: the face is the nearest layer, so it moves up 1.5× as fast as the page
+  (an extra half a screen over the first screen of scrolling), while the title holds and
+  then scrolls at page speed, and the background Why barely moves. On the compositor, like
+  the title, so the two layers stay in step.
+*/
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .face {
+      animation: face-rise linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+  }
+}
+
+@keyframes face-rise {
+  to {
+    transform: translateY(-50vh);
+  }
+}
+
+@keyframes title-hold {
+  to {
+    transform: translateY(15vh);
+  }
+}
+
+.title {
+  font: 400 max(1.75rem, 3.06cqw)/1.15 var(--font-stix);
+  letter-spacing: -0.005em;
+}
+
+.title em {
+  font-style: italic;
+  color: var(--color-accent);
+}
+
+.support {
+  max-width: 31.3cqw;
+  font: 400 max(1rem, 1.39cqw)/1.5 var(--font-geist);
+  color: var(--color-text-muted);
+}
+
+
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@container page (width < 760px) {
+  .face,
+  .positioning {
+    position: relative;
+    inset: auto;
+    translate: none;
+  }
+
+  .face {
+    width: 45%;
+    align-self: center;
+  }
+
+  .positioning {
+    width: auto;
+    left: auto;
+  }
+
+  .support {
+    max-width: none;
+  }
+}

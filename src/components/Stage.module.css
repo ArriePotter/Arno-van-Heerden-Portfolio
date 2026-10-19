@@ -1,0 +1,35 @@
+/*
+  A "stage" is one full page of the book. The composition (.inner) keeps the Figma frame's
+  1440 × 900 proportions and is as large as fits the window: full width, unless that would
+  make it taller than the screen. Everything inside is sized in cqw (1cqw = 1% of the
+  composition width = 14.4px at 1440), so it scales as one piece.
+*/
+.stage {
+  container: page / inline-size;
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.inner {
+  container: comp / inline-size;
+  position: relative;
+  width: min(100%, 100svh * 1.6);
+  aspect-ratio: 1440 / 900;
+}
+
+/* Phones and narrow windows: drop the fixed composition and stack the content. */
+@container page (width < 760px) {
+  .inner {
+    width: 100%;
+    aspect-ratio: auto;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+    padding: 120px 24px 40px;
+  }
+}

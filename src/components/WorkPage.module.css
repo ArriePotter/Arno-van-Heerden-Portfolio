@@ -1,0 +1,166 @@
+.wrap {
+  /* Radius of the invisible circle round the title, and the thin gap between the cards. */
+  --ring: 96px;
+  --gap: 14px;
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+}
+
+.title {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  font: 400 max(1.75rem, 3.06cqw)/1.15 var(--font-stix);
+}
+
+/*
+  Two half-screen cards, from the page margin (lined up with Menu and Resume) to the thin
+  gap in the middle. Vertically centred on the title at rest.
+  The script redraws each card's outline (clip-path) so its inner edge bends around the
+  invisible circle round the title.
+*/
+.card {
+  position: absolute;
+  top: 50%;
+  height: 66svh;
+  margin-top: -33svh;
+  width: calc(50% - var(--page-gutter) - var(--gap) / 2);
+  border-radius: 16px;
+}
+
+/* The card's colour, clipped (by the script) to the bent outline. */
+.fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--color-why-wash);
+}
+
+.card[data-card="left"] {
+  left: var(--page-gutter);
+}
+
+.card[data-card="right"] {
+  right: var(--page-gutter);
+}
+
+/* Focus ring along the bent outline, shown only for keyboard focus (cards have no border). */
+.border {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  fill: none;
+  stroke: transparent;
+  stroke-width: 2;
+}
+
+/* The card's whole area is the link (or plain content for a card without a case study). */
+.cardLink {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 32px;
+  color: inherit;
+  text-decoration: none;
+  outline: none; /* focus is shown on the card's border instead (clip-path would cut an outline) */
+}
+
+.card[data-card="left"] .cardLink {
+  justify-content: flex-end;
+  padding-right: calc(var(--ring) + 48px);
+}
+
+.card[data-card="right"] .cardLink {
+  padding-left: calc(var(--ring) + 48px);
+}
+
+/* Hover and keyboard focus: border and title turn the brand colour; focus also thickens
+   the border to 2px so it reads as a focus ring. */
+.card:has(a:focus-visible) .border {
+  stroke: var(--color-accent);
+}
+
+.card:has(a:hover) .cardTitle,
+.card:has(a:focus-visible) .cardTitle {
+  color: var(--color-accent);
+}
+
+.cardTitle {
+  transition: color 0.2s ease-out;
+}
+
+.content {
+  display: grid;
+  gap: 8px;
+  max-width: 360px;
+}
+
+.label {
+  font: 400 0.75rem/1.2 var(--font-geist-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.cardTitle {
+  font: 400 1.5rem/1.15 var(--font-stix);
+}
+
+.line {
+  font: 400 0.875rem/1.4 var(--font-geist);
+  color: var(--color-text-muted);
+}
+
+
+/* Narrow screens: no room either side of the title, so the cards stack under it. */
+@container page (width < 760px) {
+  .wrap {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 16px;
+    padding: 120px 24px 40px;
+  }
+
+  .title,
+  .card {
+    position: static;
+    translate: none;
+    margin: 0;
+  }
+
+  .cards {
+    display: grid;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .card {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 200px;
+  }
+
+  .card[data-card] .cardLink {
+    position: relative;
+    min-height: 200px;
+    padding: 24px;
+  }
+
+  .card:has(a:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .border {
+    display: none;
+  }
+}

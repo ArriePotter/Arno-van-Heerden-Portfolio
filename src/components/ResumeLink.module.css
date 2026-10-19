@@ -1,0 +1,17 @@
+.link {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  height: 36px; /* same as the Menu button */
+  padding: 0 14px;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  font: 500 0.875rem/1.2 var(--font-geist);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.link:hover {
+  background: var(--color-text);
+  color: var(--color-bg);
+}

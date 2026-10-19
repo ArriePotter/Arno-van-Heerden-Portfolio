@@ -1,0 +1,107 @@
+.root {
+  justify-self: start;
+}
+
+.button {
+  display: flex; /* block-level: with no visible text, an inline button would drop to the baseline */
+  align-items: center;
+  gap: 12px;
+  height: 36px; /* same as Resume, so both sit on one line */
+  min-width: 36px; /* a target of at least 24px (WCAG 2.5.8), lines stay left-aligned */
+  padding: 0;
+  font: 500 0.875rem/1.2 var(--font-geist);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+/* Five lines styled like the scroll nav, turned on their side: same 7px gap, grey lines that
+   get longer towards the middle (same exponential falloff as the ticks, 28·18·13 scaled to
+   36px), and the middle one longest and in the brand colour. */
+.burger {
+  display: grid;
+  gap: 7px;
+  justify-items: start;
+}
+
+.burger span {
+  display: block;
+  width: 16px;
+  height: 1px;
+  background: var(--color-text-muted);
+}
+
+.burger span:nth-child(2),
+.burger span:nth-child(4) {
+  width: 24px;
+}
+
+.burger span:nth-child(3) {
+  width: 36px;
+  height: 1.5px;
+  background: var(--color-accent);
+}
+
+/* The open menu: a bordered box that comes out of the page's left edge (no left border),
+   with the page names lined up with the start of the burger lines. */
+.panel {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+  margin-left: calc(-1 * var(--bar-gutter));
+  padding: 20px 32px 20px var(--bar-gutter);
+  /* On brand: the Why's wash and outline colours (like the big Why and the Work cards), the
+     cards' 16px corner, serif names. */
+  border: 1px solid var(--color-why);
+  border-left: none;
+  border-radius: 0 16px 16px 0;
+  background: var(--color-why-wash);
+  font: 400 1.375rem/1.2 var(--font-stix);
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+/* Hover: brand colour, like the scroll nav's page names (no size change). */
+.panel a {
+  position: relative;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s ease-out;
+}
+
+.panel a:hover,
+.panel a:focus-visible {
+  color: var(--color-accent);
+}
+
+/* On hover, a brand-colour line slides in from the page edge on the hovered row, stopping
+   8px short of the name (like the nav's main line pointing at the page). */
+.panel a::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 8px);
+  width: calc(var(--bar-gutter) - 8px);
+  height: 1.5px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease-out;
+}
+
+.panel a:hover::before,
+.panel a:focus-visible::before {
+  transform: scaleX(1);
+}
+
+/* An entry that isn't ready yet (case study 2): shown, not clickable. */
+.soon {
+  color: var(--color-text-muted);
+}
+
+.soon small {
+  font: 400 0.75rem/1 var(--font-geist-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
