@@ -57,7 +57,7 @@ export function CaseCursor() {
       <span className={styles.disc} />
       {/* The label runs along an arc just outside the top of the disc. */}
       <svg className={styles.arc} viewBox="0 0 180 180">
-        <path id={arcId} d="M 22 90 A 68 68 0 0 1 158 90" fill="none" />
+        <path id={arcId} d="M 20 90 A 70 70 0 0 1 160 90" fill="none" />
         <text>
           <textPath href={`#${arcId}`} startOffset="50%" textAnchor="middle">
             {label?.text}

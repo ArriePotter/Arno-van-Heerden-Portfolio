@@ -24,10 +24,10 @@
   overflow: visible;
 }
 
+/* Same typography as the big background Why: STIX Two Text italic. Spread out along the arc. */
 .arc text {
-  font: 400 11px var(--font-geist-mono);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font: italic 400 17px var(--font-stix);
+  letter-spacing: 0.14em;
   fill: var(--color-accent);
 }
 
