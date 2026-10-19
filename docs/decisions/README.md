@@ -23,5 +23,13 @@ This is a lightweight version of the Architecture Decision Records (ADRs) that e
 | [0007](0007-site-map.md) | Site map: one "book" home page plus case-study pages | Product strategy | Accepted (menu part superseded by 0010) |
 | [0008](0008-case-study-template.md) | Case-study template: 7 chapters on the lifecycle spine | Product strategy | Accepted |
 | [0009](0009-also-shipped-strip.md) | Show other shipped products as a small "Also shipped" strip | Product strategy | Accepted |
-| [0010](0010-menu-in-burger-resume-visible.md) | Work, About and Contact go in a menu; Resume stays visible | Interaction design | Accepted |
+| [0010](0010-menu-in-burger-resume-visible.md) | Work, About and Contact go in a menu; Resume stays visible | Interaction design | Accepted (details updated by 0014) |
 | [0011](0011-reverse-mode-code-prototype.md) | Reverse mode: local code prototype of Direction A before the Figma gates | Design engineering | Accepted |
+| [0012](0012-gsap-and-css-scroll-driven-motion.md) | Motion runs on GSAP plus CSS scroll-driven animations | Design engineering | Accepted |
+| [0013](0013-scroll-nav-is-the-wayfinding.md) | The scroll nav is the wayfinding, home and case studies | Interaction design | Accepted |
+| [0014](0014-menu-opens-instantly.md) | The menu opens instantly, lists every page, nav-style burger | Interaction design | Accepted |
+| [0015](0015-intro-opens-like-a-book-into-work.md) | Intro opens like a book; Work cards bend around the title | Motion design | Accepted |
+| [0016](0016-parallax-as-a-depth-stack.md) | Parallax is a depth stack, used only where layers overlap | Motion design | Accepted |
+| [0017](0017-about-page-layout-and-highlighter.md) | About: photo flush left, glass card, hand-drawn highlighter | Visual / Content design | Accepted |
+| [0018](0018-case-study-page-layout.md) | Case-study page layout, built from the Discover research | Interaction design | Accepted (mock) |
+| [0019](0019-one-page-margin.md) | One page margin: content lines up with Menu and Resume | Design systems | Accepted |
