@@ -1,6 +1,6 @@
 # Build log, round 1: reverse-mode prototype (19 Oct 2026)
 
-Raw material for case study #0's **Iterations**, **Solution** and **Measure & learn** chapters (0008). Phase: Explore → Build in reverse mode (0011). Code: branch `feat/home-prototype` (PR #8). Decisions: 0012–0019. Figma: 💡 Explorations → "05 As built · round 1".
+Raw material for case study #0's **Iterations**, **Solution** and **Measure & learn** chapters (0008). Phase: Explore → Build in reverse mode (0011). Code: branch `feat/home-prototype` (PR #8). Decisions: 0012–0019. Figma: 💡 Explorations → "05 As built · round 1" (section `104:303`): 9 wireframes (Cover, Intro, book opening, Work cards, About, Get in touch, Menu, case study overview, Show the why), a motion & interaction spec under each, wireframe components (`WF/Scroll nav`, `WF/Burger`, `WF/Image placeholder`), and the iterations and skipped-gates cards.
 
 ## How the round worked
 

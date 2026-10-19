@@ -57,7 +57,7 @@
 
 | Component | Figma | Code | States covered | Status |
 |---|---|---|---|---|
-| Scroll nav (horizontal / vertical) | A/Scroll nav (horizontal only) | `ScrollNav.tsx` | rest, scrolling, hover, focus, click, reduced motion | Built; vertical not yet in Figma |
+| Scroll nav (horizontal / vertical) | A/Scroll nav; WF/Scroll nav (wireframe, both orientations, section 05) | `ScrollNav.tsx` | rest, scrolling, hover, focus, click, reduced motion | Built; vertical not yet in Figma |
 | Menu button + panel | A/Menu button | `MenuButton.tsx` | closed, open, hover, focus | Built; open panel not in Figma |
 | Resume link | A/Resume | `ResumeLink.tsx` | rest, hover, focus | Built |
 | Work card | — | `WorkPage.tsx` | rest, rising/bending, hover, focus, no-link | Built; not in Figma |
