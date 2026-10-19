@@ -18,6 +18,13 @@
   align-items: flex-start;
 }
 
+/* Holds the motion-blur filter; takes no space. */
+.filterDefs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
 /* Heights are set by GSAP as scaleY (transform only, so it stays smooth). */
 .tick {
   width: 1px;

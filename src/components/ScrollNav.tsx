@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { chapters, TICKS, type ChapterId } from "./chapters";
 import { gsap, ScrollTrigger, useGSAP } from "./gsap";
 import styles from "./ScrollNav.module.css";
 
 const STEP = 8; // tick width (1px) + gap (7px), as in Figma
 const MAX = 28; // tallest tick, px
+const MAX_BLUR = 1.5; // strongest motion blur, px
 
 // Height falls off with distance from the current position (Figma: A/Scroll nav).
 function tickHeight(distance: number) {
@@ -23,6 +24,9 @@ export function ScrollNav() {
   const root = useRef<HTMLElement>(null);
   const ticks = useRef<HTMLSpanElement[]>([]);
   const anchor = useRef<HTMLSpanElement>(null);
+  const tickRow = useRef<HTMLDivElement>(null);
+  const blur = useRef<SVGFEGaussianBlurElement>(null);
+  const blurId = useId();
   const [active, setActive] = useState<ChapterId>("home");
 
   useGSAP(
@@ -69,7 +73,17 @@ export function ScrollNav() {
           .to(word.children, { yPercent: 0, duration: 0.35, ease: "power3.out", stagger: 0.03 });
       };
 
+      // Motion blur: a horizontal-only blur on the lines, as strong as they are moving fast.
+      // Off when still, so it costs nothing at rest.
+      let lastPos = state.pos;
+      const setBlur = (px: number) => {
+        blur.current?.setAttribute("stdDeviation", `${px} 0`);
+        if (tickRow.current) tickRow.current.style.filter = px > 0.05 ? `url(#${CSS.escape(blurId)})` : "";
+      };
+
       const draw = () => {
+        if (!reduce) setBlur(Math.min(MAX_BLUR, Math.abs(state.pos - lastPos) * STEP * 0.15));
+        lastPos = state.pos;
         const nearest = Math.round(state.pos);
         ticks.current.forEach((el, i) => {
           el.style.transform = `scaleY(${tickHeight(Math.abs(i - state.pos)) / MAX})`;
@@ -106,6 +120,7 @@ export function ScrollNav() {
           ease: "power3.out", // glides and settles, no overshoot (not a spring)
           overwrite: true,
           onUpdate: draw,
+          onComplete: () => setBlur(0),
         });
       const update = () => {
         if (!hovering) glideTo(scrollPos());
@@ -141,7 +156,12 @@ export function ScrollNav() {
 
   return (
     <nav ref={root} aria-label="Page sections" className={styles.root}>
-      <div className={styles.ticks} aria-hidden="true">
+      <svg className={styles.filterDefs} aria-hidden="true">
+        <filter id={blurId} x="-5%" width="110%">
+          <feGaussianBlur ref={blur} stdDeviation="0 0" />
+        </filter>
+      </svg>
+      <div ref={tickRow} className={styles.ticks} aria-hidden="true">
         {Array.from({ length: TICKS }, (_, i) => (
           <span
             key={i}
