@@ -19,12 +19,14 @@ export function HighlightOnScroll() {
     let raf = 0;
     const update = () => {
       raf = 0;
-      const vh = window.innerHeight;
-      // The fill starts when the word's middle is 10% of the screen below the centre line
-      // and is complete 5% above it.
-      const start = vh * 0.6;
-      const end = vh * 0.45;
+      const centre = window.innerHeight / 2;
       for (const w of words) {
+        // A line sweeps while it moves through a band one line tall around the centre of the
+        // screen. The next line down enters that band exactly as this one leaves it, so a line
+        // never starts before the one above has finished.
+        const pitch = parseFloat(getComputedStyle(w.parentElement ?? w).lineHeight) || 32;
+        const start = centre + pitch / 2;
+        const end = centre - pitch / 2;
         const r = w.getBoundingClientRect();
         const mid = r.top + r.height / 2;
         const p = Math.min(1, Math.max(0, (start - mid) / (start - end)));
