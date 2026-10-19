@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-// Key words marked with data-highlight fill with the brand colour, in one sweep from left to
+// Key words marked with data-highlight get a highlighter stroke, in one sweep from left to
 // right across their line, as the line crosses the middle of the screen (and empty again
 // when scrolling back). Driven by each word's real on-screen position, so it stays right
 // while the About text column's parallax moves it. Sets --fill (0–100%), which the CSS

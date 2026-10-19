@@ -89,19 +89,20 @@
   color: var(--color-text-muted);
 }
 
-/* Key phrases: the brand colour fills them from left to right up to --fill (set by
-   HighlightOnScroll as the line crosses the middle of the screen; 100% without JS). */
+/* Key phrases: a highlighter stroke drawn over the words from left to right, up to --fill
+   (set by HighlightOnScroll as the line crosses the middle of the screen; 100% without JS).
+   The words keep their colour; only the marker band behind them grows. */
 .key {
   --fill: 100%;
   font-weight: inherit;
+  padding-inline: 2px;
   background-image: linear-gradient(
-    90deg,
-    var(--color-accent) var(--fill),
-    var(--color-text-muted) var(--fill)
+    color-mix(in srgb, var(--color-why) 32%, transparent),
+    color-mix(in srgb, var(--color-why) 32%, transparent)
   );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  background-repeat: no-repeat;
+  background-position: 0 70%;
+  background-size: var(--fill) 0.8em;
 }
 
 /*
