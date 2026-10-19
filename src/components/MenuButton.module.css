@@ -40,11 +40,20 @@
   display: none;
 }
 
+/* Same hover as the scroll nav's page names: brand colour and a slight grow (scale, so
+   nothing reflows). Grows from the left edge so the list stays aligned. */
 .panel a {
+  display: inline-block;
   color: var(--color-text);
   text-decoration: none;
+  transform-origin: 0 50%;
+  transition:
+    color 0.2s ease-out,
+    scale 0.2s ease-out;
 }
 
-.panel a:hover {
-  text-decoration: underline;
+.panel a:hover,
+.panel a:focus-visible {
+  color: var(--color-accent);
+  scale: 1.15;
 }
