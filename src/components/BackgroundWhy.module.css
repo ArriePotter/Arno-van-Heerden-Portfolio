@@ -25,6 +25,18 @@
   font: italic 400 57.64cqw/0.9 var(--font-stix);
   letter-spacing: -0.02em;
   color: var(--color-why-wash);
+  /* A slim brand-colour outline round the letters (decorative, so no contrast minimum).
+     Drawn as 1px shadows in eight directions rather than text-stroke: the font's letters are
+     built from overlapping shapes, and a stroke would show those joins as lines inside. */
+  text-shadow:
+    1px 0 var(--color-why),
+    -1px 0 var(--color-why),
+    0 1px var(--color-why),
+    0 -1px var(--color-why),
+    0.7px 0.7px var(--color-why),
+    -0.7px 0.7px var(--color-why),
+    0.7px -0.7px var(--color-why),
+    -0.7px -0.7px var(--color-why);
   white-space: nowrap;
   user-select: none;
   will-change: transform;
