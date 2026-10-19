@@ -5,12 +5,14 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: start;
-  padding: 24px 40px;
+  --bar-gutter: 40px; /* side padding; the open menu reaches back through it to the page edge */
+  padding: 24px var(--bar-gutter);
 }
 
 @media (width < 760px) {
   .bar {
     grid-template-columns: 1fr 1fr;
-    padding: 16px 24px;
+    --bar-gutter: 24px;
+    padding: 16px var(--bar-gutter);
   }
 }

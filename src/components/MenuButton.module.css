@@ -30,14 +30,17 @@
   width: 16px;
 }
 
-/* The open menu: a simple bordered box, like the Resume button's border. */
+/* The open menu: a bordered box that comes out of the page's left edge (no left border),
+   with the page names lined up with the start of the burger lines. */
 .panel {
   display: grid;
   gap: 12px;
   margin-top: 16px;
-  padding: 16px 20px;
+  margin-left: calc(-1 * var(--bar-gutter));
+  padding: 16px 24px 16px var(--bar-gutter);
   border: 1px solid var(--color-text);
-  border-radius: 4px;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
   background: var(--color-bg);
   font: 400 1.25rem/1.2 var(--font-stix);
 }
