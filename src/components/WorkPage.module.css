@@ -1,7 +1,7 @@
 .wrap {
   /* Radius of the invisible circle round the title, and the thin gap between the cards. */
   --ring: 96px;
-  --gap: 8px;
+  --gap: 14px;
   position: relative;
   width: 100%;
   min-height: 100svh;
