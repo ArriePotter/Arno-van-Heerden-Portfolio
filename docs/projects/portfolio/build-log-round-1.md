@@ -26,12 +26,14 @@ Arno directed every change in the browser ("make the title stand still for a bit
 
 ## Where AI helped, and where it failed
 
-**Helped**
+### Helped
+
 - Fast loops: dozens of browser-verified changes in one session, each committed separately and revertible.
 - Measuring instead of eyeballing: centre lines (found the 18 px off-centre split), scroll speeds, overlap gaps, keyboard order of the highlighter.
 - Research on demand: the parallax desk research that turned "tune the numbers" into a principle (0016).
 
-**Failed** (and how it was caught)
+### Failed (and how it was caught)
+
 - Over-reached when feedback was vague: the stretch blur (three attempts), shrinking the Why. Now a rule: ask before changing anything not mentioned.
 - Hand-drawn illustration: the anatomy drawing was rejected; illustrations need a human or licensed source.
 - Bugs it introduced and then fixed: words overlapping in the nav (a React dev double set-up), the highlighter stalling while the card held, the nav stopping one line short, CSS selectors for `pathLength` lower-cased by CSS Modules, GSAP scope searching the wrong elements, a stale Turbopack cache for `globals.css`.
