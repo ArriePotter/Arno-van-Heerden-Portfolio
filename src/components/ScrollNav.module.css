@@ -57,18 +57,39 @@
 
 /* Each page link is a 24px-wide target over its tick (WCAG 2.5.8). */
 .links a {
+  position: relative;
   display: block;
   width: 24px;
   height: 52px;
 }
 
-.srOnly {
+/* Every page name, under its own line. Hidden until the nav is hovered or focused;
+   then the riding accent word steps aside so the names don't double up. */
+.label {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
+  top: 34px;
+  left: 50%;
+  translate: -50% 0;
+  font: 400 0.75rem/1 var(--font-geist-mono);
+  color: var(--color-text);
+  white-space: pre;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.anchor {
+  transition: opacity 0.2s ease-out;
+}
+
+.root:hover .label,
+.root:focus-within .label,
+.links a:focus-visible .label {
+  opacity: 1;
+}
+
+.root:hover .anchor,
+.root:focus-within .anchor {
+  opacity: 0;
 }
 
 /* No room for the lines on small screens; the Menu still reaches every page. */

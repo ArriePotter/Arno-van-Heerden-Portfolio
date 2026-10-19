@@ -33,6 +33,7 @@ export function ScrollNav() {
       const state = { pos: chapters[0].tick };
       let current: ChapterId = chapters[0].id;
       let word: HTMLSpanElement | null = null;
+      let hovering = false;
 
       // Build a word as one span per letter, so the letters can move one after another.
       const makeWord = (text: string) => {
@@ -75,8 +76,9 @@ export function ScrollNav() {
           el.dataset.current = String(i === nearest);
         });
         if (anchor.current) anchor.current.style.transform = `translateX(${state.pos * STEP + 0.5}px)`;
+        // While the mouse is over the nav, the lines follow the mouse but the page word stays.
         const chapter = chapterAt(state.pos);
-        if (chapter.id !== current) {
+        if (!hovering && chapter.id !== current) {
           current = chapter.id;
           swapWord(chapter.label);
           setActive(chapter.id);
@@ -97,20 +99,40 @@ export function ScrollNav() {
         return chapters[chapters.length - 1].tick;
       };
 
-      const update = () =>
+      const glideTo = (pos: number) =>
         gsap.to(state, {
-          pos: scrollPos(),
+          pos,
           duration: reduce ? 0 : 0.5,
           ease: "power3.out", // glides and settles, no overshoot (not a spring)
           overwrite: true,
           onUpdate: draw,
         });
+      const update = () => {
+        if (!hovering) glideTo(scrollPos());
+      };
+
+      // Hover: the current line follows the mouse along the ticks; leaving glides it back.
+      const nav = root.current!;
+      const onMove = (e: PointerEvent) => {
+        if (e.pointerType !== "mouse") return;
+        hovering = true;
+        const x = e.clientX - nav.getBoundingClientRect().left;
+        glideTo(gsap.utils.clamp(0, TICKS - 1, x / STEP));
+      };
+      const onLeave = () => {
+        hovering = false;
+        glideTo(scrollPos());
+      };
+      nav.addEventListener("pointermove", onMove);
+      nav.addEventListener("pointerleave", onLeave);
 
       word = makeWord(chapters[0].label);
       const st = ScrollTrigger.create({ start: 0, end: "max", onUpdate: update, onRefresh: update });
       update();
       return () => {
         st.kill();
+        nav.removeEventListener("pointermove", onMove);
+        nav.removeEventListener("pointerleave", onLeave);
         if (anchor.current) anchor.current.replaceChildren();
       };
     },
@@ -136,7 +158,7 @@ export function ScrollNav() {
         {chapters.map((c) => (
           <li key={c.id} style={{ left: c.tick * STEP }}>
             <a href={`#${c.id}`} aria-current={c.id === active ? "location" : undefined}>
-              <span className={styles.srOnly}>{c.label}</span>
+              <span className={styles.label}>{c.label}</span>
             </a>
           </li>
         ))}
