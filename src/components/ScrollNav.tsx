@@ -146,9 +146,14 @@ export function ScrollNav({
         // A section near the end of the page may never reach the top of the screen, so the
         // page's furthest scroll counts as reaching it: the last line is reached at the bottom.
         const maxY = document.documentElement.scrollHeight - window.innerHeight;
-        const tops = chapters.map((c) =>
-          Math.min(maxY, (document.getElementById(c.id)?.getBoundingClientRect().top ?? 0) + y),
-        );
+        // A section counts as reached where a link to it scrolls to: its top, minus any
+        // scroll-margin-top (the case study keeps its chapters clear of the top bar).
+        const tops = chapters.map((c) => {
+          const el = document.getElementById(c.id);
+          if (!el) return 0;
+          const margin = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+          return Math.min(maxY, el.getBoundingClientRect().top + y - margin);
+        });
         for (let i = 0; i < chapters.length - 1; i++) {
           if (y < tops[i + 1]) {
             const p = gsap.utils.clamp(0, 1, (y - tops[i]) / (tops[i + 1] - tops[i]));
