@@ -81,6 +81,13 @@
     scale 0.2s ease-out;
 }
 
+/* A larger invisible hit area around each name, so hovering just below or beside it counts. */
+.label::before {
+  content: "";
+  position: absolute;
+  inset: -8px -12px -16px;
+}
+
 /* The page name under the pointer (or keyboard focus) turns the brand colour and grows
    slightly (scale, not font-size, so nothing reflows). */
 .links a:hover .label,
