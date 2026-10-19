@@ -98,7 +98,7 @@ export function IntroZoom({ intro, work }: { intro: ReactNode; work: ReactNode }
         <div ref={introLayer} className={styles.layer}>
           {intro}
         </div>
-        <div ref={workLayer} className={styles.layer}>
+        <div ref={workLayer} className={`${styles.layer} ${styles.work}`}>
           {work}
         </div>
       </div>
