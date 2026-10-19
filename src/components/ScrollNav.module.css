@@ -33,7 +33,8 @@
   background: var(--color-text-muted);
 }
 
-.tick[data-current="true"] {
+.tick[data-current="true"],
+.tick[data-here="true"] {
   width: 1.5px;
   background: var(--color-accent);
 }

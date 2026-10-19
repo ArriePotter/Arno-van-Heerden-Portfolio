@@ -38,6 +38,8 @@ export function ScrollNav() {
       let current: ChapterId = chapters[0].id;
       let word: HTMLSpanElement | null = null;
       let hovering = false;
+      // While hovering: the line for where you are on the page, which stays orange.
+      let here: number | null = null;
 
       // Build a word as one span per letter, so the letters can move one after another.
       const makeWord = (text: string) => {
@@ -90,6 +92,7 @@ export function ScrollNav() {
         ticks.current.forEach((el, i) => {
           el.style.transform = `scaleY(${tickHeight(Math.abs(i - state.pos)) / MAX})`;
           el.dataset.current = String(i === nearest);
+          el.dataset.here = String(i === here);
           el.style.filter = blurPx > 0.05 && Math.abs(i - nearest) <= BLUR_REACH ? filter : "";
         });
         if (anchor.current) anchor.current.style.transform = `translateX(${state.pos * STEP + 0.5}px)`;
@@ -129,19 +132,23 @@ export function ScrollNav() {
           },
         });
       const update = () => {
-        if (!hovering) glideTo(scrollPos());
+        if (!hovering) return glideTo(scrollPos());
+        here = Math.round(scrollPos());
+        draw();
       };
 
       // Hover: the current line follows the mouse along the ticks; leaving glides it back.
       const nav = root.current!;
       const onMove = (e: PointerEvent) => {
         if (e.pointerType !== "mouse") return;
+        if (!hovering) here = Math.round(scrollPos());
         hovering = true;
         const x = e.clientX - nav.getBoundingClientRect().left;
         glideTo(gsap.utils.clamp(0, TICKS - 1, x / STEP));
       };
       const onLeave = () => {
         hovering = false;
+        here = null;
         glideTo(scrollPos());
       };
       nav.addEventListener("pointermove", onMove);
