@@ -18,6 +18,30 @@
   gap: 1.39cqw;
 }
 
+/*
+  Title hold: for the first 30% of a screen of scrolling the title stands still while the
+  face moves up, then it smoothly starts scrolling. It moves down exactly as fast as the
+  page moves up at first (ease-out-quad starts at slope 2 × 15vh/30vh = 1), slowing to zero,
+  so there's no jolt. A CSS scroll-driven animation runs on the compositor, so it doesn't
+  jitter like a script would. Browsers without support simply scroll it normally.
+*/
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .positioning {
+      animation: title-hold linear both;
+      animation-timing-function: cubic-bezier(0.5, 1, 0.89, 1);
+      animation-timeline: scroll(root);
+      animation-range: 0 30vh;
+    }
+  }
+}
+
+@keyframes title-hold {
+  to {
+    transform: translateY(15vh);
+  }
+}
+
 .title {
   font: 400 max(1.75rem, 3.06cqw)/1.15 var(--font-stix);
   letter-spacing: -0.005em;
