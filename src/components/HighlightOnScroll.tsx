@@ -21,12 +21,23 @@ export function HighlightOnScroll() {
     let pen = 0; // px of highlighted text so far, across all phrases in order
     let raf = 0;
 
+    // Where a word would be on screen if its card scrolled normally. The About card is
+    // sticky (it holds in the centre), so its words stop moving while it holds; following
+    // their real position would stall the pen. Instead: the position of the card's (moving)
+    // column, plus the word's offset inside the card.
+    const card = words[0].closest<HTMLElement>("[data-sticky-centre]");
+    const scrolledMid = (w: HTMLElement) => {
+      const r = w.getBoundingClientRect();
+      if (!card?.parentElement) return r.top + r.height / 2;
+      const col = card.parentElement.getBoundingClientRect();
+      const pad = parseFloat(getComputedStyle(card.parentElement).paddingTop) || 0;
+      return col.top + pad + (r.top - card.getBoundingClientRect().top) + r.height / 2;
+    };
+
     const target = () => {
       const vh = window.innerHeight;
-      const first = words[0].getBoundingClientRect();
-      const last = words[words.length - 1].getBoundingClientRect();
-      const firstMid = first.top + first.height / 2;
-      const lastMid = last.top + last.height / 2;
+      const firstMid = scrolledMid(words[0]);
+      const lastMid = scrolledMid(words[words.length - 1]);
       const span = vh * 0.4 + (lastMid - firstMid);
       const p = Math.min(1, Math.max(0, (vh * 0.7 - firstMid) / span));
       const widths = words.map((w) => w.getBoundingClientRect().width);
