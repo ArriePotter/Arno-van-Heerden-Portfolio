@@ -92,3 +92,14 @@
 .panel a:focus-visible::before {
   transform: scaleX(1);
 }
+
+/* An entry that isn't ready yet (case study 2): shown, not clickable. */
+.soon {
+  color: var(--color-text-muted);
+}
+
+.soon small {
+  font: 400 0.75rem/1 var(--font-geist-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
