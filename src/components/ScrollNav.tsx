@@ -143,8 +143,11 @@ export function ScrollNav({
       // proportionally towards the next page's tick while scrolling between them.
       const scrollPos = () => {
         const y = window.scrollY;
-        const tops = chapters.map(
-          (c) => (document.getElementById(c.id)?.getBoundingClientRect().top ?? 0) + y,
+        // A section near the end of the page may never reach the top of the screen, so the
+        // page's furthest scroll counts as reaching it: the last line is reached at the bottom.
+        const maxY = document.documentElement.scrollHeight - window.innerHeight;
+        const tops = chapters.map((c) =>
+          Math.min(maxY, (document.getElementById(c.id)?.getBoundingClientRect().top ?? 0) + y),
         );
         for (let i = 0; i < chapters.length - 1; i++) {
           if (y < tops[i + 1]) {
