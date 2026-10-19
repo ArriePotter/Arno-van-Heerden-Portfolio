@@ -42,7 +42,8 @@ export function MenuButton() {
           <span />
           <span />
         </span>
-        Menu
+        {/* No visible word (Arno); screen readers still hear "Menu". */}
+        <span className="sr-only">Menu</span>
       </button>
       <ul id={panelId} className={styles.panel} hidden={!open}>
         {links.map((l) => (

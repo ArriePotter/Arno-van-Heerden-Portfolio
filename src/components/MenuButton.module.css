@@ -6,7 +6,8 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  height: 36px; /* same as Resume, so both labels sit on one line */
+  height: 36px; /* same as Resume, so both sit on one line */
+  min-width: 36px; /* a target of at least 24px (WCAG 2.5.8), lines stay left-aligned */
   padding: 0;
   font: 500 0.875rem/1.2 var(--font-geist);
   color: var(--color-text);
@@ -29,10 +30,15 @@
   width: 16px;
 }
 
+/* The open menu: a simple bordered box, like the Resume button's border. */
 .panel {
   display: grid;
   gap: 12px;
   margin-top: 16px;
+  padding: 16px 20px;
+  border: 1px solid var(--color-text);
+  border-radius: 4px;
+  background: var(--color-bg);
   font: 400 1.25rem/1.2 var(--font-stix);
 }
 
@@ -40,20 +46,14 @@
   display: none;
 }
 
-/* Same hover as the scroll nav's page names: brand colour and a slight grow (scale, so
-   nothing reflows). Grows from the left edge so the list stays aligned. */
+/* Hover: brand colour, like the scroll nav's page names (no size change). */
 .panel a {
-  display: inline-block;
   color: var(--color-text);
   text-decoration: none;
-  transform-origin: 0 50%;
-  transition:
-    color 0.2s ease-out,
-    scale 0.2s ease-out;
+  transition: color 0.2s ease-out;
 }
 
 .panel a:hover,
 .panel a:focus-visible {
   color: var(--color-accent);
-  scale: 1.15;
 }
