@@ -1,0 +1,32 @@
+/* The custom cursor: a brand disc with a mono label, fixed to the viewport, never in the way
+   of clicks. Positioned and scaled by GSAP (CaseCursor.tsx). */
+.cursor {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  pointer-events: none;
+  transform: scale(0);
+}
+
+.cursor span {
+  max-width: 80px;
+  font: 400 0.6875rem/1.25 var(--font-geist-mono);
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* A card that isn't ready yet: an outlined ring instead of a filled disc. */
+.cursor[data-soon] {
+  border: 1px solid var(--color-accent);
+  background: color-mix(in srgb, var(--color-bg) 70%, transparent);
+  color: var(--color-accent);
+}

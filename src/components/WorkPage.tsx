@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRef } from "react";
+import { CaseCursor } from "./CaseCursor";
 import { gsap, useGSAP } from "./gsap";
 import stage from "./Stage.module.css";
 import styles from "./WorkPage.module.css";
@@ -176,6 +177,7 @@ export function WorkPage() {
   return (
     <section ref={root} className={stage.stage} aria-labelledby="work-title">
       <div className={styles.wrap} data-wrap>
+        <CaseCursor />
         <h2 id="work-title" className={styles.title}>
           Work
         </h2>

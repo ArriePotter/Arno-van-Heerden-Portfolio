@@ -118,6 +118,13 @@
   color: var(--color-text-muted);
 }
 
+/* Mouse users get the custom case-study cursor (CaseCursor) instead of the arrow. */
+@media (hover: hover) and (pointer: fine) {
+  .cardLink {
+    cursor: none;
+  }
+}
+
 /* Narrow screens: no room either side of the title, so the cards stack under it. */
 @container page (width < 760px) {
   .wrap {
