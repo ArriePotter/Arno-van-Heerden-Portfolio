@@ -5,7 +5,7 @@ import styles from "./MenuButton.module.css";
 
 // PLACEHOLDER until Arno's professional email exists (the repo is public).
 const CONTACT_EMAIL = "you@example.com";
-const SUBJECT = "Hello from your portfolio";
+const SUBJECT = "Saw your work and would love to connect";
 
 // The scroll nav already moves between the home page's sections, so the menu holds the deep
 // links instead: each case study, and email. An entry without an href isn't ready yet.
