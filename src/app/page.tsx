@@ -1,11 +1,11 @@
 import { AboutPage } from "@/components/AboutPage";
 import { BackgroundWhy } from "@/components/BackgroundWhy";
+import { ContactPage } from "@/components/ContactPage";
 import { Cover } from "@/components/Cover";
 import { CoverFooter } from "@/components/CoverFooter";
 import { IntroZoom } from "@/components/IntroZoom";
 import { MenuBar } from "@/components/MenuBar";
 import { OpeningPage } from "@/components/OpeningPage";
-import { Placeholder } from "@/components/Placeholder";
 import { WorkPage } from "@/components/WorkPage";
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
         <Cover />
         <IntroZoom intro={<OpeningPage />} work={<WorkPage />} />
         <AboutPage />
-        <Placeholder id="contact" title="Get in touch" />
+        <ContactPage />
       </main>
     </>
   );

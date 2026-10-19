@@ -1,3 +1,4 @@
+import { CentreSticky } from "./CentreSticky";
 import { HighlightOnScroll } from "./HighlightOnScroll";
 import styles from "./AboutPage.module.css";
 
@@ -11,27 +12,7 @@ function Key({ children }: { children: React.ReactNode }) {
 }
 
 // Layout after Arno's reference (19 Oct): statement headline, photo flush with the left edge
-// of the screen, an opening quote, a divider and two short columns.
-// PLACEHOLDER skills and tools until Arno sends his list: tools from this project's own stack
-// (package.json, CLAUDE.md), skills from the departments in CLAUDE.md. Text names for now;
-// logos need SVG files and a licence check (memory: no stock icons).
-const skills = [
-  "Figma",
-  "User research",
-  "Next.js",
-  "Interaction design",
-  "React",
-  "Design systems",
-  "TypeScript",
-  "Motion design",
-  "Tailwind CSS",
-  "Prototyping",
-  "GSAP",
-  "Content design",
-  "Claude Code",
-  "GitHub",
-  "Vercel",
-];
+// of the screen, an opening quote, a divider and two short paragraphs.
 
 // PLACEHOLDER COPY for Arno to rewrite. Facts come from decisions 0005, 0006 and 0009; no
 // payroll angle (decision 0002).
@@ -39,6 +20,7 @@ export function AboutPage() {
   return (
     <section id="about" className={styles.about} aria-labelledby="about-title">
       <HighlightOnScroll />
+      <CentreSticky />
       <h2 id="about-title" className={styles.headline}>
         A <strong>product designer</strong> who proves the <em>why</em> before shipping the what.
       </h2>
@@ -52,7 +34,8 @@ export function AboutPage() {
           </div>
         </div>
 
-        <div className={styles.text}>
+        <div className={styles.textCol}>
+          <div className={styles.text} data-sticky-centre>
           <blockquote className={styles.intro}>
             <p>
               Hi, I&rsquo;m Arno. I research, design and ship products end to end, with
@@ -74,24 +57,11 @@ export function AboutPage() {
               site.
             </p>
           </div>
-        </div>
-
-        {/* Skills and tools: an endless strip. The list is shown twice so it can loop
-            seamlessly; the copy is hidden from screen readers. */}
-        <div className={styles.marquee}>
-          <div className={styles.track}>
-            <ul className={styles.items} aria-label="Skills and tools">
-              {skills.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ul>
-            <ul className={styles.items} aria-hidden="true">
-              {skills.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ul>
           </div>
         </div>
+
+        {/* Room for the next page (Get in touch) to slide up over the stuck photo. */}
+        <div className={styles.spacer} aria-hidden="true" />
       </div>
     </section>
   );

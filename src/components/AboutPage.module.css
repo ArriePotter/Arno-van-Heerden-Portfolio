@@ -1,7 +1,7 @@
 .about {
   position: relative;
   min-height: 100svh;
-  padding: 140px var(--page-gutter) 96px;
+  padding: 140px var(--page-gutter) 0;
 }
 
 /* Statement headline: muted, with the key words in full text colour. */
@@ -24,14 +24,16 @@
 .body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 24px clamp(32px, 6vw, 120px);
+  /* The row gap is the whitespace kept between the text card and the next page's skills
+     strip as the strip comes up. */
+  gap: 160px clamp(32px, 6vw, 120px);
   margin-top: clamp(48px, 8vw, 120px);
 }
 
 /* Flush with the left edge of the screen (reaches back through the page margin); only the
    right corners are rounded. */
-/* Sticks to the top of the screen once it gets there, while the skills strip scrolls up
-   over it; it lets go when the strip has passed over (the end of .body). */
+/* Sticks to the top of the screen once it gets there, while the next page (starting with
+   the skills strip) slides up over it; it lets go at the end of .body. */
 .photo {
   view-timeline: --about-photo;
   position: sticky;
@@ -56,10 +58,17 @@
   place-items: center;
 }
 
+/* The text column fills the photo's row; inside it the card sticks in the vertical centre of
+   the screen (--card-h is its height, set by CentreSticky) until the column ends, which is
+   one row gap above the next page, so the strip never touches the card. */
+.textCol {
+  align-self: stretch;
+}
+
 .text {
-  position: relative;
+  position: sticky;
+  top: calc(50svh - var(--card-h, 0px) / 2);
   isolation: isolate;
-  align-self: start; /* only as tall as the text, so the blur ends just below "site." */
   display: grid;
   align-content: start;
   gap: 40px;
@@ -156,9 +165,7 @@
   nearer layers move faster, and each keeps one speed the whole way.
   - far: the background Why (fixed)
   - the picture inside the photo frame: a little slower than the page
-  - the text column (the "Hi, I'm Arno" quote, divider and columns): a lot slower than the
-    photo (Arno, 19 Oct). It moves as one block, so the quote never runs into the text
-    under it, and it only lags downwards, into the free space beside the tall photo.
+  - the text card holds in the vertical centre of the screen (sticky, see .text).
   CSS scroll-driven animations, so the browser keeps them in step with the scroll.
   Off with reduced motion; browsers without support scroll normally.
 */
@@ -167,15 +174,6 @@
     .photoInner {
       animation: about-far linear both;
       animation-timeline: --about-photo;
-      animation-range: cover;
-    }
-
-    .text {
-      animation: about-slow both;
-      /* The lag builds slowly, fast, then slowly again (ease-in-out), so on screen the card
-         moves fast, then slow (almost hanging in the middle), then fast again. */
-      animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
-      animation-timeline: view();
       animation-range: cover;
     }
   }
@@ -191,64 +189,11 @@
   }
 }
 
-/* Lags behind the page: from its place when it enters to 560px lower when it leaves, so it
-   scrolls at about 0.7× the photo's speed. */
-@keyframes about-slow {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(560px);
-  }
-}
 
-/* Skills and tools strip: full screen width, right under the photo, thin rules above and
-   below, scrolling slowly left forever. Pauses on hover; still with reduced motion. */
-.marquee {
-  /* Runs across both columns, above the stuck photo, with the page colour so it covers the
-     photo as it passes. The space after it is the scroll it takes to pass over the photo. */
+/* The space the next page slides up through, over the stuck photo. */
+.spacer {
   grid-column: 1 / -1;
-  position: relative;
-  z-index: 1;
-  margin: 0 calc(-1 * var(--page-gutter)) 70svh;
-  background: var(--color-bg);
-  overflow: hidden;
-  border-block: 1px solid color-mix(in srgb, var(--color-text-muted) 40%, transparent);
-}
-
-.track {
-  display: flex;
-  width: max-content;
-  animation: marquee 45s linear infinite;
-}
-
-.marquee:hover .track {
-  animation-play-state: paused;
-}
-
-.items {
-  display: flex;
-  gap: 64px;
-  padding: 28px 32px;
-  white-space: nowrap;
-  font: 400 1.375rem/1 var(--font-stix);
-  color: var(--color-text);
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .track {
-    animation: none;
-  }
-
-  .marquee {
-    overflow-x: auto;
-  }
+  height: 100svh;
 }
 
 /* Narrow screens: one column; the photo still runs to the left edge. */
