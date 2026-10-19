@@ -104,24 +104,6 @@ export function WorkPage() {
       const toPath = (pts: [number, number][]) =>
         "M " + pts.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join(" L ") + " Z";
 
-      // A hand-drawn version of the outline: each point pushed in or out along the edge's
-      // normal by a slow, smooth wobble (a few sine waves along the length), so the line
-      // wavers like a pen stroke. `seed` gives each of the two strokes its own wobble.
-      const sketch = (pts: [number, number][], seed: number) => {
-        let s = 0;
-        return toPath(
-          pts.map(([x, y], i) => {
-            const [px, py] = pts[(i - 1 + pts.length) % pts.length];
-            const [nx, ny] = pts[(i + 1) % pts.length];
-            s += Math.hypot(x - px, y - py);
-            const len = Math.hypot(nx - px, ny - py) || 1;
-            const off =
-              1.1 * Math.sin(s * 0.019 + seed) + 0.6 * Math.sin(s * 0.047 + seed * 2.3) + 0.3 * Math.sin(s * 0.11 + seed * 4.1);
-            return [x - ((ny - py) / len) * off, y + ((nx - px) / len) * off];
-          }),
-        );
-      };
-
       // The cards move up by `y`; the circle stays on the title, so inside a card its centre
       // sits at height/2 − y. The edges bend around it and each text line shifts away from
       // the middle by the bend at its own height.
@@ -133,13 +115,10 @@ export function WorkPage() {
           const pts = stacked ? null : outline(cy, i === 0 ? -1 : 1);
           const d = pts ? toPath(pts) : "";
           el.style.transform = stacked ? "" : `translateY(${y}px)`;
-          // The fill and the link area are clipped to the bent outline; the drawn border
-          // isn't, so its hand-drawn wobble isn't cut off. The plain CSS border is the fallback.
+          // The fill and the link area are clipped to the bent outline; the focus ring follows
+          // the same outline but isn't clipped.
           el.querySelectorAll<HTMLElement>("[data-clip]").forEach((c) => (c.style.clipPath = d && `path("${d}")`));
-          el.style.border = d && "none";
-          el.querySelectorAll("[data-border]").forEach((path, k) =>
-            path.setAttribute("d", pts ? sketch(pts, (i + 1) * 3.7 + k * 1.9) : ""),
-          );
+          el.querySelector("[data-border]")?.setAttribute("d", d);
         });
         lines.forEach(({ el, mid, side }) => {
           el.style.translate = stacked ? "" : `${(side * bend(mid - cy)).toFixed(1)}px 0`;
@@ -180,8 +159,7 @@ export function WorkPage() {
         list.forEach((el) => {
           el.style.transform = "";
           el.querySelectorAll<HTMLElement>("[data-clip]").forEach((c) => (c.style.clipPath = ""));
-          el.style.border = "";
-          el.querySelectorAll("[data-border]").forEach((path) => path.setAttribute("d", ""));
+          el.querySelector("[data-border]")?.setAttribute("d", "");
         });
         lines.forEach(({ el }) => (el.style.translate = ""));
       };
@@ -203,7 +181,7 @@ export function WorkPage() {
           {cards.map((c, i) => (
             <li key={c.label} className={styles.card} data-card={i === 0 ? "left" : "right"}>
               <div className={styles.fill} data-clip />
-              <HandDrawnBorder />
+              <FocusRing />
               <CardBody href={c.href}>
                 <div className={styles.content}>
                 <p className={styles.label} data-line>
@@ -240,13 +218,11 @@ function CardBody({ href, children }: { href: string; children: React.ReactNode 
   );
 }
 
-// The thin border along the card's (bent) outline, drawn twice with slightly different
-// wobbles (set by the script), the second one lighter, so it reads as sketched by hand.
-function HandDrawnBorder() {
+// Keyboard focus ring along the card's (bent) outline; invisible otherwise (no border).
+function FocusRing() {
   return (
     <svg className={styles.border} aria-hidden="true">
       <path data-border />
-      <path data-border className={styles.secondStroke} />
     </svg>
   );
 }
