@@ -14,11 +14,17 @@ export function BackgroundWhy() {
     if (!el) return;
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      // Straight left, from its cover position to the horizontal centre, reached exactly when
-      // the Intro page fills the screen. After that it stays centred.
+      // Straight left, from its cover position to where the whole "y" is on screen, reached exactly when
+      // the Intro page fills the screen. After that it stays put.
       const comp = el.parentElement as HTMLElement;
       gsap.to(el, {
-        x: () => comp.offsetWidth / 2 - (el.offsetLeft + el.offsetWidth / 2),
+        // Ends with the right edge of the "y" 40px inside the window (plus a little for the
+        // italic overhang), so the "y" isn't cut off.
+        x: () => {
+          const right = comp.getBoundingClientRect().left + el.offsetLeft + el.offsetWidth;
+          const overhang = parseFloat(getComputedStyle(el).fontSize) * 0.04;
+          return window.innerWidth - 40 - overhang - right;
+        },
         ease: "none",
         scrollTrigger: {
           start: 0,
