@@ -4,6 +4,14 @@
   height: 52px;
 }
 
+/* An invisible zone around the whole nav, so the hover starts just below or beside the lines.
+   ::before paints under the page links, so they stay clickable. */
+.root::before {
+  content: "";
+  position: absolute;
+  inset: -12px -20px -28px;
+}
+
 .ticks {
   display: flex;
   gap: 7px;
