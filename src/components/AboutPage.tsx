@@ -75,22 +75,22 @@ export function AboutPage() {
             </p>
           </div>
         </div>
-      </div>
 
-      {/* Skills and tools: an endless strip. The list is shown twice so it can loop
-          seamlessly; the copy is hidden from screen readers. */}
-      <div className={styles.marquee}>
-        <div className={styles.track}>
-          <ul className={styles.items} aria-label="Skills and tools">
-            {skills.map((s) => (
-              <li key={s}>{s}</li>
-            ))}
-          </ul>
-          <ul className={styles.items} aria-hidden="true">
-            {skills.map((s) => (
-              <li key={s}>{s}</li>
-            ))}
-          </ul>
+        {/* Skills and tools: an endless strip. The list is shown twice so it can loop
+            seamlessly; the copy is hidden from screen readers. */}
+        <div className={styles.marquee}>
+          <div className={styles.track}>
+            <ul className={styles.items} aria-label="Skills and tools">
+              {skills.map((s) => (
+                <li key={s}>{s}</li>
+              ))}
+            </ul>
+            <ul className={styles.items} aria-hidden="true">
+              {skills.map((s) => (
+                <li key={s}>{s}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

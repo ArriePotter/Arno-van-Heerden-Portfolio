@@ -24,15 +24,19 @@
 .body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(32px, 6vw, 120px);
+  gap: 24px clamp(32px, 6vw, 120px);
   margin-top: clamp(48px, 8vw, 120px);
 }
 
 /* Flush with the left edge of the screen (reaches back through the page margin); only the
    right corners are rounded. */
+/* Sticks to the top of the screen once it gets there, while the skills strip scrolls up
+   over it; it lets go when the strip has passed over (the end of .body). */
 .photo {
   view-timeline: --about-photo;
-  position: relative;
+  position: sticky;
+  top: 0;
+  align-self: start;
   overflow: hidden;
   margin-left: calc(-1 * var(--page-gutter));
   aspect-ratio: 4 / 5;
@@ -198,7 +202,13 @@
 /* Skills and tools strip: full screen width, right under the photo, thin rules above and
    below, scrolling slowly left forever. Pauses on hover; still with reduced motion. */
 .marquee {
-  margin: 24px calc(-1 * var(--page-gutter)) 0;
+  /* Runs across both columns, above the stuck photo, with the page colour so it covers the
+     photo as it passes. The space after it is the scroll it takes to pass over the photo. */
+  grid-column: 1 / -1;
+  position: relative;
+  z-index: 1;
+  margin: 0 calc(-1 * var(--page-gutter)) 70svh;
+  background: var(--color-bg);
   overflow: hidden;
   border-block: 1px solid color-mix(in srgb, var(--color-text-muted) 40%, transparent);
 }
