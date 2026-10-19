@@ -2,6 +2,7 @@
   /* Radius of the invisible circle round the title, and the thin gap between the cards. */
   --ring: 96px;
   --gap: 8px;
+  --feather: 20px; /* soft, blurred edge where the cards meet the circle */
   position: relative;
   width: 100%;
   min-height: 100svh;
@@ -36,8 +37,8 @@
   background: var(--color-why-wash);
   mask: radial-gradient(
     circle var(--ring) at var(--mx) var(--my),
-    #0000 calc(var(--ring) - 0.5px),
-    #000 calc(var(--ring) + 0.5px)
+    #0000 var(--ring),
+    #000 calc(var(--ring) + var(--feather))
   );
 }
 
