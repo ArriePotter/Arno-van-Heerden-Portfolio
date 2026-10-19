@@ -1,9 +1,10 @@
-/* One screen of stage plus the zoom's scroll length; the stage stays stuck to the top
-   while the zoom plays. */
+/* One screen of stage plus the scroll lengths of the book opening and of the Work cards
+   rising into place; the stage stays stuck to the top while both play. */
 .scene {
   --zoom-length: 150svh;
+  --cards-length: 100svh;
   position: relative;
-  height: calc(100svh + var(--zoom-length));
+  height: calc(100svh + var(--zoom-length) + var(--cards-length));
 }
 
 .anchor {

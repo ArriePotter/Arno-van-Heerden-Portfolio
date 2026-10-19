@@ -5,6 +5,7 @@ import { IntroZoom } from "@/components/IntroZoom";
 import { MenuBar } from "@/components/MenuBar";
 import { OpeningPage } from "@/components/OpeningPage";
 import { Placeholder } from "@/components/Placeholder";
+import { WorkPage } from "@/components/WorkPage";
 
 export default function Home() {
   return (
@@ -14,7 +15,7 @@ export default function Home() {
       <MenuBar />
       <main id="main" className="relative z-1">
         <Cover />
-        <IntroZoom intro={<OpeningPage />} work={<Placeholder id="work" title="Work" anchor={false} />} />
+        <IntroZoom intro={<OpeningPage />} work={<WorkPage />} />
         <Placeholder id="about" title="About" />
         <Placeholder id="contact" title="Get in touch" />
       </main>
