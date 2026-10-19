@@ -1,14 +1,21 @@
 "use client";
 
+import Link from "next/link";
 import { useRef } from "react";
 import { gsap, useGSAP } from "./gsap";
 import stage from "./Stage.module.css";
 import styles from "./WorkPage.module.css";
 
 // Placeholder cards until the case studies exist. Khoisān is Case Study 1 (decision 0005).
+// A card with an href opens its case study; one without isn't clickable yet.
 const cards = [
-  { label: "Case study 01", title: "Project Khoisān", line: "A training app for the MUT 60 trail race." },
-  { label: "Case study 02", title: "Coming soon", line: "" },
+  {
+    label: "Case study 01",
+    title: "Project Khoisān",
+    line: "A training app for the MUT 60 trail race.",
+    href: "/work/khoisan",
+  },
+  { label: "Case study 02", title: "Coming soon", line: "", href: "" },
 ];
 
 // Two half-width cards, a thin gap between them, rise from the bottom of the screen. As they
@@ -60,8 +67,9 @@ export function WorkPage() {
         });
       };
 
-      // The card outline as a clip-path: rounded corners, and the inner edge (right edge of
+      // The card outline as an SVG path: rounded corners, and the inner edge (right edge of
       // the left card, left edge of the right card) bent around the circle at height `cy`.
+      // Used both as the card's clip-path and as its drawn border.
       const outline = (cy: number, side: number) => {
         const w = width;
         const h = height;
@@ -72,21 +80,25 @@ export function WorkPage() {
         const top = edge(0);
         const bottom = edge(h);
         if (side < 0) {
-          return `path("M ${r} 0 L ${top - r} 0 Q ${top} 0 ${edge(r)} ${r} ${pts.join(" ")} L ${edge(h - r)} ${h - r} Q ${bottom} ${h} ${bottom - r} ${h} L ${r} ${h} Q 0 ${h} 0 ${h - r} L 0 ${r} Q 0 0 ${r} 0 Z")`;
+          return `M ${r} 0 L ${top - r} 0 Q ${top} 0 ${edge(r)} ${r} ${pts.join(" ")} L ${edge(h - r)} ${h - r} Q ${bottom} ${h} ${bottom - r} ${h} L ${r} ${h} Q 0 ${h} 0 ${h - r} L 0 ${r} Q 0 0 ${r} 0 Z`;
         }
-        return `path("M ${top + r} 0 L ${w - r} 0 Q ${w} 0 ${w} ${r} L ${w} ${h - r} Q ${w} ${h} ${w - r} ${h} L ${bottom + r} ${h} Q ${bottom} ${h} ${edge(h - r)} ${h - r} ${pts.reverse().join(" ")} L ${edge(r)} ${r} Q ${top} 0 ${top + r} 0 Z")`;
+        return `M ${top + r} 0 L ${w - r} 0 Q ${w} 0 ${w} ${r} L ${w} ${h - r} Q ${w} ${h} ${w - r} ${h} L ${bottom + r} ${h} Q ${bottom} ${h} ${edge(h - r)} ${h - r} ${pts.reverse().join(" ")} L ${edge(r)} ${r} Q ${top} 0 ${top + r} 0 Z`;
       };
 
       // The cards move up by `y`; the circle stays on the title, so inside a card its centre
       // sits at height/2 − y. The edges bend around it and each text line shifts away from
       // the middle by the bend at its own height.
       const render = (p: number) => {
-        const stacked = getComputedStyle(list[0]).position === "static";
+        const stacked = getComputedStyle(list[0]).position !== "absolute"; // narrow screens
         const y = stacked ? 0 : rise * (1 - p);
         const cy = height / 2 - y;
         list.forEach((el, i) => {
+          const d = stacked ? "" : outline(cy, i === 0 ? -1 : 1);
           el.style.transform = stacked ? "" : `translateY(${y}px)`;
-          el.style.clipPath = stacked ? "" : outline(cy, i === 0 ? -1 : 1);
+          el.style.clipPath = d && `path("${d}")`;
+          // The drawn border follows the bent outline; the plain CSS border is the fallback.
+          el.style.border = d && "none";
+          el.querySelector("[data-border]")?.setAttribute("d", d);
         });
         lines.forEach(({ el, mid, side }) => {
           el.style.translate = stacked ? "" : `${(side * bend(mid - cy)).toFixed(1)}px 0`;
@@ -127,6 +139,8 @@ export function WorkPage() {
         list.forEach((el) => {
           el.style.transform = "";
           el.style.clipPath = "";
+          el.style.border = "";
+          el.querySelector("[data-border]")?.setAttribute("d", "");
         });
         lines.forEach(({ el }) => (el.style.translate = ""));
       };
@@ -147,7 +161,12 @@ export function WorkPage() {
         <ul className={styles.cards}>
           {cards.map((c, i) => (
             <li key={c.label} className={styles.card} data-card={i === 0 ? "left" : "right"}>
-              <div className={styles.content}>
+              {/* The thin border, drawn along the same (bent) outline the card is clipped to. */}
+              <svg className={styles.border} aria-hidden="true">
+                <path data-border />
+              </svg>
+              <CardBody href={c.href}>
+                <div className={styles.content}>
                 <p className={styles.label} data-line>
                   {c.label}
                 </p>
@@ -159,11 +178,23 @@ export function WorkPage() {
                     {c.line}
                   </p>
                 )}
-              </div>
+                </div>
+              </CardBody>
             </li>
           ))}
         </ul>
       </div>
     </section>
+  );
+}
+
+// The whole card is the link to its case study; a card without one is plain content.
+function CardBody({ href, children }: { href: string; children: React.ReactNode }) {
+  return href ? (
+    <Link href={href} className={styles.cardLink}>
+      {children}
+    </Link>
+  ) : (
+    <div className={styles.cardLink}>{children}</div>
   );
 }

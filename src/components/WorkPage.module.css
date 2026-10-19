@@ -28,22 +28,73 @@
   height: 56svh;
   margin-top: -28svh;
   width: calc(50% - var(--page-gutter) - var(--gap) / 2);
-  display: flex;
-  align-items: flex-end;
-  padding: 32px;
+  border: 1px solid var(--color-text);
   border-radius: 16px;
   background: var(--color-why-wash);
 }
 
 .card[data-card="left"] {
   left: var(--page-gutter);
-  justify-content: flex-end;
-  padding-right: calc(var(--ring) + 48px);
 }
 
 .card[data-card="right"] {
   right: var(--page-gutter);
+}
+
+/* The thin border along the bent outline. The stroke is 2px but the card's clip-path cuts
+   off its outer half, so 1px shows. */
+.border {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  fill: none;
+  stroke: var(--color-text);
+  stroke-width: 2;
+  transition: stroke 0.2s ease-out;
+}
+
+/* The card's whole area is the link (or plain content for a card without a case study). */
+.cardLink {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 32px;
+  color: inherit;
+  text-decoration: none;
+  outline: none; /* focus is shown on the card's border instead (clip-path would cut an outline) */
+}
+
+.card[data-card="left"] .cardLink {
+  justify-content: flex-end;
+  padding-right: calc(var(--ring) + 48px);
+}
+
+.card[data-card="right"] .cardLink {
   padding-left: calc(var(--ring) + 48px);
+}
+
+/* Hover and keyboard focus: border and title turn the brand colour; focus also thickens
+   the border to 2px so it reads as a focus ring. */
+.card:has(a:hover) .border,
+.card:has(a:focus-visible) .border {
+  stroke: var(--color-accent);
+}
+
+.card:has(a:focus-visible) .border {
+  stroke-width: 4;
+}
+
+.card:has(a:hover) .cardTitle,
+.card:has(a:focus-visible) .cardTitle {
+  color: var(--color-accent);
+}
+
+.cardTitle {
+  transition: color 0.2s ease-out;
 }
 
 .content {
@@ -92,9 +143,24 @@
   }
 
   .card {
+    position: relative;
     width: 100%;
     height: auto;
     min-height: 200px;
+  }
+
+  .card[data-card] .cardLink {
+    position: relative;
+    min-height: 200px;
     padding: 24px;
+  }
+
+  .card:has(a:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .border {
+    display: none;
   }
 }
