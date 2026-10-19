@@ -13,14 +13,21 @@ export function OpeningPage() {
     <section className={stage.stage} aria-label="Intro">
       <div className={stage.inner}>
         <ul className={styles.statements}>
-          {statements.map(([left, right], i) => (
-            <li key={left}>
-              <span className={styles.left}>{left}</span>
-              {/* The middle ring is the one the zoom into Work goes through. */}
-              <span className={styles.dot} aria-hidden="true" data-zoom-target={i === 1 || undefined} />
-              <em className={styles.right}>{right}</em>
-            </li>
-          ))}
+          {statements.map(([left, right], i) => {
+            // On the way to Work, the top rows fade out and the last row splits open (IntroZoom).
+            const last = i === statements.length - 1;
+            return (
+              <li key={left}>
+                <span className={styles.left} data-split={last ? "left" : undefined} data-fade={!last || undefined}>
+                  {left}
+                </span>
+                <span className={styles.dot} aria-hidden="true" data-fade />
+                <em className={styles.right} data-split={last ? "right" : undefined} data-fade={!last || undefined}>
+                  {right}
+                </em>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>

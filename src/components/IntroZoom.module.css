@@ -28,7 +28,7 @@
   inset: 0;
 }
 
-/* Work covers the background Why: as the ring grows, its edge wipes the Why away. */
+/* Work covers the background Why: as the book opens, the gap wipes the Why away. */
 .work {
   background: var(--color-bg);
 }
