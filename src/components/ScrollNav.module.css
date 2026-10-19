@@ -74,7 +74,15 @@
   color: var(--color-text);
   white-space: pre;
   opacity: 0;
-  transition: opacity 0.2s ease-out;
+  transition:
+    opacity 0.2s ease-out,
+    color 0.2s ease-out;
+}
+
+/* The page name under the pointer (or keyboard focus) turns the brand colour. */
+.links a:hover .label,
+.links a:focus-visible .label {
+  color: var(--color-accent);
 }
 
 .anchor {
