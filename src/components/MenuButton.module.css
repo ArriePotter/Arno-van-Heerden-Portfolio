@@ -3,7 +3,7 @@
 }
 
 .button {
-  display: inline-flex;
+  display: flex; /* block-level: with no visible text, an inline button would drop to the baseline */
   align-items: center;
   gap: 12px;
   height: 36px; /* same as Resume, so both sit on one line */
@@ -14,20 +14,31 @@
   cursor: pointer;
 }
 
+/* Five lines styled like the scroll nav, turned on their side: same 7px gap, grey lines that
+   get longer towards the middle (same exponential falloff as the ticks, 28·18·13 scaled to
+   22px), and the middle one longest and in the brand colour. */
 .burger {
   display: grid;
-  gap: 5px;
+  gap: 7px;
+  justify-items: start;
 }
 
 .burger span {
   display: block;
-  width: 22px;
-  height: 1.5px;
-  background: currentColor;
+  width: 10px;
+  height: 1px;
+  background: var(--color-text-muted);
 }
 
-.burger span:nth-child(2) {
-  width: 16px;
+.burger span:nth-child(2),
+.burger span:nth-child(4) {
+  width: 14px;
+}
+
+.burger span:nth-child(3) {
+  width: 22px;
+  height: 1.5px;
+  background: var(--color-accent);
 }
 
 /* The open menu: a bordered box that comes out of the page's left edge (no left border),

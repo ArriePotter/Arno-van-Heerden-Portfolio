@@ -43,6 +43,8 @@ export function MenuButton() {
           <span />
           <span />
           <span />
+          <span />
+          <span />
         </span>
         {/* No visible word (Arno); screen readers still hear "Menu". */}
         <span className="sr-only">Menu</span>
