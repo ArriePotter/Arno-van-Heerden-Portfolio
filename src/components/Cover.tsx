@@ -8,7 +8,7 @@ export function Cover() {
     <section id="home" className={stage.stage} aria-labelledby="cover-title">
       <div className={stage.inner}>
         <ParallaxFace className={styles.face} />
-        <HoldOnScroll className={styles.positioning}>
+        <HoldOnScroll className={styles.positioning} lag={0.18}>
           <h1 id="cover-title" className={styles.title}>
             <span className={styles.srOnly}>Arno van Heerden, </span>
             Product Designer who proves the <em>why</em>.
