@@ -36,7 +36,7 @@ export function ChapterNav({ chapters }: { chapters: { id: string; label: string
           <li key={c.id}>
             <a href={`#${c.id}`} aria-current={c.id === active ? "location" : undefined}>
               <span className={styles.chapterLine} aria-hidden="true" />
-              <span className={styles.chapterNumber}>{String(i + 1).padStart(2, "0")}</span>
+              <span className={styles.chapterNumber}>{String(i).padStart(2, "0")}</span>
               {c.label}
             </a>
           </li>

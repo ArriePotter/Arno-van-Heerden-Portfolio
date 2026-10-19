@@ -17,15 +17,17 @@ export const metadata: Metadata = {
 // with image + code + a toggle (moodboard, rauno.me steal), AI honesty (CLAUDE.md #7),
 // "explore more" before the footer (teardown). Copy comes from the Khoisān brief; anything
 // not decided yet is in [brackets].
-// `tick`: each chapter's line in the side scroll nav (61 lines, a chapter every 10).
+// `tick`: each section's line in the side scroll nav (71 lines, one every 10). The project
+// overview (the hero) comes first, then the 7 chapters of decision 0008.
 const chapters = [
-  { id: "brief", label: "Brief", tick: 0 },
-  { id: "discover", label: "Discover", tick: 10 },
-  { id: "define", label: "Define + Explore", tick: 20 },
-  { id: "iterations", label: "Iterations", tick: 30 },
-  { id: "solution", label: "Solution", tick: 40 },
-  { id: "result", label: "Result", tick: 50 },
-  { id: "learn", label: "Measure & learn", tick: 60 },
+  { id: "overview", label: "Project overview", tick: 0 },
+  { id: "brief", label: "Brief", tick: 10 },
+  { id: "discover", label: "Discover", tick: 20 },
+  { id: "define", label: "Define + Explore", tick: 30 },
+  { id: "iterations", label: "Iterations", tick: 40 },
+  { id: "solution", label: "Solution", tick: 50 },
+  { id: "result", label: "Result", tick: 60 },
+  { id: "learn", label: "Measure & learn", tick: 70 },
 ];
 
 function Chapter({
@@ -82,14 +84,14 @@ export default function KhoisanCaseStudy() {
           {/* The home page's scroll nav, stood up on the left (wide screens); a simple
               chapter row on narrow screens. */}
           <div className={styles.sideNav}>
-            <ScrollNav chapters={chapters} ticks={61} vertical label="Chapters" />
+            <ScrollNav chapters={chapters} ticks={71} vertical label="Chapters" />
           </div>
           <ChapterNav chapters={chapters} />
 
           <div className={styles.content}>
             {/* Hero: what it is, one focal point, the facts a hiring manager looks for first. */}
-            <section className={styles.hero} aria-labelledby="cs-title">
-              <p className={styles.kicker}>Case study 01</p>
+            <section id="overview" className={styles.hero} aria-labelledby="cs-title">
+              <p className={styles.kicker}>Case study 01 · Project overview</p>
               <h1 id="cs-title" className={styles.title}>
                 Project Khoisān
               </h1>
