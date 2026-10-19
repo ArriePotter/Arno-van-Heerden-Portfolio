@@ -81,6 +81,49 @@
   color: var(--color-text-muted);
 }
 
+/* Skills and tools strip: full screen width, right under the photo, thin rules above and
+   below, scrolling slowly left forever. Pauses on hover; still with reduced motion. */
+.marquee {
+  margin: 24px calc(-1 * var(--page-gutter)) 0;
+  overflow: hidden;
+  border-block: 1px solid color-mix(in srgb, var(--color-text-muted) 40%, transparent);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: marquee 45s linear infinite;
+}
+
+.marquee:hover .track {
+  animation-play-state: paused;
+}
+
+.items {
+  display: flex;
+  gap: 64px;
+  padding: 28px 32px;
+  white-space: nowrap;
+  font: 400 1.375rem/1 var(--font-stix);
+  color: var(--color-text);
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+
+  .marquee {
+    overflow-x: auto;
+  }
+}
+
 /* Narrow screens: one column; the photo still runs to the left edge. */
 @media (width < 760px) {
   .about {

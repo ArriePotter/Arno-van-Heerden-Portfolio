@@ -2,6 +2,27 @@ import styles from "./AboutPage.module.css";
 
 // Layout after Arno's reference (19 Oct): statement headline, photo flush with the left edge
 // of the screen, an opening quote, a divider and two short columns.
+// PLACEHOLDER skills and tools until Arno sends his list: tools from this project's own stack
+// (package.json, CLAUDE.md), skills from the departments in CLAUDE.md. Text names for now;
+// logos need SVG files and a licence check (memory: no stock icons).
+const skills = [
+  "Figma",
+  "User research",
+  "Next.js",
+  "Interaction design",
+  "React",
+  "Design systems",
+  "TypeScript",
+  "Motion design",
+  "Tailwind CSS",
+  "Prototyping",
+  "GSAP",
+  "Content design",
+  "Claude Code",
+  "GitHub",
+  "Vercel",
+];
+
 // PLACEHOLDER COPY for Arno to rewrite. Facts come from decisions 0005, 0006 and 0009; no
 // payroll angle (decision 0002).
 export function AboutPage() {
@@ -37,6 +58,23 @@ export function AboutPage() {
               all on the record, starting with this site.
             </p>
           </div>
+        </div>
+      </div>
+
+      {/* Skills and tools: an endless strip. The list is shown twice so it can loop
+          seamlessly; the copy is hidden from screen readers. */}
+      <div className={styles.marquee}>
+        <div className={styles.track}>
+          <ul className={styles.items} aria-label="Skills and tools">
+            {skills.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
+          <ul className={styles.items} aria-hidden="true">
+            {skills.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
