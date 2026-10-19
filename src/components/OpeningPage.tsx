@@ -18,11 +18,11 @@ export function OpeningPage() {
             const last = i === statements.length - 1;
             return (
               <li key={left}>
-                <span className={styles.left} data-split={last ? "left" : undefined} data-fade={!last || undefined}>
+                <span className={styles.left} data-split={last ? "left" : undefined} data-fade={last ? undefined : i}>
                   {left}
                 </span>
-                <span className={styles.dot} aria-hidden="true" data-fade />
-                <em className={styles.right} data-split={last ? "right" : undefined} data-fade={!last || undefined}>
+                <span className={styles.dot} aria-hidden="true" data-fade={i} />
+                <em className={styles.right} data-split={last ? "right" : undefined} data-fade={last ? undefined : i}>
                   {right}
                 </em>
               </li>
