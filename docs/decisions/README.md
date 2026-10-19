@@ -20,5 +20,8 @@ This is a lightweight version of the Architecture Decision Records (ADRs) that e
 | [0004](0004-skip-discover-interviews.md) | Skip design-lead interviews in Discover; test with the v1 prototype instead | UX research | Accepted |
 | [0005](0005-khoisan-is-case-study-1.md) | Project Khoisān is Case Study 1; Finanza is dropped | Product strategy | Accepted |
 | [0006](0006-positioning-line.md) | Positioning: "Product Designer who proves the why" | Product strategy | Accepted |
-| [0007](0007-site-map.md) | Site map: one "book" home page plus case-study pages | Product strategy | Accepted |
+| [0007](0007-site-map.md) | Site map: one "book" home page plus case-study pages | Product strategy | Accepted (menu part superseded by 0010) |
 | [0008](0008-case-study-template.md) | Case-study template: 7 chapters on the lifecycle spine | Product strategy | Accepted |
+| [0009](0009-also-shipped-strip.md) | Show other shipped products as a small "Also shipped" strip | Product strategy | Accepted |
+| [0010](0010-menu-in-burger-resume-visible.md) | Work, About and Contact go in a menu; Resume stays visible | Interaction design | Accepted |
+| [0011](0011-reverse-mode-code-prototype.md) | Reverse mode: local code prototype of Direction A before the Figma gates | Design engineering | Accepted |
