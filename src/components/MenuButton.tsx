@@ -4,6 +4,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import styles from "./MenuButton.module.css";
 
 const links = [
+  { href: "#home", label: "Home" },
+  { href: "#intro", label: "Intro" },
   { href: "#work", label: "Work" },
   { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
