@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { gsap, useGSAP } from "./gsap";
-import { SandTimer } from "./SandTimer";
 import stage from "./Stage.module.css";
 import styles from "./WorkPage.module.css";
 
@@ -68,22 +67,59 @@ export function WorkPage() {
         });
       };
 
-      // The card outline as an SVG path: rounded corners, and the inner edge (right edge of
-      // the left card, left edge of the right card) bent around the circle at height `cy`.
-      // Used both as the card's clip-path and as its drawn border.
+      // The card outline as points around its edge: rounded corners, and the inner edge
+      // (right edge of the left card, left edge of the right card) bent around the circle at
+      // height `cy`. The right card is the left card mirrored.
       const outline = (cy: number, side: number) => {
         const w = width;
         const h = height;
         const r = RADIUS;
-        const edge = (y: number) => (side < 0 ? w - bend(y - cy) : bend(y - cy));
-        const pts: string[] = [];
-        for (let y = r; y <= h - r; y += 6) pts.push(`L ${edge(y).toFixed(1)} ${y}`);
+        const edge = (y: number) => w - bend(y - cy);
         const top = edge(0);
         const bottom = edge(h);
-        if (side < 0) {
-          return `M ${r} 0 L ${top - r} 0 Q ${top} 0 ${edge(r)} ${r} ${pts.join(" ")} L ${edge(h - r)} ${h - r} Q ${bottom} ${h} ${bottom - r} ${h} L ${r} ${h} Q 0 ${h} 0 ${h - r} L 0 ${r} Q 0 0 ${r} 0 Z`;
-        }
-        return `M ${top + r} 0 L ${w - r} 0 Q ${w} 0 ${w} ${r} L ${w} ${h - r} Q ${w} ${h} ${w - r} ${h} L ${bottom + r} ${h} Q ${bottom} ${h} ${edge(h - r)} ${h - r} ${pts.reverse().join(" ")} L ${edge(r)} ${r} Q ${top} 0 ${top + r} 0 Z`;
+        const pts: [number, number][] = [];
+        const line = (x0: number, y0: number, x1: number, y1: number) => {
+          const n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0) / 6));
+          for (let i = 0; i < n; i++) pts.push([x0 + ((x1 - x0) * i) / n, y0 + ((y1 - y0) * i) / n]);
+        };
+        // A rounded corner, as a quadratic curve from a to b bending towards c.
+        const corner = (a: [number, number], c: [number, number], b: [number, number]) => {
+          for (let i = 0; i < 6; i++) {
+            const t = i / 6;
+            const u = 1 - t;
+            pts.push([u * u * a[0] + 2 * u * t * c[0] + t * t * b[0], u * u * a[1] + 2 * u * t * c[1] + t * t * b[1]]);
+          }
+        };
+        line(r, 0, top - r, 0);
+        corner([top - r, 0], [top, 0], [edge(r), r]);
+        for (let y = r; y < h - r; y += 6) pts.push([edge(y), y]);
+        corner([edge(h - r), h - r], [bottom, h], [bottom - r, h]);
+        line(bottom - r, h, r, h);
+        corner([r, h], [0, h], [0, h - r]);
+        line(0, h - r, 0, r);
+        corner([0, r], [0, 0], [r, 0]);
+        return side < 0 ? pts : pts.map(([x, y]) => [w - x, y] as [number, number]);
+      };
+
+      const toPath = (pts: [number, number][]) =>
+        "M " + pts.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join(" L ") + " Z";
+
+      // A hand-drawn version of the outline: each point pushed in or out along the edge's
+      // normal by a slow, smooth wobble (a few sine waves along the length), so the line
+      // wavers like a pen stroke. `seed` gives each of the two strokes its own wobble.
+      const sketch = (pts: [number, number][], seed: number) => {
+        let s = 0;
+        return toPath(
+          pts.map(([x, y], i) => {
+            const [px, py] = pts[(i - 1 + pts.length) % pts.length];
+            const [nx, ny] = pts[(i + 1) % pts.length];
+            s += Math.hypot(x - px, y - py);
+            const len = Math.hypot(nx - px, ny - py) || 1;
+            const off =
+              1.1 * Math.sin(s * 0.019 + seed) + 0.6 * Math.sin(s * 0.047 + seed * 2.3) + 0.3 * Math.sin(s * 0.11 + seed * 4.1);
+            return [x - ((ny - py) / len) * off, y + ((nx - px) / len) * off];
+          }),
+        );
       };
 
       // The cards move up by `y`; the circle stays on the title, so inside a card its centre
@@ -94,12 +130,16 @@ export function WorkPage() {
         const y = stacked ? 0 : rise * (1 - p);
         const cy = height / 2 - y;
         list.forEach((el, i) => {
-          const d = stacked ? "" : outline(cy, i === 0 ? -1 : 1);
+          const pts = stacked ? null : outline(cy, i === 0 ? -1 : 1);
+          const d = pts ? toPath(pts) : "";
           el.style.transform = stacked ? "" : `translateY(${y}px)`;
-          el.style.clipPath = d && `path("${d}")`;
-          // The drawn border follows the bent outline; the plain CSS border is the fallback.
+          // The fill and the link area are clipped to the bent outline; the drawn border
+          // isn't, so its hand-drawn wobble isn't cut off. The plain CSS border is the fallback.
+          el.querySelectorAll<HTMLElement>("[data-clip]").forEach((c) => (c.style.clipPath = d && `path("${d}")`));
           el.style.border = d && "none";
-          el.querySelector("[data-border]")?.setAttribute("d", d);
+          el.querySelectorAll("[data-border]").forEach((path, k) =>
+            path.setAttribute("d", pts ? sketch(pts, (i + 1) * 3.7 + k * 1.9) : ""),
+          );
         });
         lines.forEach(({ el, mid, side }) => {
           el.style.translate = stacked ? "" : `${(side * bend(mid - cy)).toFixed(1)}px 0`;
@@ -139,9 +179,9 @@ export function WorkPage() {
       const reset = () => {
         list.forEach((el) => {
           el.style.transform = "";
-          el.style.clipPath = "";
+          el.querySelectorAll<HTMLElement>("[data-clip]").forEach((c) => (c.style.clipPath = ""));
           el.style.border = "";
-          el.querySelector("[data-border]")?.setAttribute("d", "");
+          el.querySelectorAll("[data-border]").forEach((path) => path.setAttribute("d", ""));
         });
         lines.forEach(({ el }) => (el.style.translate = ""));
       };
@@ -156,17 +196,14 @@ export function WorkPage() {
   return (
     <section ref={root} className={stage.stage} aria-labelledby="work-title">
       <div className={styles.wrap} data-wrap>
-        <SandTimer />
         <h2 id="work-title" className={styles.title}>
           Work
         </h2>
         <ul className={styles.cards}>
           {cards.map((c, i) => (
             <li key={c.label} className={styles.card} data-card={i === 0 ? "left" : "right"}>
-              {/* The thin border, drawn along the same (bent) outline the card is clipped to. */}
-              <svg className={styles.border} aria-hidden="true">
-                <path data-border />
-              </svg>
+              <div className={styles.fill} data-clip />
+              <HandDrawnBorder />
               <CardBody href={c.href}>
                 <div className={styles.content}>
                 <p className={styles.label} data-line>
@@ -193,10 +230,23 @@ export function WorkPage() {
 // The whole card is the link to its case study; a card without one is plain content.
 function CardBody({ href, children }: { href: string; children: React.ReactNode }) {
   return href ? (
-    <Link href={href} className={styles.cardLink}>
+    <Link href={href} className={styles.cardLink} data-clip>
       {children}
     </Link>
   ) : (
-    <div className={styles.cardLink}>{children}</div>
+    <div className={styles.cardLink} data-clip>
+      {children}
+    </div>
+  );
+}
+
+// The thin border along the card's (bent) outline, drawn twice with slightly different
+// wobbles (set by the script), the second one lighter, so it reads as sketched by hand.
+function HandDrawnBorder() {
+  return (
+    <svg className={styles.border} aria-hidden="true">
+      <path data-border />
+      <path data-border className={styles.secondStroke} />
+    </svg>
   );
 }

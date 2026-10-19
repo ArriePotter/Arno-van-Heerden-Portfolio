@@ -30,6 +30,13 @@
   width: calc(50% - var(--page-gutter) - var(--gap) / 2);
   border: 1px solid var(--color-text);
   border-radius: 16px;
+}
+
+/* The card's colour, clipped (by the script) to the bent outline. */
+.fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
   background: var(--color-why-wash);
 }
 
@@ -41,8 +48,7 @@
   right: var(--page-gutter);
 }
 
-/* The thin border along the bent outline. The stroke is 2px but the card's clip-path cuts
-   off its outer half, so 1px shows. */
+/* The hand-drawn border along the bent outline (not clipped, so the wobble shows fully). */
 .border {
   position: absolute;
   inset: 0;
@@ -52,7 +58,9 @@
   pointer-events: none;
   fill: none;
   stroke: var(--color-text);
-  stroke-width: 2;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   transition: stroke 0.2s ease-out;
 }
 
@@ -79,13 +87,17 @@
 
 /* Hover and keyboard focus: border and title turn the brand colour; focus also thickens
    the border to 2px so it reads as a focus ring. */
+.secondStroke {
+  opacity: 0.45;
+}
+
 .card:has(a:hover) .border,
 .card:has(a:focus-visible) .border {
   stroke: var(--color-accent);
 }
 
 .card:has(a:focus-visible) .border {
-  stroke-width: 4;
+  stroke-width: 2.5;
 }
 
 .card:has(a:hover) .cardTitle,
