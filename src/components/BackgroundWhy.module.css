@@ -19,7 +19,7 @@
 /* Same size as Figma (830px at 1440). */
 .why {
   position: absolute;
-  left: 47.57cqw;
+  left: 60cqw; /* Cover start, further right than Figma (47.57cqw) so more of the word is off the page */
   top: 10.9cqw; /* Figma 194px, nudged so the glyph top lines up with the face */
   margin: 0;
   font: italic 400 57.64cqw/0.9 var(--font-stix);
