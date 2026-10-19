@@ -10,9 +10,13 @@ const MAX = 28; // tallest tick, px
 const MAX_BLUR = 1.5; // strongest motion blur, px
 const BLUR_REACH = 5; // lines either side of the current one that get the motion blur
 
-// Height falls off with distance from the current position (Figma: A/Scroll nav).
+const MIN = 8; // resting tick, px
+const HERE = 14.5; // the "you are here" line while hovering, px
+
+// Height falls off exponentially with distance from the current position: steep right next to
+// the main line, then easing into the resting height (not a straight 45° slope).
 function tickHeight(distance: number) {
-  return Math.max(8, MAX - 4.5 * distance);
+  return MIN + (MAX - MIN) * Math.exp(-0.7 * distance);
 }
 
 // The page whose stretch of ticks `pos` is in: each page owns the ticks closest to its own,
@@ -99,9 +103,9 @@ export function ScrollNav() {
         const nearest = Math.round(state.pos);
         const hereTick = here === null ? null : Math.round(here);
         ticks.current.forEach((el, i) => {
-          // The "you are here" line is as long as the line three away from the main one.
+          // The "you are here" line has its own fixed length.
           const h = tickHeight(Math.abs(i - state.pos));
-          el.style.transform = `scaleY(${(i === hereTick ? Math.max(h, tickHeight(3)) : h) / MAX})`;
+          el.style.transform = `scaleY(${(i === hereTick ? Math.max(h, HERE) : h) / MAX})`;
           el.dataset.current = String(i === nearest);
           el.dataset.here = String(i === hereTick);
           el.style.filter = blurPx > 0.05 && Math.abs(i - nearest) <= BLUR_REACH ? filter : "";
