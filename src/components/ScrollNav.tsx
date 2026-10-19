@@ -38,7 +38,11 @@ export function ScrollNav() {
       let current: ChapterId = chapters[0].id;
       let word: HTMLSpanElement | null = null;
       let hovering = false;
-      // While hovering: the line for where you are on the page, which stays orange.
+      // False once this setup is torn down (React dev mode runs it twice), so a leftover glide
+      // from the first run can't add a second word.
+      let alive = true;
+      // While hovering (and gliding back after): the line for where you are on the page. It
+      // stays orange, and the page word stays parked under it instead of following the mouse.
       let here: number | null = null;
 
       // Build a word as one span per letter, so the letters can move one after another.
@@ -86,20 +90,22 @@ export function ScrollNav() {
       const filter = `url(#${CSS.escape(blurId)})`;
 
       const draw = () => {
+        if (!alive) return;
         if (!reduce) setBlur(Math.min(MAX_BLUR, Math.abs(state.pos - lastPos) * STEP * 0.15));
         lastPos = state.pos;
         const nearest = Math.round(state.pos);
+        const hereTick = here === null ? null : Math.round(here);
         ticks.current.forEach((el, i) => {
-          // The "you are here" line is as long as the line two away from the main one.
+          // The "you are here" line is as long as the line three away from the main one.
           const h = tickHeight(Math.abs(i - state.pos));
-          el.style.transform = `scaleY(${(i === here ? Math.max(h, tickHeight(2)) : h) / MAX})`;
+          el.style.transform = `scaleY(${(i === hereTick ? Math.max(h, tickHeight(3)) : h) / MAX})`;
           el.dataset.current = String(i === nearest);
-          el.dataset.here = String(i === here);
+          el.dataset.here = String(i === hereTick);
           el.style.filter = blurPx > 0.05 && Math.abs(i - nearest) <= BLUR_REACH ? filter : "";
         });
-        if (anchor.current) anchor.current.style.transform = `translateX(${state.pos * STEP + 0.5}px)`;
+        if (anchor.current) anchor.current.style.transform = `translateX(${(here ?? state.pos) * STEP + 0.5}px)`;
         // While the mouse is over the nav, the lines follow the mouse but the page word stays.
-        const chapter = chapterAt(state.pos);
+        const chapter = chapterAt(here ?? state.pos);
         if (!hovering && chapter.id !== current) {
           current = chapter.id;
           swapWord(chapter.label);
@@ -129,13 +135,14 @@ export function ScrollNav() {
           overwrite: true,
           onUpdate: draw,
           onComplete: () => {
+            if (!hovering) here = null;
             setBlur(0);
             draw();
           },
         });
       const update = () => {
+        if (here !== null) here = scrollPos();
         if (!hovering) return glideTo(scrollPos());
-        here = Math.round(scrollPos());
         draw();
       };
 
@@ -143,14 +150,13 @@ export function ScrollNav() {
       const nav = root.current!;
       const onMove = (e: PointerEvent) => {
         if (e.pointerType !== "mouse") return;
-        if (!hovering) here = Math.round(scrollPos());
+        if (!hovering) here = scrollPos();
         hovering = true;
         const x = e.clientX - nav.getBoundingClientRect().left;
         glideTo(gsap.utils.clamp(0, TICKS - 1, x / STEP));
       };
       const onLeave = () => {
         hovering = false;
-        here = null;
         glideTo(scrollPos());
       };
       nav.addEventListener("pointermove", onMove);
@@ -160,7 +166,10 @@ export function ScrollNav() {
       const st = ScrollTrigger.create({ start: 0, end: "max", onUpdate: update, onRefresh: update });
       update();
       return () => {
+        alive = false;
         st.kill();
+        swap?.kill();
+        gsap.killTweensOf(state);
         nav.removeEventListener("pointermove", onMove);
         nav.removeEventListener("pointerleave", onLeave);
         if (anchor.current) anchor.current.replaceChildren();
