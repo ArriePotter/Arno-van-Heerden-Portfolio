@@ -16,7 +16,7 @@ The menu lists the places the scroll nav can't reach:
 
 - **Case study 1** → `/work/khoisan`
 - **Case study 2** → shown as "coming soon", not clickable, until it exists
-- **Get in touch** → opens an email with the subject filled in ("Hello from your portfolio")
+- **Get in touch** → opens an email with the subject filled in ("Saw your work and would love to connect")
 
 ## Evidence
 
