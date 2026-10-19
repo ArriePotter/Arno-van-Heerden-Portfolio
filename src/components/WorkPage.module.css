@@ -19,11 +19,10 @@
 /*
   Two half-screen cards, from the page margin (lined up with Menu and Resume) to the thin
   gap in the middle. Vertically centred on the title at rest.
-  The circle round the title is cut out with a mask; --mx/--my place its centre in the card
-  (the script moves --my as the card rises).
+  The script redraws each card's outline (clip-path) so its inner edge bends around the
+  invisible circle round the title.
 */
 .card {
-  --my: 50%;
   position: absolute;
   top: 50%;
   height: 56svh;
@@ -34,22 +33,15 @@
   padding: 32px;
   border-radius: 16px;
   background: var(--color-why-wash);
-  mask: radial-gradient(
-    circle var(--ring) at var(--mx) var(--my),
-    #0000 calc(var(--ring) - 0.5px),
-    #000 calc(var(--ring) + 0.5px)
-  );
 }
 
 .card[data-card="left"] {
-  --mx: calc(100% + var(--gap) / 2);
   left: var(--page-gutter);
   justify-content: flex-end;
   padding-right: calc(var(--ring) + 48px);
 }
 
 .card[data-card="right"] {
-  --mx: calc(var(--gap) / -2);
   right: var(--page-gutter);
   padding-left: calc(var(--ring) + 48px);
 }
@@ -104,6 +96,5 @@
     height: auto;
     min-height: 200px;
     padding: 24px;
-    mask: none;
   }
 }
