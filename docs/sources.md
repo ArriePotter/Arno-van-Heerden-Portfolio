@@ -53,6 +53,12 @@ Last verified: **2 Oct 2026**. Re-verify tool and plan facts every quarter, beca
 - Material 3 motion (incl. Expressive springs): <https://m3.material.io/styles/motion/overview/how-it-works>
 - Motion for React: <https://motion.dev/>
 - MDN `prefers-reduced-motion`: <https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion>
+- Chrome for Developers: Performant parallaxing: <https://developer.chrome.com/blog/performant-parallaxing>
+- The Decision Lab: Motion parallax (depth cue): <https://thedecisionlab.com/reference-guide/psychology/motion-parallax>
+- LaValle, *Virtual Reality*: Motion parallax: <https://lavalle.pl/vr/node164.html>
+- ProtoPie: Parallax effect (hero at ~½ scroll speed): <https://www.protopie.io/blog/parallax-effect>
+- Purdue thesis (2014): Effects of parallax scrolling on UX and preference: <https://docs.lib.purdue.edu/dissertations/AAI1544322>
+- UXPin: UX considerations for parallax (motion sickness): <https://www.uxpin.com/studioblog/3-crucial-ux-considerations-going-parallax/>
 
 ## Interaction design
 

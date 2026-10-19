@@ -1,7 +1,7 @@
 # 0007: Site map: one "book" home page plus case-study pages
 
 - **Date:** 2026-10-18
-- **Status:** Accepted
+- **Status:** Accepted; menu-bar line superseded by 0010
 - **Department:** Product strategy / Interaction design
 - **Phase:** Define
 - **Decided by:** Arno
