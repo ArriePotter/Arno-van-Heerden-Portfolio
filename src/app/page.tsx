@@ -1,3 +1,4 @@
+import { AboutPage } from "@/components/AboutPage";
 import { BackgroundWhy } from "@/components/BackgroundWhy";
 import { Cover } from "@/components/Cover";
 import { CoverFooter } from "@/components/CoverFooter";
@@ -16,7 +17,7 @@ export default function Home() {
       <main id="main" className="relative z-1">
         <Cover />
         <IntroZoom intro={<OpeningPage />} work={<WorkPage />} />
-        <Placeholder id="about" title="About" />
+        <AboutPage />
         <Placeholder id="contact" title="Get in touch" />
       </main>
     </>
