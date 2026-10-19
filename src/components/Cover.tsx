@@ -17,13 +17,6 @@ export function Cover() {
             I research, design and ship products end to end, with AI-assisted code.
           </p>
         </HoldOnScroll>
-        <a href="#home" className={styles.signature} aria-label="Arno van Heerden, home">
-          Arno van Heerden
-        </a>
-        <footer className={styles.bottom}>
-          <span>Portfolio ’26</span>
-          <span>V1.0.0</span>
-        </footer>
       </div>
     </section>
   );

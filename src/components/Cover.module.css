@@ -34,28 +34,7 @@
   color: var(--color-text-muted);
 }
 
-.signature {
-  position: absolute;
-  top: 58.6cqw;
-  left: 50%;
-  translate: -50% 0;
-  font: 400 max(1.25rem, 1.67cqw)/1 var(--font-signature);
-  color: var(--color-text);
-  text-decoration: none;
-}
 
-.bottom {
-  position: absolute;
-  top: 59.17cqw;
-  left: 2.78cqw;
-  right: 2.78cqw;
-  display: flex;
-  justify-content: space-between;
-  font: 400 0.75rem/1.2 var(--font-geist-mono);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
 
 .srOnly {
   position: absolute;
@@ -68,9 +47,7 @@
 
 @container page (width < 760px) {
   .face,
-  .positioning,
-  .signature,
-  .bottom {
+  .positioning {
     position: relative;
     inset: auto;
     translate: none;
@@ -89,18 +66,4 @@
   .support {
     max-width: none;
   }
-
-  .signature {
-    align-self: center;
-  }
-}
-
-/* Footer text fades from its colour (top) into the page colour (bottom). Decorative only:
-   the faded part is below contrast, so nothing here may carry information that isn't also
-   elsewhere (the signature is a logotype; its link has an aria-label). */
-.signature,
-.bottom span {
-  background: linear-gradient(to bottom, currentColor 25%, var(--color-bg) 110%);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
