@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { gsap, useGSAP } from "./gsap";
+import { SandTimer } from "./SandTimer";
 import stage from "./Stage.module.css";
 import styles from "./WorkPage.module.css";
 
@@ -155,6 +156,7 @@ export function WorkPage() {
   return (
     <section ref={root} className={stage.stage} aria-labelledby="work-title">
       <div className={styles.wrap} data-wrap>
+        <SandTimer />
         <h2 id="work-title" className={styles.title}>
           Work
         </h2>
