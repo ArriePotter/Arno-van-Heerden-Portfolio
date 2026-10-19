@@ -171,7 +171,10 @@
     }
 
     .text {
-      animation: about-slow linear both;
+      animation: about-slow both;
+      /* The lag builds slowly, fast, then slowly again (ease-in-out), so on screen the card
+         moves fast, then slow (almost hanging in the middle), then fast again. */
+      animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
       animation-timeline: view();
       animation-range: cover;
     }
