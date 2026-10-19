@@ -25,8 +25,8 @@
 .card {
   position: absolute;
   top: 50%;
-  height: 56svh;
-  margin-top: -28svh;
+  height: 66svh;
+  margin-top: -33svh;
   width: calc(50% - var(--page-gutter) - var(--gap) / 2);
   border-radius: 16px;
 }
