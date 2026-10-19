@@ -36,6 +36,28 @@
   }
 }
 
+/*
+  Face parallax: the face is the nearest layer, so it moves up 1.5× as fast as the page
+  (an extra half a screen over the first screen of scrolling), while the title holds and
+  then scrolls at page speed, and the background Why barely moves. On the compositor, like
+  the title, so the two layers stay in step.
+*/
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .face {
+      animation: face-rise linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+  }
+}
+
+@keyframes face-rise {
+  to {
+    transform: translateY(-50vh);
+  }
+}
+
 @keyframes title-hold {
   to {
     transform: translateY(15vh);

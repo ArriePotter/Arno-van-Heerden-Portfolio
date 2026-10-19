@@ -1,4 +1,4 @@
-import { ParallaxFace } from "./ParallaxFace";
+import { Face } from "./Face";
 import stage from "./Stage.module.css";
 import styles from "./Cover.module.css";
 
@@ -6,7 +6,7 @@ export function Cover() {
   return (
     <section id="home" className={stage.stage} aria-labelledby="cover-title">
       <div className={stage.inner}>
-        <ParallaxFace className={styles.face} />
+        <Face className={styles.face} />
         <div className={styles.positioning}>
           <h1 id="cover-title" className={styles.title}>
             <span className={styles.srOnly}>Arno van Heerden, </span>
