@@ -1,0 +1,50 @@
+.root {
+  justify-self: start;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 24px;
+  padding: 4px 0;
+  font: 500 0.875rem/1.2 var(--font-geist);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.burger {
+  display: grid;
+  gap: 5px;
+}
+
+.burger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: currentColor;
+}
+
+.burger span:nth-child(2) {
+  width: 16px;
+}
+
+.panel {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+  font: 400 1.25rem/1.2 var(--font-stix);
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+.panel a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.panel a:hover {
+  text-decoration: underline;
+}

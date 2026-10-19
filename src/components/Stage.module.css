@@ -1,0 +1,42 @@
+/*
+  A "stage" is one full page of the book. It keeps the Figma frame's 1440 × 900 proportions,
+  and everything inside is sized in cqw (1cqw = 1% of the stage width = 14.4px at 1440),
+  so the composition scales as one piece.
+*/
+.stage {
+  position: relative;
+  container-type: inline-size;
+  overflow: hidden;
+  min-height: 100svh;
+}
+
+.inner {
+  position: relative;
+  aspect-ratio: 1440 / 900;
+}
+
+/* The big background "Why": same size and height on every page (Figma 830px at 1440). */
+.why {
+  position: absolute;
+  top: 10.9cqw; /* Figma 194px, nudged so the glyph top lines up with the face (browser font metrics differ) */
+  margin: 0;
+  font: italic 400 57.64cqw/0.9 var(--font-stix);
+  letter-spacing: -0.02em;
+  color: var(--color-why-wash);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Phones and narrow windows: drop the fixed 1440 × 900 composition and stack the content. */
+@container (width < 760px) {
+  .inner {
+    aspect-ratio: auto;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+    padding: 120px 24px 40px;
+  }
+}

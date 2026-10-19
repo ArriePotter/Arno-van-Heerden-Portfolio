@@ -1,0 +1,96 @@
+/* Positions are Figma px ÷ 14.4 → cqw (A v3 · 01 Cover). */
+.face {
+  position: absolute;
+  left: 5.56cqw;
+  top: 13.89cqw;
+  width: 29.17cqw;
+  height: auto;
+}
+
+.positioning {
+  position: absolute;
+  top: 26.04cqw;
+  left: 50%;
+  translate: -50% 0;
+  width: 36.11cqw;
+  display: grid;
+  gap: 1.39cqw;
+  justify-items: center;
+  text-align: center;
+}
+
+.title {
+  font: 400 max(1.75rem, 3.06cqw)/1.15 var(--font-stix);
+  letter-spacing: -0.005em;
+}
+
+.title em {
+  font-style: italic;
+  color: var(--color-accent);
+}
+
+.support {
+  max-width: 31.3cqw;
+  font: 400 max(1rem, 1.39cqw)/1.5 var(--font-geist);
+  color: var(--color-text-muted);
+}
+
+.signature {
+  position: absolute;
+  top: 58.6cqw;
+  left: 50%;
+  translate: -50% 0;
+  font: 400 max(1.25rem, 1.67cqw)/1 var(--font-signature);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.bottom {
+  position: absolute;
+  top: 59.17cqw;
+  left: 2.78cqw;
+  right: 2.78cqw;
+  display: flex;
+  justify-content: space-between;
+  font: 400 0.75rem/1.2 var(--font-geist-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@container (width < 760px) {
+  .face,
+  .positioning,
+  .signature,
+  .bottom {
+    position: relative;
+    inset: auto;
+    translate: none;
+  }
+
+  .face {
+    width: 45%;
+    align-self: center;
+  }
+
+  .positioning {
+    width: auto;
+  }
+
+  .support {
+    max-width: none;
+  }
+
+  .signature {
+    align-self: center;
+  }
+}

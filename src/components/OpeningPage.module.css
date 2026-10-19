@@ -1,0 +1,44 @@
+/* Three columns: left word (right-aligned) · dot · phrase (left-aligned). */
+.statements {
+  position: absolute;
+  top: 24.86cqw;
+  left: 50%;
+  translate: -50% 0;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  column-gap: 1.67cqw;
+  row-gap: 1.11cqw;
+  align-items: center;
+  font: 400 max(1.75rem, 3.06cqw)/1.15 var(--font-stix);
+}
+
+.statements li {
+  display: contents;
+}
+
+.left {
+  justify-self: end;
+}
+
+.right {
+  font-style: italic;
+}
+
+.dot {
+  width: 0.69cqw;
+  min-width: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+@container (width < 760px) {
+  .statements {
+    position: relative;
+    inset: auto;
+    translate: none;
+    align-self: center;
+    column-gap: 12px;
+    row-gap: 8px;
+  }
+}
