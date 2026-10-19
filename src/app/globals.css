@@ -12,6 +12,15 @@
 
   /* Scroll nav: number of lines (keep in sync with TICKS in chapters.ts). */
   --nav-ticks: 80;
+
+  /* Page side margin: Menu, Resume and full-width content (Work cards) all line up on it. */
+  --page-gutter: 40px;
+}
+
+@media (width < 760px) {
+  :root {
+    --page-gutter: 24px;
+  }
 }
 
 :root[data-theme="dark"] {
