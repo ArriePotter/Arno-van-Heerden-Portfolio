@@ -8,6 +8,7 @@ import styles from "./ScrollNav.module.css";
 const STEP = 8; // tick width (1px) + gap (7px), as in Figma
 const MAX = 28; // tallest tick, px
 const MAX_BLUR = 1.5; // strongest motion blur, px
+const BLUR_REACH = 5; // lines either side of the current one that get the motion blur
 
 // Height falls off with distance from the current position (Figma: A/Scroll nav).
 function tickHeight(distance: number) {
@@ -24,7 +25,6 @@ export function ScrollNav() {
   const root = useRef<HTMLElement>(null);
   const ticks = useRef<HTMLSpanElement[]>([]);
   const anchor = useRef<HTMLSpanElement>(null);
-  const tickRow = useRef<HTMLDivElement>(null);
   const blur = useRef<SVGFEGaussianBlurElement>(null);
   const blurId = useId();
   const [active, setActive] = useState<ChapterId>("home");
@@ -73,13 +73,15 @@ export function ScrollNav() {
           .to(word.children, { yPercent: 0, duration: 0.35, ease: "power3.out", stagger: 0.03 });
       };
 
-      // Motion blur: a horizontal-only blur on the lines, as strong as they are moving fast.
-      // Off when still, so it costs nothing at rest.
+      // Motion blur: a horizontal-only blur on the current line and the BLUR_REACH lines either
+      // side of it, as strong as they are moving fast. Off when still, so it costs nothing at rest.
       let lastPos = state.pos;
+      let blurPx = 0;
       const setBlur = (px: number) => {
+        blurPx = px;
         blur.current?.setAttribute("stdDeviation", `${px} 0`);
-        if (tickRow.current) tickRow.current.style.filter = px > 0.05 ? `url(#${CSS.escape(blurId)})` : "";
       };
+      const filter = `url(#${CSS.escape(blurId)})`;
 
       const draw = () => {
         if (!reduce) setBlur(Math.min(MAX_BLUR, Math.abs(state.pos - lastPos) * STEP * 0.15));
@@ -88,6 +90,7 @@ export function ScrollNav() {
         ticks.current.forEach((el, i) => {
           el.style.transform = `scaleY(${tickHeight(Math.abs(i - state.pos)) / MAX})`;
           el.dataset.current = String(i === nearest);
+          el.style.filter = blurPx > 0.05 && Math.abs(i - nearest) <= BLUR_REACH ? filter : "";
         });
         if (anchor.current) anchor.current.style.transform = `translateX(${state.pos * STEP + 0.5}px)`;
         // While the mouse is over the nav, the lines follow the mouse but the page word stays.
@@ -120,7 +123,10 @@ export function ScrollNav() {
           ease: "power3.out", // glides and settles, no overshoot (not a spring)
           overwrite: true,
           onUpdate: draw,
-          onComplete: () => setBlur(0),
+          onComplete: () => {
+            setBlur(0);
+            draw();
+          },
         });
       const update = () => {
         if (!hovering) glideTo(scrollPos());
@@ -157,11 +163,11 @@ export function ScrollNav() {
   return (
     <nav ref={root} aria-label="Page sections" className={styles.root}>
       <svg className={styles.filterDefs} aria-hidden="true">
-        <filter id={blurId} x="-5%" width="110%">
+        <filter id={blurId} x="-800%" width="1700%">
           <feGaussianBlur ref={blur} stdDeviation="0 0" />
         </filter>
       </svg>
-      <div ref={tickRow} className={styles.ticks} aria-hidden="true">
+      <div className={styles.ticks} aria-hidden="true">
         {Array.from({ length: TICKS }, (_, i) => (
           <span
             key={i}
