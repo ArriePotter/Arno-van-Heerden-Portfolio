@@ -29,7 +29,7 @@
   min-width: 8px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: var(--color-accent);
+  border: 1.5px solid var(--color-accent);
 }
 
 @container page (width < 760px) {

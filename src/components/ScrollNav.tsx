@@ -120,7 +120,9 @@ export function ScrollNav() {
       // proportionally towards the next page's tick while scrolling between them.
       const scrollPos = () => {
         const y = window.scrollY;
-        const tops = chapters.map((c) => document.getElementById(c.id)?.offsetTop ?? 0);
+        const tops = chapters.map(
+          (c) => (document.getElementById(c.id)?.getBoundingClientRect().top ?? 0) + y,
+        );
         for (let i = 0; i < chapters.length - 1; i++) {
           if (y < tops[i + 1]) {
             const p = gsap.utils.clamp(0, 1, (y - tops[i]) / (tops[i + 1] - tops[i]));

@@ -2,9 +2,10 @@ import stage from "./Stage.module.css";
 import styles from "./Placeholder.module.css";
 
 // Empty pages so the menu and scroll nav have somewhere to go. Designed later.
-export function Placeholder({ id, title }: { id: string; title: string }) {
+// `anchor={false}` when the page's jump target lives elsewhere (Work's is in IntroZoom).
+export function Placeholder({ id, title, anchor = true }: { id: string; title: string; anchor?: boolean }) {
   return (
-    <section id={id} className={stage.stage} aria-labelledby={`${id}-title`}>
+    <section id={anchor ? id : undefined} className={stage.stage} aria-labelledby={`${id}-title`}>
       <div className={styles.inner}>
         <h2 id={`${id}-title`} className={styles.title}>
           {title}

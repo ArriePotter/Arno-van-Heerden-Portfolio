@@ -10,13 +10,14 @@ const statements = [
 
 export function OpeningPage() {
   return (
-    <section id="intro" className={stage.stage} aria-label="Intro">
+    <section className={stage.stage} aria-label="Intro">
       <div className={stage.inner}>
         <ul className={styles.statements}>
-          {statements.map(([left, right]) => (
+          {statements.map(([left, right], i) => (
             <li key={left}>
               <span className={styles.left}>{left}</span>
-              <span className={styles.dot} aria-hidden="true" />
+              {/* The middle ring is the one the zoom into Work goes through. */}
+              <span className={styles.dot} aria-hidden="true" data-zoom-target={i === 1 || undefined} />
               <em className={styles.right}>{right}</em>
             </li>
           ))}

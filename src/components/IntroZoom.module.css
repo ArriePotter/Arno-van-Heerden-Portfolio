@@ -1,0 +1,29 @@
+/* One screen of stage plus the zoom's scroll length; the stage stays stuck to the top
+   while the zoom plays. */
+.scene {
+  --zoom-length: 150svh;
+  position: relative;
+  height: calc(100svh + var(--zoom-length));
+}
+
+.anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.workAnchor {
+  top: var(--zoom-length);
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+}
