@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChapterNav } from "@/components/case-study/ChapterNav";
+import { ScrollNav } from "@/components/ScrollNav";
 import { WhyToggle } from "@/components/case-study/WhyToggle";
 import styles from "@/components/case-study/CaseStudy.module.css";
 
@@ -16,14 +17,15 @@ export const metadata: Metadata = {
 // with image + code + a toggle (moodboard, rauno.me steal), AI honesty (CLAUDE.md #7),
 // "explore more" before the footer (teardown). Copy comes from the Khoisān brief; anything
 // not decided yet is in [brackets].
+// `tick`: each chapter's line in the side scroll nav (61 lines, a chapter every 10).
 const chapters = [
-  { id: "brief", label: "Brief" },
-  { id: "discover", label: "Discover" },
-  { id: "define", label: "Define + Explore" },
-  { id: "iterations", label: "Iterations" },
-  { id: "solution", label: "Solution" },
-  { id: "result", label: "Result" },
-  { id: "learn", label: "Measure & learn" },
+  { id: "brief", label: "Brief", tick: 0 },
+  { id: "discover", label: "Discover", tick: 10 },
+  { id: "define", label: "Define + Explore", tick: 20 },
+  { id: "iterations", label: "Iterations", tick: 30 },
+  { id: "solution", label: "Solution", tick: 40 },
+  { id: "result", label: "Result", tick: 50 },
+  { id: "learn", label: "Measure & learn", tick: 60 },
 ];
 
 function Chapter({
@@ -116,6 +118,11 @@ export default function KhoisanCaseStudy() {
         <Pause label="Hero: today's session on both phones" wide />
 
         <div className={styles.layout}>
+          {/* The home page's scroll nav, stood up on the left (wide screens); a simple
+              chapter row on narrow screens. */}
+          <div className={styles.sideNav}>
+            <ScrollNav chapters={chapters} ticks={61} vertical label="Chapters" />
+          </div>
           <ChapterNav chapters={chapters} />
 
           <article className={styles.content}>

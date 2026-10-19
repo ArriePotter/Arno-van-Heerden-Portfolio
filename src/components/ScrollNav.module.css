@@ -1,6 +1,6 @@
 .root {
   position: relative;
-  width: calc(var(--nav-ticks) * 8px - 7px);
+  width: calc(var(--ticks) * 8px - 7px);
   height: 52px;
 }
 
@@ -125,6 +125,65 @@
 .root:hover .anchor,
 .root:focus-within .anchor {
   opacity: 0;
+}
+
+/* ---- Vertical (a case study's chapter nav on the left): the same nav, stood up. Lines grow
+   rightwards, the word and the names sit to the right of the lines. ---- */
+.vertical {
+  width: 52px;
+  height: calc(var(--ticks) * 8px - 7px);
+}
+
+.vertical::before {
+  inset: -20px -28px -20px -12px;
+}
+
+.vertical .ticks {
+  flex-direction: column;
+}
+
+.vertical .tick {
+  width: 28px;
+  height: 1px;
+  transform-origin: left;
+}
+
+.vertical .tick[data-current="true"],
+.vertical .tick[data-here="true"] {
+  width: 28px;
+  height: 1.5px;
+}
+
+.vertical .anchor {
+  top: 0;
+  left: 34px;
+  width: auto;
+  height: 0;
+}
+
+.vertical .word {
+  translate: 0 -50%;
+}
+
+.vertical .links li {
+  left: 0;
+  translate: 0 -50%;
+}
+
+.vertical .links a {
+  width: 52px;
+  height: 24px;
+}
+
+.vertical .label {
+  top: 50%;
+  left: 34px;
+  translate: 0 -50%;
+  transform-origin: 0 50%;
+}
+
+.vertical .label::before {
+  inset: -12px -28px -12px -20px;
 }
 
 /* No room for the lines on small screens; the Menu still reaches every page. */

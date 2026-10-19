@@ -135,10 +135,17 @@
   margin: 0 auto;
 }
 
-.chapterNav {
+/* Wide screens: the scroll nav, vertical, stuck beside the chapters. */
+.sideNav {
   position: sticky;
-  top: 120px;
+  top: 140px;
   align-self: start;
+  padding-left: 4px;
+}
+
+/* Narrow screens only: a simple chapter row (the scroll nav hides below 960px). */
+.chapterNav {
+  display: none;
 }
 
 .chapterNav ol {
@@ -437,7 +444,13 @@ a.moreCard:hover {
     gap: 32px;
   }
 
+  .sideNav {
+    display: none;
+  }
+
   .chapterNav {
+    display: block;
+    position: sticky;
     top: 84px;
     z-index: 5;
     margin-inline: calc(-1 * var(--page-gutter));

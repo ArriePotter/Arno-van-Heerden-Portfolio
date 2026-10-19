@@ -1,4 +1,4 @@
-// Number of lines in the scroll nav. Keep in sync with --nav-ticks in globals.css.
+// Number of lines in the home page scroll nav.
 export const TICKS = 80;
 
 // One entry per page in the scroll nav. `tick` is the line (0 to TICKS − 1) that marks

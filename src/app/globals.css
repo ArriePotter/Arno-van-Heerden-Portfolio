@@ -10,9 +10,6 @@
   --color-why-wash: #fff2e7;
   --color-text-on-why: #141414;
 
-  /* Scroll nav: number of lines (keep in sync with TICKS in chapters.ts). */
-  --nav-ticks: 80;
-
   /* Page side margin: Menu, Resume and full-width content (Work cards) all line up on it. */
   --page-gutter: 40px;
 }

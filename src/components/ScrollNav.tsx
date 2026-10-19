@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { chapters, TICKS, type ChapterId } from "./chapters";
+import { chapters as homeChapters, TICKS } from "./chapters";
 import { gsap, ScrollTrigger, useGSAP } from "./gsap";
 import styles from "./ScrollNav.module.css";
 
@@ -19,19 +19,35 @@ function tickHeight(distance: number) {
   return MIN + (MAX - MIN) * Math.exp(-0.7 * distance);
 }
 
+type NavChapter = { id: string; label: string; tick: number };
+
 // The page whose stretch of ticks `pos` is in: each page owns the ticks closest to its own,
 // so the word switches halfway between two pages, the same way scrolling up or down.
-function chapterAt(pos: number) {
+function chapterAt(chapters: readonly NavChapter[], pos: number) {
   return chapters.reduce((a, b) => (Math.abs(b.tick - pos) < Math.abs(a.tick - pos) ? b : a));
 }
 
-export function ScrollNav() {
+// The scroll nav. On the home page it runs across the top (the defaults); a case study uses
+// the same nav standing up on the left (`vertical`), with its own chapters and line count.
+export function ScrollNav({
+  chapters = homeChapters,
+  ticks: count = TICKS,
+  vertical = false,
+  label = "Page sections",
+}: {
+  chapters?: readonly NavChapter[];
+  ticks?: number;
+  vertical?: boolean;
+  label?: string;
+}) {
   const root = useRef<HTMLElement>(null);
   const ticks = useRef<HTMLSpanElement[]>([]);
   const anchor = useRef<HTMLSpanElement>(null);
   const blur = useRef<SVGFEGaussianBlurElement>(null);
   const blurId = useId();
-  const [active, setActive] = useState<ChapterId>("home");
+  const [active, setActive] = useState(chapters[0].id);
+  // Along the nav: x for the horizontal nav, y for the vertical one.
+  const axis = vertical ? "Y" : "X";
 
   useGSAP(
     () => {
@@ -39,7 +55,7 @@ export function ScrollNav() {
       // `pos` is a position along the ticks (can be between ticks). It follows the scroll;
       // GSAP eases it so the ticks glide.
       const state = { pos: chapters[0].tick };
-      let current: ChapterId = chapters[0].id;
+      let current = chapters[0].id;
       let word: HTMLSpanElement | null = null;
       let hovering = false;
       // False once this setup is torn down (React dev mode runs it twice), so a leftover glide
@@ -92,7 +108,7 @@ export function ScrollNav() {
       let blurPx = 0;
       const setBlur = (px: number) => {
         blurPx = px;
-        blur.current?.setAttribute("stdDeviation", `${px} 0`);
+        blur.current?.setAttribute("stdDeviation", vertical ? `0 ${px}` : `${px} 0`);
       };
       const filter = `url(#${CSS.escape(blurId)})`;
 
@@ -105,14 +121,15 @@ export function ScrollNav() {
         ticks.current.forEach((el, i) => {
           // The "you are here" line has its own fixed length.
           const h = tickHeight(Math.abs(i - state.pos));
-          el.style.transform = `scaleY(${(i === hereTick ? Math.max(h, HERE) : h) / MAX})`;
+          // Lines grow downwards on the top nav, rightwards on the side nav.
+          el.style.transform = `scale${vertical ? "X" : "Y"}(${(i === hereTick ? Math.max(h, HERE) : h) / MAX})`;
           el.dataset.current = String(i === nearest);
           el.dataset.here = String(i === hereTick);
           el.style.filter = blurPx > 0.05 && Math.abs(i - nearest) <= BLUR_REACH ? filter : "";
         });
-        if (anchor.current) anchor.current.style.transform = `translateX(${(here ?? state.pos) * STEP + 0.5}px)`;
+        if (anchor.current) anchor.current.style.transform = `translate${axis}(${(here ?? state.pos) * STEP + 0.5}px)`;
         // While the mouse is over the nav, the lines follow the mouse but the page word stays.
-        const chapter = chapterAt(here ?? (jumped ? scrollPos() : state.pos));
+        const chapter = chapterAt(chapters, here ?? (jumped ? scrollPos() : state.pos));
         if ((!hovering || jumped) && chapter.id !== current) {
           // Scrolling back up, the letters run right to left instead.
           const back = chapters.findIndex((c) => c.id === chapter.id) < chapters.findIndex((c) => c.id === current);
@@ -164,8 +181,9 @@ export function ScrollNav() {
         if (e.pointerType !== "mouse") return;
         if (!hovering) here = scrollPos();
         hovering = true;
-        const x = e.clientX - nav.getBoundingClientRect().left;
-        glideTo(gsap.utils.clamp(0, TICKS - 1, x / STEP));
+        const r = nav.getBoundingClientRect();
+        const along = vertical ? e.clientY - r.top : e.clientX - r.left;
+        glideTo(gsap.utils.clamp(0, count - 1, along / STEP));
       };
       const onLeave = () => {
         hovering = false;
@@ -196,14 +214,19 @@ export function ScrollNav() {
   );
 
   return (
-    <nav ref={root} aria-label="Page sections" className={styles.root}>
+    <nav
+      ref={root}
+      aria-label={label}
+      className={`${styles.root} ${vertical ? styles.vertical : ""}`}
+      style={{ "--ticks": count } as React.CSSProperties}
+    >
       <svg className={styles.filterDefs} aria-hidden="true">
-        <filter id={blurId} x="-800%" width="1700%">
+        <filter id={blurId} {...(vertical ? { y: "-800%", height: "1700%" } : { x: "-800%", width: "1700%" })}>
           <feGaussianBlur ref={blur} stdDeviation="0 0" />
         </filter>
       </svg>
       <div className={styles.ticks} aria-hidden="true">
-        {Array.from({ length: TICKS }, (_, i) => (
+        {Array.from({ length: count }, (_, i) => (
           <span
             key={i}
             ref={(el) => {
@@ -217,7 +240,7 @@ export function ScrollNav() {
       <span ref={anchor} className={styles.anchor} aria-hidden="true" />
       <ol className={styles.links}>
         {chapters.map((c) => (
-          <li key={c.id} style={{ left: c.tick * STEP }}>
+          <li key={c.id} style={vertical ? { top: c.tick * STEP } : { left: c.tick * STEP }}>
             <a href={`#${c.id}`} aria-current={c.id === active ? "location" : undefined}>
               <span className={styles.label}>{c.label}</span>
             </a>
