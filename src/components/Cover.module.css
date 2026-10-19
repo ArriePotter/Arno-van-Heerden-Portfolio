@@ -94,3 +94,13 @@
     align-self: center;
   }
 }
+
+/* Footer text fades from its colour (top) into the page colour (bottom). Decorative only:
+   the faded part is below contrast, so nothing here may carry information that isn't also
+   elsewhere (the signature is a logotype; its link has an aria-label). */
+.signature,
+.bottom span {
+  background: linear-gradient(to bottom, currentColor 25%, var(--color-bg) 110%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
