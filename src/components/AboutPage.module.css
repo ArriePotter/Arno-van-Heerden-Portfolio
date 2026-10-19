@@ -31,8 +31,9 @@
 /* Flush with the left edge of the screen (reaches back through the page margin); only the
    right corners are rounded. */
 .photo {
-  display: grid;
-  place-items: center;
+  view-timeline: --about-photo;
+  position: relative;
+  overflow: hidden;
   margin-left: calc(-1 * var(--page-gutter));
   aspect-ratio: 4 / 5;
   border-radius: 0 16px 16px 0;
@@ -42,6 +43,13 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-text-muted);
+}
+
+.photoInner {
+  position: absolute;
+  inset: -10% 0;
+  display: grid;
+  place-items: center;
 }
 
 .text {
@@ -79,6 +87,51 @@
   gap: 32px;
   font: 400 1rem/1.7 var(--font-geist);
   color: var(--color-text-muted);
+}
+
+/*
+  Parallax as a depth stack (research card "Parallax needs depth, not lag", Figma Research):
+  nearer layers move faster, and each keeps one speed the whole way.
+  - far: the background Why (fixed)
+  - middle: the picture inside the photo frame, a little slower than the page
+  - near: the text column, a little faster than the page
+  CSS scroll-driven animations, so the browser keeps them in step with the scroll.
+  Off with reduced motion; browsers without support scroll normally.
+*/
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .photoInner {
+      animation: about-far linear both;
+      animation-timeline: --about-photo;
+      animation-range: cover;
+    }
+
+    .text {
+      animation: about-near linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+  }
+}
+
+/* Drifts down inside the frame as the frame scrolls up, so it lags behind (farther). */
+@keyframes about-far {
+  from {
+    transform: translateY(-8%);
+  }
+  to {
+    transform: translateY(8%);
+  }
+}
+
+/* Moves up a little more than the page (nearer). */
+@keyframes about-near {
+  from {
+    transform: translateY(80px);
+  }
+  to {
+    transform: translateY(-80px);
+  }
 }
 
 /* Skills and tools strip: full screen width, right under the photo, thin rules above and

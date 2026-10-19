@@ -35,7 +35,10 @@ export function AboutPage() {
       <div className={styles.body}>
         {/* Placeholder until Arno's photo is ready. */}
         <div className={styles.photo} role="img" aria-label="Photo of Arno van Heerden (placeholder)">
-          <span>Photo</span>
+          {/* The picture layer is taller than the frame, so it can drift inside it. */}
+          <div className={styles.photoInner}>
+            <span>Photo</span>
+          </div>
         </div>
 
         <div className={styles.text}>
