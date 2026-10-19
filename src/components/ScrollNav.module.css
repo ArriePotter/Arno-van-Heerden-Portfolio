@@ -74,15 +74,19 @@
   color: var(--color-text);
   white-space: pre;
   opacity: 0;
+  transform-origin: 50% 0;
   transition:
     opacity 0.2s ease-out,
-    color 0.2s ease-out;
+    color 0.2s ease-out,
+    scale 0.2s ease-out;
 }
 
-/* The page name under the pointer (or keyboard focus) turns the brand colour. */
+/* The page name under the pointer (or keyboard focus) turns the brand colour and grows
+   slightly (scale, not font-size, so nothing reflows). */
 .links a:hover .label,
 .links a:focus-visible .label {
   color: var(--color-accent);
+  scale: 1.15;
 }
 
 .anchor {
