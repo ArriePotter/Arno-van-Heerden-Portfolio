@@ -135,13 +135,14 @@
   gap: clamp(32px, 5vw, 96px);
 }
 
-/* Wide screens: the scroll nav, vertical, beside "Project Khoisān" from the start and stuck
-   in view all the way down. Starts level with the hero's first line. */
+/* Wide screens: the scroll nav, vertical, fixed on the left page margin. It never moves:
+   level with the hero's first line when the page opens, and in the same place all the way
+   down. (Fixed, so it takes no grid cell; the content keeps column 2.) */
 .sideNav {
-  position: sticky;
-  top: 140px;
-  align-self: start;
-  margin-top: 96px;
+  position: fixed;
+  z-index: 5;
+  top: 180px;
+  left: var(--page-gutter);
 }
 
 /* Narrow screens only: a simple chapter row (the scroll nav hides below 960px). */
@@ -194,6 +195,7 @@
 
 /* Everything right of the side nav: hero, hero image, chapters. */
 .content {
+  grid-column: 2;
   min-width: 0;
   max-width: 1100px;
 }
@@ -452,6 +454,10 @@ a.moreCard:hover {
 
   .sideNav {
     display: none;
+  }
+
+  .content {
+    grid-column: 1;
   }
 
   .chapterNav {
