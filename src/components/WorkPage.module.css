@@ -118,11 +118,14 @@
   color: var(--color-text-muted);
 }
 
-/* Mouse users get the custom case-study cursor (CaseCursor) instead of the arrow. */
-@media (hover: hover) and (pointer: fine) {
-  .cardLink {
-    cursor: none;
-  }
+/* The case-study link's cursor: the familiar pointing hand (so it still reads as "click"),
+   drawn larger (64px) as a brand-orange glove with the golden ratio (rectangle + spiral) on
+   the back of the hand. A real browser cursor, so it never lags. Hotspot on the fingertip;
+   the standard pointer is the fallback. */
+a.cardLink {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 66'%3E%3Cg fill='%23141414' stroke='%23141414' stroke-width='3' stroke-linejoin='round'%3E%3Crect x='21' y='3' width='11' height='36' rx='5.5'/%3E%0A%3Crect x='31' y='21' width='9' height='18' rx='4.5'/%3E%0A%3Crect x='39' y='23' width='9' height='16' rx='4.5'/%3E%0A%3Crect x='47' y='26' width='8' height='14' rx='4'/%3E%0A%3Crect x='9' y='31' width='16' height='10' rx='5' transform='rotate(25 17 36)'/%3E%0A%3Cpath d='M16 36 Q16 32 21 32 H51 Q55 32 55 37 V45 Q55 55 45 56 H28 Q16 56 16 45 Z'/%3E%0A%3Crect x='22' y='54' width='28' height='9' rx='2.5'/%3E%3C/g%3E%3Cg fill='%23B4530A'%3E%3Crect x='21' y='3' width='11' height='36' rx='5.5'/%3E%0A%3Crect x='31' y='21' width='9' height='18' rx='4.5'/%3E%0A%3Crect x='39' y='23' width='9' height='16' rx='4.5'/%3E%0A%3Crect x='47' y='26' width='8' height='14' rx='4'/%3E%0A%3Crect x='9' y='31' width='16' height='10' rx='5' transform='rotate(25 17 36)'/%3E%0A%3Cpath d='M16 36 Q16 32 21 32 H51 Q55 32 55 37 V45 Q55 55 45 56 H28 Q16 56 16 45 Z'/%3E%0A%3Crect x='22' y='54' width='28' height='9' rx='2.5'/%3E%3C/g%3E%3Cpath d='M22 57.5H50M22 60H50' stroke='%23FFF2E7' stroke-width='0.8' opacity='0.7'/%3E%3Cpath d='M21.00 33.00H48.00V49.69H21.00ZM37.69 33.00V49.69M37.69 43.31H48.00M41.63 43.31V49.69M37.69 45.75H41.63M40.12 43.31V45.75M40.12 44.82H41.63M40.70 44.82V45.75' fill='none' stroke='%23FFF2E7' stroke-width='0.4' opacity='0.6'/%3E%3Cpath d='M21.00 49.69A16.69 16.69 0 0 1 37.69 33.00A10.31 10.31 0 0 1 48.00 43.31A6.37 6.37 0 0 1 41.63 49.69A3.94 3.94 0 0 1 37.69 45.75A2.43 2.43 0 0 1 40.12 43.31A1.50 1.50 0 0 1 41.63 44.82A0.93 0.93 0 0 1 40.70 45.75' fill='none' stroke='%23FFF2E7' stroke-width='0.9'/%3E%3C/svg%3E") 26 3,
+    pointer;
 }
 
 /* Narrow screens: no room either side of the title, so the cards stack under it. */
