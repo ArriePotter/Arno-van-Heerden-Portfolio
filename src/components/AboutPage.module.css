@@ -90,19 +90,45 @@
 }
 
 /* Key phrases: a highlighter stroke drawn over the words from left to right, up to --fill
-   (set by HighlightOnScroll as the line crosses the middle of the screen; 100% without JS).
-   The words keep their colour; only the marker band behind them grows. */
+   (set by HighlightOnScroll; 100% without JS). The words keep their colour. The stroke is a
+   hand-drawn marker shape (wavy edges, rough ends, a slight tilt that differs per phrase), so
+   it looks like a person drew it, not a ruler. */
 .key {
   --fill: 100%;
+  --tilt: -0.8deg;
+  position: relative;
+  isolation: isolate;
+  display: inline-block; /* keeps each phrase on one line, so the stroke is one piece */
   font-weight: inherit;
-  padding-inline: 2px;
-  background-image: linear-gradient(
-    color-mix(in srgb, var(--color-why) 32%, transparent),
-    color-mix(in srgb, var(--color-why) 32%, transparent)
-  );
-  background-repeat: no-repeat;
-  background-position: 0 70%;
-  background-size: var(--fill) 0.8em;
+}
+
+.key::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0.28em -0.18em 0.02em -0.12em;
+  background: color-mix(in srgb, var(--color-why) 34%, transparent);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M2 7C30 4 70 6 110 4S175 5 198 6L197 15C165 17 120 15 80 17S25 16 3 16L1 11Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  clip-path: inset(0 calc(100% - var(--fill)) 0 0);
+  transform: rotate(var(--tilt));
+}
+
+.key:nth-of-type(3n + 2) {
+  --tilt: 0.6deg;
+}
+
+.key:nth-of-type(3n + 2)::before {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 5C45 7 80 3 125 5S180 6 197 4L199 14C150 16 115 14 70 16S20 15 2 15L3 10Z'/%3E%3C/svg%3E");
+  inset: 0.32em -0.1em 0 -0.2em;
+}
+
+.key:nth-of-type(3n)::before {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M1 6C35 5 85 7 120 5S170 3 199 6L197 16C160 15 110 17 75 15S30 17 2 15L2 10Z'/%3E%3C/svg%3E");
+  inset: 0.24em -0.22em 0.04em -0.1em;
+}
+
+.key:nth-of-type(3n) {
+  --tilt: -0.3deg;
 }
 
 /*
