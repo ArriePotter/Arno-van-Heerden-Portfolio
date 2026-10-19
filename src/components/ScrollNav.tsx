@@ -90,7 +90,9 @@ export function ScrollNav() {
         lastPos = state.pos;
         const nearest = Math.round(state.pos);
         ticks.current.forEach((el, i) => {
-          el.style.transform = `scaleY(${tickHeight(Math.abs(i - state.pos)) / MAX})`;
+          // The "you are here" line is as long as the line next to the main one.
+          const h = tickHeight(Math.abs(i - state.pos));
+          el.style.transform = `scaleY(${(i === here ? Math.max(h, tickHeight(1)) : h) / MAX})`;
           el.dataset.current = String(i === nearest);
           el.dataset.here = String(i === here);
           el.style.filter = blurPx > 0.05 && Math.abs(i - nearest) <= BLUR_REACH ? filter : "";
