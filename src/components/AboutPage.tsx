@@ -1,4 +1,14 @@
+import { HighlightOnScroll } from "./HighlightOnScroll";
 import styles from "./AboutPage.module.css";
+
+// A key phrase that fills with the brand colour as it scrolls past the middle of the screen.
+function Key({ children }: { children: React.ReactNode }) {
+  return (
+    <strong className={styles.key} data-highlight>
+      {children}
+    </strong>
+  );
+}
 
 // Layout after Arno's reference (19 Oct): statement headline, photo flush with the left edge
 // of the screen, an opening quote, a divider and two short columns.
@@ -28,6 +38,7 @@ const skills = [
 export function AboutPage() {
   return (
     <section id="about" className={styles.about} aria-labelledby="about-title">
+      <HighlightOnScroll />
       <h2 id="about-title" className={styles.headline}>
         A <strong>product designer</strong> who proves the <em>why</em> before shipping the what.
       </h2>
@@ -53,12 +64,14 @@ export function AboutPage() {
 
           <div className={styles.columns}>
             <p>
-              I design and ship my own products: Project Khoisān, a training app for the MUT 60
-              trail race, KhayaPay for iOS, and an agentic bookkeeping web app.
+              I design and <Key>ship my own products</Key>: <Key>Project Khoisān</Key>, a
+              training app for the MUT 60 trail race, <Key>KhayaPay</Key> for iOS, and an{" "}
+              <Key>agentic bookkeeping web app</Key>.
             </p>
             <p>
-              I work in the open. The research, the decisions and where AI helped or failed are
-              all on the record, starting with this site.
+              I <Key>work in the open</Key>. The research, the decisions and where{" "}
+              <Key>AI helped or failed</Key> are all <Key>on the record</Key>, starting with this
+              site.
             </p>
           </div>
         </div>

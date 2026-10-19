@@ -81,12 +81,27 @@
   opacity: 0.4;
 }
 
+/* The two paragraphs, one under the other. */
 .columns {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  font: 400 1rem/1.7 var(--font-geist);
+  gap: 24px;
+  font: 400 clamp(1.125rem, 1.4vw, 1.375rem)/1.6 var(--font-geist);
   color: var(--color-text-muted);
+}
+
+/* Key phrases: the brand colour fills them from left to right up to --fill (set by
+   HighlightOnScroll as the line crosses the middle of the screen; 100% without JS). */
+.key {
+  --fill: 100%;
+  font-weight: inherit;
+  background-image: linear-gradient(
+    90deg,
+    var(--color-accent) var(--fill),
+    var(--color-text-muted) var(--fill)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /*
@@ -186,8 +201,7 @@
     padding-top: 112px;
   }
 
-  .body,
-  .columns {
+  .body {
     grid-template-columns: 1fr;
   }
 
