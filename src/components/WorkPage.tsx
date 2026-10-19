@@ -144,7 +144,9 @@ export function WorkPage() {
             onUpdate: () => render(proxy.p),
             scrollTrigger: {
               trigger: workAnchor,
-              start: "top top",
+              // Start a third of a screen before the book has fully opened, so the cards
+              // are already on their way up as Work appears.
+              start: "top 35%",
               endTrigger: about,
               end: "top bottom",
               scrub: 0.6,
