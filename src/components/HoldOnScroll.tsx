@@ -3,30 +3,36 @@
 import { useRef } from "react";
 import { gsap, useGSAP } from "./gsap";
 
-// Holds its content still for the first part of the scroll, then lets it scroll away
-// normally: for the first `hold` fraction of a screen height it moves down exactly as much
-// as the page moves up. Scrubbed to scroll; off with reduced motion.
+// Makes its content scroll a little slower than the page (parallax), so it lags behind
+// for a moment instead of stopping dead. Over the section's scroll out of view it trails
+// by `lag` × the screen height. Scrubbed to scroll; off with reduced motion.
 export function HoldOnScroll({
   className,
-  hold = 0.3,
+  lag = 0.12,
   children,
 }: {
   className?: string;
-  hold?: number;
+  lag?: number;
   children: React.ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     const el = ref.current;
-    if (!el) return;
+    const section = el?.closest("section");
+    if (!el || !section) return;
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const distance = () => window.innerHeight * hold;
       gsap.to(el, {
-        y: distance,
+        y: () => window.innerHeight * lag,
         ease: "none",
-        scrollTrigger: { start: 0, end: () => distance(), scrub: true, invalidateOnRefresh: true },
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
       });
     });
     return () => mm.revert();
