@@ -18,6 +18,27 @@
   background: var(--color-accent);
 }
 
+.golden {
+  position: absolute;
+  inset: 0;
+  fill: none;
+  stroke: var(--color-bg);
+}
+
+.goldenGrid {
+  stroke-width: 0.5;
+  opacity: 0.45;
+}
+
+.goldenSpiral {
+  stroke-width: 1;
+}
+
+/* On the "coming soon" ring the lines are in the brand colour instead. */
+.cursor[data-soon] .golden {
+  stroke: var(--color-accent);
+}
+
 .arc {
   position: absolute;
   inset: 0;
