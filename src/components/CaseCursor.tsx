@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { gsap } from "./gsap";
 import styles from "./CaseCursor.module.css";
 
@@ -12,6 +12,7 @@ import styles from "./CaseCursor.module.css";
 export function CaseCursor() {
   const el = useRef<HTMLDivElement>(null);
   const [label, setLabel] = useState<{ text: string; soon: boolean } | null>(null);
+  const arcId = useId();
 
   useEffect(() => {
     const cursor = el.current;
@@ -53,7 +54,16 @@ export function CaseCursor() {
 
   return (
     <div ref={el} className={styles.cursor} data-soon={label?.soon || undefined} aria-hidden="true">
-      <span>{label?.text}</span>
+      <span className={styles.disc} />
+      {/* The label runs along an arc just outside the top of the disc. */}
+      <svg className={styles.arc} viewBox="0 0 180 180">
+        <path id={arcId} d="M 22 90 A 68 68 0 0 1 158 90" fill="none" />
+        <text>
+          <textPath href={`#${arcId}`} startOffset="50%" textAnchor="middle">
+            {label?.text}
+          </textPath>
+        </text>
+      </svg>
     </div>
   );
 }
