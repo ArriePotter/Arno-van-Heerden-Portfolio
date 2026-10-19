@@ -2,7 +2,6 @@ import styles from "./TopBlur.module.css";
 
 // Progressive blur under the top bar (moodboard: "blur effect on the bottom of the screen"):
 // stacked layers, each blurring more and masked to a band, so the blur grows towards the top.
-// The sideways stretch is done per element in TopStretch.
 export function TopBlur() {
   return (
     <div className={styles.root} aria-hidden="true">

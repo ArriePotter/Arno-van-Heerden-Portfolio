@@ -12,7 +12,7 @@ export function OpeningPage() {
   return (
     <section id="intro" className={stage.stage} aria-label="Intro">
       <div className={stage.inner}>
-        <ul className={styles.statements} data-stretch>
+        <ul className={styles.statements}>
           {statements.map(([left, right]) => (
             <li key={left}>
               <span className={styles.left}>{left}</span>

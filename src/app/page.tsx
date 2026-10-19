@@ -3,7 +3,6 @@ import { Cover } from "@/components/Cover";
 import { MenuBar } from "@/components/MenuBar";
 import { OpeningPage } from "@/components/OpeningPage";
 import { Placeholder } from "@/components/Placeholder";
-import { TopStretch } from "@/components/TopStretch";
 
 export default function Home() {
   return (
@@ -17,7 +16,6 @@ export default function Home() {
         <Placeholder id="about" title="About" />
         <Placeholder id="contact" title="Get in touch" />
       </main>
-      <TopStretch />
     </>
   );
 }

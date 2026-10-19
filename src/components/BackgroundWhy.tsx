@@ -14,16 +14,11 @@ export function BackgroundWhy() {
     if (!el) return;
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      // Straight left (and smaller), from its cover position to the horizontal centre, reached exactly when
+      // Straight left, from its cover position to the horizontal centre, reached exactly when
       // the Intro page fills the screen. After that it stays centred.
       const comp = el.parentElement as HTMLElement;
       gsap.to(el, {
         x: () => comp.offsetWidth / 2 - (el.offsetLeft + el.offsetWidth / 2),
-        // Shrinks as it travels, so the whole word fits on the Intro page: at most 90% of
-        // the page width, and 82% of its height (the line box plus the "y" descender, ~25%).
-        scale: () =>
-          Math.min(1, (comp.offsetWidth * 0.9) / el.offsetWidth, (comp.offsetHeight * 0.82) / (el.offsetHeight * 1.25)),
-        transformOrigin: "50% 50%",
         ease: "none",
         scrollTrigger: {
           start: 0,
