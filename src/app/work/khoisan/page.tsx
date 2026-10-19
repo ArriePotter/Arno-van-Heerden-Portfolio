@@ -78,45 +78,6 @@ export default function KhoisanCaseStudy() {
       </header>
 
       <main id="main" className={styles.page}>
-        {/* Hero: what it is, one focal point, the facts a hiring manager looks for first. */}
-        <section className={styles.hero} aria-labelledby="cs-title">
-          <p className={styles.kicker}>Case study 01</p>
-          <h1 id="cs-title" className={styles.title}>
-            Project Khoisān
-          </h1>
-          <p className={styles.lede}>
-            A training app that answers one question first: <em>what do I run today?</em>
-          </p>
-          <dl className={styles.facts}>
-            <div>
-              <dt>Role</dt>
-              <dd>Design lead: research, direction, every decision</dd>
-            </div>
-            <div>
-              <dt>Built with</dt>
-              <dd>AI-assisted: Claude made the frames and code</dd>
-            </div>
-            <div>
-              <dt>Users</dt>
-              <dd>Two trail runners preparing for MUT 60</dd>
-            </div>
-            <div>
-              <dt>Timeline</dt>
-              <dd>Oct 2026 · a 3-week round</dd>
-            </div>
-            <div>
-              <dt>Platform</dt>
-              <dd>Web app, phone first</dd>
-            </div>
-            <div>
-              <dt>Status</dt>
-              <dd>[Shipped / in use: to fill]</dd>
-            </div>
-          </dl>
-        </section>
-
-        <Pause label="Hero: today's session on both phones" wide />
-
         <div className={styles.layout}>
           {/* The home page's scroll nav, stood up on the left (wide screens); a simple
               chapter row on narrow screens. */}
@@ -125,7 +86,47 @@ export default function KhoisanCaseStudy() {
           </div>
           <ChapterNav chapters={chapters} />
 
-          <article className={styles.content}>
+          <div className={styles.content}>
+            {/* Hero: what it is, one focal point, the facts a hiring manager looks for first. */}
+            <section className={styles.hero} aria-labelledby="cs-title">
+              <p className={styles.kicker}>Case study 01</p>
+              <h1 id="cs-title" className={styles.title}>
+                Project Khoisān
+              </h1>
+              <p className={styles.lede}>
+                A training app that answers one question first: <em>what do I run today?</em>
+              </p>
+              <dl className={styles.facts}>
+                <div>
+                  <dt>Role</dt>
+                  <dd>Design lead: research, direction, every decision</dd>
+                </div>
+                <div>
+                  <dt>Built with</dt>
+                  <dd>AI-assisted: Claude made the frames and code</dd>
+                </div>
+                <div>
+                  <dt>Users</dt>
+                  <dd>Two trail runners preparing for MUT 60</dd>
+                </div>
+                <div>
+                  <dt>Timeline</dt>
+                  <dd>Oct 2026 · a 3-week round</dd>
+                </div>
+                <div>
+                  <dt>Platform</dt>
+                  <dd>Web app, phone first</dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd>[Shipped / in use: to fill]</dd>
+                </div>
+              </dl>
+            </section>
+
+            <Pause label="Hero: today's session on both phones" wide />
+
+            <article className={styles.chapters}>
             <Chapter id="brief" n={1} heading="Opening the app felt overwhelming">
               <p>
                 When I opened the app on my phone, everything competed for attention and I
@@ -252,7 +253,8 @@ return <TodayCard session={today} reason={today.changeReason} />;`}</code>
                 </p>
               </aside>
             </Chapter>
-          </article>
+            </article>
+          </div>
         </div>
 
         {/* Explore more, just above the footer (teardown: sananes.co). */}

@@ -135,11 +135,13 @@
   margin: 0 auto;
 }
 
-/* Wide screens: the scroll nav, vertical, stuck beside the chapters. */
+/* Wide screens: the scroll nav, vertical, beside "Project Khoisān" from the start and stuck
+   in view all the way down. Starts level with the hero's first line. */
 .sideNav {
   position: sticky;
   top: 140px;
   align-self: start;
+  margin-top: 96px;
   padding-left: 4px;
 }
 
@@ -191,10 +193,14 @@
   font: 400 0.75rem/1 var(--font-geist-mono);
 }
 
+/* Everything right of the side nav: hero, hero image, chapters. */
 .content {
+  min-width: 0;
+}
+
+.chapters {
   display: grid;
   gap: 120px;
-  min-width: 0;
 }
 
 .chapter {
