@@ -18,7 +18,7 @@ export function IntroZoom({ intro, work }: { intro: ReactNode; work: ReactNode }
       const workEl = workLayer.current!;
       const left = introEl.querySelector<HTMLElement>('[data-split="left"]');
       const right = introEl.querySelector<HTMLElement>('[data-split="right"]');
-      // Fading parts by row: data-fade="0" is the top row, "1" the second, "2" the last ring.
+      // Fading parts by row: data-fade="0" is the top row, "1" the second.
       const row = (n: number) => introEl.querySelectorAll<HTMLElement>(`[data-fade="${n}"]`);
       if (!left || !right) return;
 
@@ -78,10 +78,9 @@ export function IntroZoom({ intro, work }: { intro: ReactNode; work: ReactNode }
               },
             },
           });
-          // 1. The top row fades out, then the second row, then the last row's ring.
+          // 1. The top row fades out, then the second row.
           tl.to(row(0), { autoAlpha: 0, duration: 0.15 }, 0)
             .to(row(1), { autoAlpha: 0, duration: 0.15 }, 0.15)
-            .to(row(2), { autoAlpha: 0, duration: 0.05 }, 0.25)
             // 2. The last row splits: each half slides just past its side of the screen.
             .to(left, { x: () => -edge(left, "right") - 24, duration: 0.7, ease: "power2.inOut" }, 0.3)
             .to(right, { x: () => window.innerWidth - edge(right, "left") + 24, duration: 0.7, ease: "power2.inOut" }, 0.3);

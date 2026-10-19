@@ -1,7 +1,7 @@
 import stage from "./Stage.module.css";
 import styles from "./OpeningPage.module.css";
 
-// Suggested copy (Arno to edit). The grid keeps the dots aligned whatever the word lengths.
+// Suggested copy (Arno to edit). The grid keeps the two columns aligned whatever the word lengths.
 const statements = [
   ["Creative", "by design"],
   ["Literate", "in AI"],
@@ -21,7 +21,6 @@ export function OpeningPage() {
                 <span className={styles.left} data-split={last ? "left" : undefined} data-fade={last ? undefined : i}>
                   {left}
                 </span>
-                <span className={styles.dot} aria-hidden="true" data-fade={i} />
                 <em className={styles.right} data-split={last ? "right" : undefined} data-fade={last ? undefined : i}>
                   {right}
                 </em>

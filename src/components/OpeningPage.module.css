@@ -1,13 +1,13 @@
-/* Three columns: left word (right-aligned) · dot · phrase (left-aligned). */
+/* Two columns: left word (right-aligned) and phrase (left-aligned). */
 .statements {
   position: absolute;
   top: 24.86cqw;
   left: 50%;
   translate: -50% 0;
   display: grid;
-  /* Equal side columns, so the dots sit exactly on the page's centre line (where the book
-     splits open into Work). */
-  grid-template-columns: 1fr auto 1fr;
+  /* Two equal columns, so the gap between them sits exactly on the page's centre line
+     (where the book splits open into Work). */
+  grid-template-columns: 1fr 1fr;
   column-gap: 1.67cqw;
   row-gap: 1.11cqw;
   align-items: center;
@@ -26,13 +26,6 @@
   font-style: italic;
 }
 
-.dot {
-  width: 0.69cqw;
-  min-width: 8px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 1.5px solid var(--color-accent);
-}
 
 @container page (width < 760px) {
   .statements {
