@@ -1,7 +1,7 @@
 // Exported from Figma (A v3 · 01 Cover → "Face · neural profile"); colours swapped for tokens.
-export function Face({ className }: { className?: string }) {
+export function Face({ className, ref }: { className?: string; ref?: React.Ref<SVGSVGElement> }) {
   return (
-    <svg className={className} viewBox="0 0 420 600" fill="none" aria-hidden="true">
+    <svg ref={ref} className={className} viewBox="0 0 420 600" fill="none" aria-hidden="true">
       <path
         d="M60 40C160 0 300 20 330 140C340 180 335 200 345 225C350 240 345 250 355 262C375 290 395 320 392 335C390 345 370 348 362 352C368 362 372 370 364 378C372 386 370 396 360 402C362 420 360 440 340 452C320 462 290 462 270 470C262 500 262 530 268 590"
         stroke="var(--color-text)"
