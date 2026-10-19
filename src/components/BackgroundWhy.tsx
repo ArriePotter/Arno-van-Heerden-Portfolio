@@ -5,17 +5,29 @@ import { gsap, useGSAP } from "./gsap";
 import styles from "./BackgroundWhy.module.css";
 
 // One faint "Why" behind the whole page. It stays put while the pages scroll up over it,
-// and drifts left, into the screen, as you scroll (scrubbed to the scroll position).
+// and glides into the centre by the time the Intro page fills the screen (scrubbed to scroll).
 export function BackgroundWhy() {
   const ref = useRef<HTMLParagraphElement>(null);
 
   useGSAP(() => {
+    const el = ref.current;
+    if (!el) return;
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.to(ref.current, {
-        xPercent: -30, // moves left, further into the screen
+      // From its cover position (right) to the centre of the screen, reached exactly when
+      // the Intro page fills the screen. After that it stays centred.
+      const comp = el.parentElement as HTMLElement;
+      gsap.to(el, {
+        x: () => comp.offsetWidth / 2 - (el.offsetLeft + el.offsetWidth / 2),
+        y: () => comp.offsetHeight / 2 - (el.offsetTop + el.offsetHeight / 2),
         ease: "none",
-        scrollTrigger: { start: 0, end: "max", scrub: 0.8 },
+        scrollTrigger: {
+          start: 0,
+          endTrigger: "#intro",
+          end: "top top",
+          scrub: 0.8,
+          invalidateOnRefresh: true,
+        },
       });
     });
     return () => mm.revert();

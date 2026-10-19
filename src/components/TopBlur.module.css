@@ -2,21 +2,31 @@
   position: fixed;
   inset: 0 0 auto;
   z-index: 9;
-  height: 128px;
+  height: 200px;
   pointer-events: none;
   /* A soft wash of the page colour keeps the bar's text readable over busy content. */
-  background: linear-gradient(to bottom, var(--color-bg) 0%, transparent 100%);
+  background: linear-gradient(to bottom, var(--color-bg) 0%, transparent 60%);
 }
 
+.defs {
+  position: absolute;
+}
+
+.stretch,
 .layer {
   position: absolute;
   inset: 0;
 }
 
+/* Painted first, so the blur layers above blur the already-stretched content. */
+.stretch {
+  backdrop-filter: url(#top-stretch);
+}
+
 /* Blur doubles each layer; each mask shows a band, lower layers nearer the bottom. */
-.layer:nth-child(1) { backdrop-filter: blur(0.5px); mask-image: linear-gradient(to top, transparent 0%, #000 17%, #000 33%, transparent 50%); }
-.layer:nth-child(2) { backdrop-filter: blur(1px); mask-image: linear-gradient(to top, transparent 17%, #000 33%, #000 50%, transparent 67%); }
-.layer:nth-child(3) { backdrop-filter: blur(2px); mask-image: linear-gradient(to top, transparent 33%, #000 50%, #000 67%, transparent 83%); }
-.layer:nth-child(4) { backdrop-filter: blur(4px); mask-image: linear-gradient(to top, transparent 50%, #000 67%, #000 83%, transparent 100%); }
-.layer:nth-child(5) { backdrop-filter: blur(8px); mask-image: linear-gradient(to top, transparent 67%, #000 83%); }
-.layer:nth-child(6) { backdrop-filter: blur(16px); mask-image: linear-gradient(to top, transparent 83%, #000 100%); }
+.layer:nth-child(3) { backdrop-filter: blur(0.5px); mask-image: linear-gradient(to top, transparent 0%, #000 17%, #000 33%, transparent 50%); }
+.layer:nth-child(4) { backdrop-filter: blur(1px); mask-image: linear-gradient(to top, transparent 17%, #000 33%, #000 50%, transparent 67%); }
+.layer:nth-child(5) { backdrop-filter: blur(2px); mask-image: linear-gradient(to top, transparent 33%, #000 50%, #000 67%, transparent 83%); }
+.layer:nth-child(6) { backdrop-filter: blur(4px); mask-image: linear-gradient(to top, transparent 50%, #000 67%, #000 83%, transparent 100%); }
+.layer:nth-child(7) { backdrop-filter: blur(8px); mask-image: linear-gradient(to top, transparent 67%, #000 83%); }
+.layer:nth-child(8) { backdrop-filter: blur(16px); mask-image: linear-gradient(to top, transparent 83%, #000 100%); }

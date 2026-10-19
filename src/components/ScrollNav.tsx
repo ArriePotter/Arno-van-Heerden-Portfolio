@@ -22,10 +22,12 @@ export function ScrollNav() {
 
   useGSAP(
     () => {
-      // `pos` is a position along the ticks (can be between ticks). GSAP eases it towards the
-      // scroll position, and every frame redraws the ticks from it.
+      // `pos` is a position along the ticks (can be between ticks). It follows the scroll
+      // continuously; GSAP eases it so the ticks glide. The word under it only changes
+      // once the next page fills the screen.
       const state = { pos: chapters[0].tick };
       let current: ChapterId = "home";
+      let chapterIndex = 0;
 
       const draw = () => {
         const nearest = Math.round(state.pos);
@@ -33,41 +35,48 @@ export function ScrollNav() {
           el.style.transform = `scaleY(${tickHeight(Math.abs(i - state.pos)) / MAX})`;
           el.dataset.current = String(i === nearest);
         });
-        const chapter = chapters.reduce((a, b) =>
-          Math.abs(b.tick - state.pos) < Math.abs(a.tick - state.pos) ? b : a,
-        );
         if (label.current) label.current.style.transform = `translateX(${state.pos * STEP + 0.5}px) translateX(-50%)`;
-        if (chapter.id !== current) {
-          current = chapter.id;
-          setActive(chapter.id);
-        }
       };
 
-      // The nav moves to a page only once that page fills the screen; until then it stays
-      // on the previous one.
-      let chapterIndex = 0;
-      const target = () => {
+      const tops = () => chapters.map((c) => document.getElementById(c.id)?.offsetTop ?? 0);
+
+      // Scroll → position: at a page's tick when that page fills the screen, and moving
+      // proportionally towards the next page's tick while scrolling between them.
+      const scrollPos = () => {
+        const y = window.scrollY;
+        const t = tops();
+        for (let i = 0; i < chapters.length - 1; i++) {
+          if (y < t[i + 1]) {
+            const p = gsap.utils.clamp(0, 1, (y - t[i]) / (t[i + 1] - t[i]));
+            return gsap.utils.interpolate(chapters[i].tick, chapters[i + 1].tick, p);
+          }
+        }
+        return chapters[chapters.length - 1].tick;
+      };
+
+      // The word: the last page that was fully on screen.
+      const updateWord = () => {
         const top = window.scrollY;
         const bottom = top + window.innerHeight;
         chapters.forEach((c, i) => {
           const el = document.getElementById(c.id);
           if (!el) return;
-          const fullyVisible = el.offsetTop >= top - 2 && el.offsetTop + el.offsetHeight <= bottom + 2;
-          if (fullyVisible) chapterIndex = i;
+          if (el.offsetTop >= top - 2 && el.offsetTop + el.offsetHeight <= bottom + 2) chapterIndex = i;
         });
-        return chapters[chapterIndex].tick;
+        const id = chapters[chapterIndex].id;
+        if (id !== current) {
+          current = id;
+          setActive(id);
+        }
       };
 
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      let last = -1;
       const update = () => {
-        const to = target();
-        if (to === last) return;
-        last = to;
+        updateWord();
         gsap.to(state, {
-          pos: to,
-          duration: reduce ? 0 : 0.9,
-          ease: "power3.inOut", // eases in and out, no overshoot (not a spring)
+          pos: scrollPos(),
+          duration: reduce ? 0 : 0.5,
+          ease: "power3.out", // glides and settles, no overshoot (not a spring)
           overwrite: true,
           onUpdate: draw,
         });
