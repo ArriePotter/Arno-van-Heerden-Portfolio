@@ -45,15 +45,17 @@
    with the page names lined up with the start of the burger lines. */
 .panel {
   display: grid;
-  gap: 12px;
+  gap: 14px;
   margin-top: 16px;
   margin-left: calc(-1 * var(--bar-gutter));
-  padding: 16px 24px 16px var(--bar-gutter);
-  border: 1px solid var(--color-text);
+  padding: 20px 32px 20px var(--bar-gutter);
+  /* On brand: the Why's wash and outline colours (like the big Why and the Work cards), the
+     cards' 16px corner, serif names. */
+  border: 1px solid var(--color-why);
   border-left: none;
-  border-radius: 0 4px 4px 0;
-  background: var(--color-bg);
-  font: 400 1.25rem/1.2 var(--font-stix);
+  border-radius: 0 16px 16px 0;
+  background: var(--color-why-wash);
+  font: 400 1.375rem/1.2 var(--font-stix);
 }
 
 .panel[hidden] {
