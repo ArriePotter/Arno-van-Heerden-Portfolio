@@ -55,6 +55,7 @@
 .text {
   position: relative;
   isolation: isolate;
+  align-self: start; /* only as tall as the text, so the blur ends just below "site." */
   display: grid;
   align-content: start;
   gap: 40px;
