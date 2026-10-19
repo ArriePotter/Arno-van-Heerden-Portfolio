@@ -93,8 +93,10 @@
   Parallax as a depth stack (research card "Parallax needs depth, not lag", Figma Research):
   nearer layers move faster, and each keeps one speed the whole way.
   - far: the background Why (fixed)
-  - middle: the picture inside the photo frame, a little slower than the page
-  - near: the text column, a little faster than the page
+  - the picture inside the photo frame: a little slower than the page
+  - the text column (the "Hi, I'm Arno" quote, divider and columns): a lot slower than the
+    photo (Arno, 19 Oct). It moves as one block, so the quote never runs into the text
+    under it, and it only lags downwards, into the free space beside the tall photo.
   CSS scroll-driven animations, so the browser keeps them in step with the scroll.
   Off with reduced motion; browsers without support scroll normally.
 */
@@ -107,7 +109,7 @@
     }
 
     .text {
-      animation: about-near linear both;
+      animation: about-slow linear both;
       animation-timeline: view();
       animation-range: cover;
     }
@@ -124,13 +126,14 @@
   }
 }
 
-/* Moves up a little more than the page (nearer). */
-@keyframes about-near {
+/* Lags behind the page: from its place when it enters to 450px lower when it leaves, so it
+   scrolls at about 0.75× the photo's speed. */
+@keyframes about-slow {
   from {
-    transform: translateY(80px);
+    transform: translateY(0);
   }
   to {
-    transform: translateY(-80px);
+    transform: translateY(450px);
   }
 }
 
