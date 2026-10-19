@@ -14,12 +14,11 @@ export function BackgroundWhy() {
     if (!el) return;
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      // From its cover position (right) to the centre of the screen, reached exactly when
+      // Straight left, from its cover position to the horizontal centre, reached exactly when
       // the Intro page fills the screen. After that it stays centred.
       const comp = el.parentElement as HTMLElement;
       gsap.to(el, {
         x: () => comp.offsetWidth / 2 - (el.offsetLeft + el.offsetWidth / 2),
-        y: () => comp.offsetHeight / 2 - (el.offsetTop + el.offsetHeight / 2),
         ease: "none",
         scrollTrigger: {
           start: 0,

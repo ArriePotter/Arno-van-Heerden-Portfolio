@@ -23,15 +23,30 @@
   background: var(--color-accent);
 }
 
-/* The page title is centred under the tallest tick. */
-.label {
+/* A zero-width point that rides under the tallest tick; words are centred on it. */
+.anchor {
   position: absolute;
   top: 34px;
   left: 0;
+  width: 0;
+  will-change: transform;
+}
+
+/* Each word clips its letters, so they appear to rise out of and into a slot. */
+.word {
+  position: absolute;
+  left: 0;
+  translate: -50% 0;
+  display: flex;
+  overflow: hidden;
+  padding-bottom: 2px;
   font: 400 0.75rem/1 var(--font-geist-mono);
   color: var(--color-accent);
-  white-space: nowrap;
-  will-change: transform;
+  white-space: pre;
+}
+
+.letter {
+  display: inline-block;
 }
 
 .links li {

@@ -14,20 +14,61 @@ function tickHeight(distance: number) {
   return Math.max(8, MAX - 4.5 * distance);
 }
 
+// The page whose stretch of ticks `pos` is in: each page owns the ticks closest to its own,
+// so the word switches halfway between two pages, the same way scrolling up or down.
+function chapterAt(pos: number) {
+  return chapters.reduce((a, b) => (Math.abs(b.tick - pos) < Math.abs(a.tick - pos) ? b : a));
+}
+
 export function ScrollNav() {
   const root = useRef<HTMLElement>(null);
   const ticks = useRef<HTMLSpanElement[]>([]);
-  const label = useRef<HTMLSpanElement>(null);
+  const anchor = useRef<HTMLSpanElement>(null);
   const [active, setActive] = useState<ChapterId>("home");
 
   useGSAP(
     () => {
-      // `pos` is a position along the ticks (can be between ticks). It follows the scroll
-      // continuously; GSAP eases it so the ticks glide. The word under it only changes
-      // once the next page fills the screen.
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // `pos` is a position along the ticks (can be between ticks). It follows the scroll;
+      // GSAP eases it so the ticks glide.
       const state = { pos: chapters[0].tick };
-      let current: ChapterId = "home";
-      let chapterIndex = 0;
+      let current: ChapterId = chapters[0].id;
+      let word: HTMLSpanElement | null = null;
+
+      // Build a word as one span per letter, so the letters can move one after another.
+      const makeWord = (text: string) => {
+        const w = document.createElement("span");
+        w.className = styles.word;
+        for (const ch of text) {
+          const l = document.createElement("span");
+          l.className = styles.letter;
+          l.textContent = ch;
+          w.append(l);
+        }
+        anchor.current?.append(w);
+        return w;
+      };
+
+      // Word change: the old word's letters rise up and out, left to right; the new word's
+      // letters rise in from below, left to right.
+      const swapWord = (text: string) => {
+        const old = word;
+        word = makeWord(text);
+        if (reduce) {
+          old?.remove();
+          return;
+        }
+        gsap.from(word.children, { yPercent: 110, duration: 0.5, ease: "power3.out", stagger: 0.04 });
+        if (old) {
+          gsap.to(old.children, {
+            yPercent: -110,
+            duration: 0.4,
+            ease: "power3.in",
+            stagger: 0.04,
+            onComplete: () => old.remove(),
+          });
+        }
+      };
 
       const draw = () => {
         const nearest = Math.round(state.pos);
@@ -35,44 +76,30 @@ export function ScrollNav() {
           el.style.transform = `scaleY(${tickHeight(Math.abs(i - state.pos)) / MAX})`;
           el.dataset.current = String(i === nearest);
         });
-        if (label.current) label.current.style.transform = `translateX(${state.pos * STEP + 0.5}px) translateX(-50%)`;
+        if (anchor.current) anchor.current.style.transform = `translateX(${state.pos * STEP + 0.5}px)`;
+        const chapter = chapterAt(state.pos);
+        if (chapter.id !== current) {
+          current = chapter.id;
+          swapWord(chapter.label);
+          setActive(chapter.id);
+        }
       };
-
-      const tops = () => chapters.map((c) => document.getElementById(c.id)?.offsetTop ?? 0);
 
       // Scroll → position: at a page's tick when that page fills the screen, and moving
       // proportionally towards the next page's tick while scrolling between them.
       const scrollPos = () => {
         const y = window.scrollY;
-        const t = tops();
+        const tops = chapters.map((c) => document.getElementById(c.id)?.offsetTop ?? 0);
         for (let i = 0; i < chapters.length - 1; i++) {
-          if (y < t[i + 1]) {
-            const p = gsap.utils.clamp(0, 1, (y - t[i]) / (t[i + 1] - t[i]));
+          if (y < tops[i + 1]) {
+            const p = gsap.utils.clamp(0, 1, (y - tops[i]) / (tops[i + 1] - tops[i]));
             return gsap.utils.interpolate(chapters[i].tick, chapters[i + 1].tick, p);
           }
         }
         return chapters[chapters.length - 1].tick;
       };
 
-      // The word: the last page that was fully on screen.
-      const updateWord = () => {
-        const top = window.scrollY;
-        const bottom = top + window.innerHeight;
-        chapters.forEach((c, i) => {
-          const el = document.getElementById(c.id);
-          if (!el) return;
-          if (el.offsetTop >= top - 2 && el.offsetTop + el.offsetHeight <= bottom + 2) chapterIndex = i;
-        });
-        const id = chapters[chapterIndex].id;
-        if (id !== current) {
-          current = id;
-          setActive(id);
-        }
-      };
-
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const update = () => {
-        updateWord();
+      const update = () =>
         gsap.to(state, {
           pos: scrollPos(),
           duration: reduce ? 0 : 0.5,
@@ -80,16 +107,17 @@ export function ScrollNav() {
           overwrite: true,
           onUpdate: draw,
         });
-      };
 
+      word = makeWord(chapters[0].label);
       const st = ScrollTrigger.create({ start: 0, end: "max", onUpdate: update, onRefresh: update });
       update();
-      return () => st.kill();
+      return () => {
+        st.kill();
+        if (anchor.current) anchor.current.replaceChildren();
+      };
     },
     { scope: root },
   );
-
-  const current = chapters.find((c) => c.id === active) ?? chapters[0];
 
   return (
     <nav ref={root} aria-label="Page sections" className={styles.root}>
@@ -101,13 +129,11 @@ export function ScrollNav() {
               if (el) ticks.current[i] = el;
             }}
             className={styles.tick}
-            data-current={i === current.tick}
           />
         ))}
       </div>
-      <span ref={label} className={styles.label} aria-hidden="true">
-        {current.label}
-      </span>
+      {/* The visible page word lives here; GSAP builds and animates it. */}
+      <span ref={anchor} className={styles.anchor} aria-hidden="true" />
       <ol className={styles.links}>
         {chapters.map((c) => (
           <li key={c.id} style={{ left: c.tick * STEP }}>
