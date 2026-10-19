@@ -41,6 +41,9 @@ export function ScrollNav() {
       // False once this setup is torn down (React dev mode runs it twice), so a leftover glide
       // from the first run can't add a second word.
       let alive = true;
+      // True after a page name is clicked, until the line has glided to the new page: the word
+      // changes straight to that page, without the letter animation (that's for scrolling only).
+      let jumped = false;
       // While hovering (and gliding back after): the line for where you are on the page. It
       // stays orange, and the page word stays parked under it instead of following the mouse.
       let here: number | null = null;
@@ -63,11 +66,11 @@ export function ScrollNav() {
       // and out (left to right), then the new word's letters rise in from below (left to
       // right). A new change mid-swap finishes the previous one instantly first.
       let swap: gsap.core.Timeline | null = null;
-      const swapWord = (text: string) => {
+      const swapWord = (text: string, instant = false) => {
         swap?.progress(1);
         const old = word;
         word = makeWord(text);
-        if (reduce || !old) {
+        if (reduce || instant || !old) {
           old?.remove();
           return;
         }
@@ -105,10 +108,10 @@ export function ScrollNav() {
         });
         if (anchor.current) anchor.current.style.transform = `translateX(${(here ?? state.pos) * STEP + 0.5}px)`;
         // While the mouse is over the nav, the lines follow the mouse but the page word stays.
-        const chapter = chapterAt(here ?? state.pos);
-        if (!hovering && chapter.id !== current) {
+        const chapter = chapterAt(here ?? (jumped ? scrollPos() : state.pos));
+        if ((!hovering || jumped) && chapter.id !== current) {
           current = chapter.id;
-          swapWord(chapter.label);
+          swapWord(chapter.label, jumped);
           setActive(chapter.id);
         }
       };
@@ -136,6 +139,7 @@ export function ScrollNav() {
           onUpdate: draw,
           onComplete: () => {
             if (!hovering) here = null;
+            if (!hovering && Math.abs(state.pos - scrollPos()) < 0.01) jumped = false;
             setBlur(0);
             draw();
           },
@@ -159,8 +163,12 @@ export function ScrollNav() {
         hovering = false;
         glideTo(scrollPos());
       };
+      const onClick = (e: MouseEvent) => {
+        if ((e.target as Element).closest("a")) jumped = true;
+      };
       nav.addEventListener("pointermove", onMove);
       nav.addEventListener("pointerleave", onLeave);
+      nav.addEventListener("click", onClick);
 
       word = makeWord(chapters[0].label);
       const st = ScrollTrigger.create({ start: 0, end: "max", onUpdate: update, onRefresh: update });
@@ -172,6 +180,7 @@ export function ScrollNav() {
         gsap.killTweensOf(state);
         nav.removeEventListener("pointermove", onMove);
         nav.removeEventListener("pointerleave", onLeave);
+        nav.removeEventListener("click", onClick);
         if (anchor.current) anchor.current.replaceChildren();
       };
     },
