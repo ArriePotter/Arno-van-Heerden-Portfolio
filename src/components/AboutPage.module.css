@@ -63,6 +63,9 @@
    one row gap above the next page, so the strip never touches the card. */
 .textCol {
   align-self: stretch;
+  /* The glass panel reaches 40px above the text (.text::before), so this lines the panel's
+     top edge up with the photo frame's top edge. */
+  padding-top: 40px;
 }
 
 .text {
