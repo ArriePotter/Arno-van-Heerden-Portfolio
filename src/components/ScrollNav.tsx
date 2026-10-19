@@ -204,6 +204,13 @@ export function ScrollNav({
       nav.addEventListener("pointerleave", onLeave);
       nav.addEventListener("click", onClick);
 
+      // Side nav: the hover zone reaches as far right as the longest section name plus a
+      // little extra, so moving along the names never drops the hover.
+      if (vertical) {
+        const widest = Math.max(...[...nav.querySelectorAll<HTMLElement>(`.${styles.label}`)].map((l) => l.offsetWidth));
+        nav.style.setProperty("--reach", `${widest + 34 - nav.offsetWidth + 24}px`);
+      }
+
       word = makeWord(chapters[0].label);
       const st = ScrollTrigger.create({ start: 0, end: "max", onUpdate: update, onRefresh: update });
       update();

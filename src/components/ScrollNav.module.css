@@ -134,8 +134,9 @@
   height: calc(var(--ticks) * 8px - 7px);
 }
 
+/* The hover zone reaches right past the longest section name (--reach, set by the script). */
 .vertical::before {
-  inset: -20px -28px -20px -12px;
+  inset: -20px calc(-1 * var(--reach, 120px)) -20px -12px;
 }
 
 .vertical .ticks {
