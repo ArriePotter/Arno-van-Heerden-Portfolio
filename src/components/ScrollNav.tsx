@@ -1,11 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { chapters, type ChapterId } from "./chapters";
+import { chapters, TICKS, type ChapterId } from "./chapters";
 import { gsap, ScrollTrigger, useGSAP } from "./gsap";
 import styles from "./ScrollNav.module.css";
 
-const TICKS = 48;
 const STEP = 8; // tick width (1px) + gap (7px), as in Figma
 const MAX = 28; // tallest tick, px
 

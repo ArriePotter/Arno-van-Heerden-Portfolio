@@ -10,9 +10,8 @@
 .positioning {
   position: absolute;
   top: 26.04cqw;
-  /* Left edge lines up with the "Home" label: the scroll nav is 377px wide and centred,
-     Home is its first tick, and the label (≈29px wide) is centred on it:
-     50% − 188.5px + 0.5px − 14.4px. */
+  /* Fixed spot to the right of the face (no longer tied to the scroll nav, which is now
+     too wide: lined up under "Home", the title would run into the face). */
   left: calc(50% - 202.4px);
   width: 36.11cqw;
   display: grid;

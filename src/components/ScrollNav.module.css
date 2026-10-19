@@ -1,6 +1,6 @@
 .root {
   position: relative;
-  width: calc(48 * 8px - 7px);
+  width: calc(var(--nav-ticks) * 8px - 7px);
   height: 52px;
 }
 
@@ -71,8 +71,8 @@
   white-space: nowrap;
 }
 
-/* No room for 48 ticks on a phone; the Menu still reaches every page. */
-@media (width < 760px) {
+/* No room for the lines on small screens; the Menu still reaches every page. */
+@media (width < 960px) {
   .root {
     display: none;
   }
