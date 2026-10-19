@@ -70,7 +70,7 @@ export function ScrollNav() {
       // and out (left to right), then the new word's letters rise in from below (left to
       // right). A new change mid-swap finishes the previous one instantly first.
       let swap: gsap.core.Timeline | null = null;
-      const swapWord = (text: string, instant = false) => {
+      const swapWord = (text: string, instant = false, back = false) => {
         swap?.progress(1);
         const old = word;
         word = makeWord(text);
@@ -81,9 +81,9 @@ export function ScrollNav() {
         gsap.set(word.children, { yPercent: 110 });
         swap = gsap
           .timeline()
-          .to(old.children, { yPercent: -110, duration: 0.22, ease: "power2.in", stagger: 0.025 })
+          .to(old.children, { yPercent: -110, duration: 0.22, ease: "power2.in", stagger: { each: 0.025, from: back ? "end" : "start" } })
           .add(() => old.remove())
-          .to(word.children, { yPercent: 0, duration: 0.35, ease: "power3.out", stagger: 0.03 });
+          .to(word.children, { yPercent: 0, duration: 0.35, ease: "power3.out", stagger: { each: 0.03, from: back ? "end" : "start" } });
       };
 
       // Motion blur: a horizontal-only blur on the current line and the BLUR_REACH lines either
@@ -114,8 +114,10 @@ export function ScrollNav() {
         // While the mouse is over the nav, the lines follow the mouse but the page word stays.
         const chapter = chapterAt(here ?? (jumped ? scrollPos() : state.pos));
         if ((!hovering || jumped) && chapter.id !== current) {
+          // Scrolling back up, the letters run right to left instead.
+          const back = chapters.findIndex((c) => c.id === chapter.id) < chapters.findIndex((c) => c.id === current);
           current = chapter.id;
-          swapWord(chapter.label, jumped);
+          swapWord(chapter.label, jumped, back);
           setActive(chapter.id);
         }
       };
