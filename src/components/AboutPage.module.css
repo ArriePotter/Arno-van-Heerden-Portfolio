@@ -62,20 +62,17 @@
   max-width: 36rem;
 }
 
-/* Blurs the background (the big Why) behind the text, with soft feathered edges so there's
-   no visible box. It extends a little past the text on every side. */
+/* A frosted-glass panel behind the text: the background (the big Why) is blurred inside a
+   thin rounded border, extending a little past the text on every side. */
 .text::before {
   content: "";
   position: absolute;
   z-index: -1;
-  inset: -48px -56px;
+  inset: -40px -48px;
+  border: 1px solid color-mix(in srgb, var(--color-text-muted) 45%, transparent);
+  border-radius: 16px;
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  /* Fully blurred behind the text; fades out only in the 48px margin around it. */
-  mask:
-    linear-gradient(90deg, #0000, #000 48px, #000 calc(100% - 48px), #0000),
-    linear-gradient(#0000, #000 48px, #000 calc(100% - 48px), #0000);
-  mask-composite: intersect;
 }
 
 /* Opening paragraph with a large opening quote mark hanging in the margin. */
