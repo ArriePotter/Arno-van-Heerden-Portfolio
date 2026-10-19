@@ -32,7 +32,7 @@
   background: var(--color-accent);
 }
 
-@container (width < 760px) {
+@container page (width < 760px) {
   .statements {
     position: relative;
     inset: auto;

@@ -1,3 +1,4 @@
+import { BackgroundWhy } from "./BackgroundWhy";
 import stage from "./Stage.module.css";
 import styles from "./OpeningPage.module.css";
 
@@ -13,9 +14,7 @@ export function OpeningPage() {
     <section id="intro" className={stage.stage} aria-label="Intro">
       <div className={stage.inner}>
         {/* The Why carries on from the cover: same size, shifted one page to the left. */}
-        <p className={stage.why} style={{ left: "-52.43cqw" }} aria-hidden="true">
-          Why
-        </p>
+        <BackgroundWhy left="-52.43cqw" />
         <ul className={styles.statements}>
           {statements.map(([left, right]) => (
             <li key={left}>

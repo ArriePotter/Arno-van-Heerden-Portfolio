@@ -1,3 +1,4 @@
+import { BackgroundWhy } from "./BackgroundWhy";
 import { Face } from "./Face";
 import stage from "./Stage.module.css";
 import styles from "./Cover.module.css";
@@ -6,9 +7,7 @@ export function Cover() {
   return (
     <section id="home" className={stage.stage} aria-labelledby="cover-title">
       <div className={stage.inner}>
-        <p className={stage.why} style={{ left: "47.57cqw" }} aria-hidden="true">
-          Why
-        </p>
+        <BackgroundWhy left="47.57cqw" />
         <Face className={styles.face} />
         <div className={styles.positioning}>
           <h1 id="cover-title" className={styles.title}>
