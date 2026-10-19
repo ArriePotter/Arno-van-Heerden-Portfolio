@@ -49,25 +49,24 @@ export function ScrollNav() {
         return w;
       };
 
-      // Word change: the old word's letters rise up and out, left to right; the new word's
-      // letters rise in from below, left to right.
+      // Word change, in sequence so the words never overlap: the old word's letters rise up
+      // and out (left to right), then the new word's letters rise in from below (left to
+      // right). A new change mid-swap finishes the previous one instantly first.
+      let swap: gsap.core.Timeline | null = null;
       const swapWord = (text: string) => {
+        swap?.progress(1);
         const old = word;
         word = makeWord(text);
-        if (reduce) {
+        if (reduce || !old) {
           old?.remove();
           return;
         }
-        gsap.from(word.children, { yPercent: 110, duration: 0.5, ease: "power3.out", stagger: 0.04 });
-        if (old) {
-          gsap.to(old.children, {
-            yPercent: -110,
-            duration: 0.4,
-            ease: "power3.in",
-            stagger: 0.04,
-            onComplete: () => old.remove(),
-          });
-        }
+        gsap.set(word.children, { yPercent: 110 });
+        swap = gsap
+          .timeline()
+          .to(old.children, { yPercent: -110, duration: 0.22, ease: "power2.in", stagger: 0.025 })
+          .add(() => old.remove())
+          .to(word.children, { yPercent: 0, duration: 0.35, ease: "power3.out", stagger: 0.03 });
       };
 
       const draw = () => {
