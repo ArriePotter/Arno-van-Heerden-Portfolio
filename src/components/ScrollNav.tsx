@@ -36,36 +36,42 @@ export function ScrollNav() {
         const chapter = chapters.reduce((a, b) =>
           Math.abs(b.tick - state.pos) < Math.abs(a.tick - state.pos) ? b : a,
         );
-        if (label.current) label.current.style.transform = `translateX(${state.pos * STEP}px)`;
+        if (label.current) label.current.style.transform = `translateX(${state.pos * STEP + 0.5}px) translateX(-50%)`;
         if (chapter.id !== current) {
           current = chapter.id;
           setActive(chapter.id);
         }
       };
 
-      // Scroll → target position: a page's tick when that page fills the screen, and in
-      // between while it scrolls to the next page.
+      // The nav moves to a page only once that page fills the screen; until then it stays
+      // on the previous one.
+      let chapterIndex = 0;
       const target = () => {
-        const mid = window.scrollY + 1;
-        const tops = chapters.map((c) => document.getElementById(c.id)?.offsetTop ?? 0);
-        for (let i = 0; i < chapters.length - 1; i++) {
-          if (mid < tops[i + 1]) {
-            const t = gsap.utils.clamp(0, 1, (mid - tops[i]) / (tops[i + 1] - tops[i]));
-            return gsap.utils.interpolate(chapters[i].tick, chapters[i + 1].tick, t);
-          }
-        }
-        return chapters[chapters.length - 1].tick;
+        const top = window.scrollY;
+        const bottom = top + window.innerHeight;
+        chapters.forEach((c, i) => {
+          const el = document.getElementById(c.id);
+          if (!el) return;
+          const fullyVisible = el.offsetTop >= top - 2 && el.offsetTop + el.offsetHeight <= bottom + 2;
+          if (fullyVisible) chapterIndex = i;
+        });
+        return chapters[chapterIndex].tick;
       };
 
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const update = () =>
+      let last = -1;
+      const update = () => {
+        const to = target();
+        if (to === last) return;
+        last = to;
         gsap.to(state, {
-          pos: target(),
-          duration: reduce ? 0 : 0.6,
-          ease: "power3.out", // eases in and settles, no overshoot (not a spring)
+          pos: to,
+          duration: reduce ? 0 : 0.9,
+          ease: "power3.inOut", // eases in and out, no overshoot (not a spring)
           overwrite: true,
           onUpdate: draw,
         });
+      };
 
       const st = ScrollTrigger.create({ start: 0, end: "max", onUpdate: update, onRefresh: update });
       update();

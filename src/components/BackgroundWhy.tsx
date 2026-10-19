@@ -5,7 +5,7 @@ import { gsap, useGSAP } from "./gsap";
 import styles from "./BackgroundWhy.module.css";
 
 // One faint "Why" behind the whole page. It stays put while the pages scroll up over it,
-// and drifts right as you scroll (scrubbed to the scroll position).
+// and drifts left, into the screen, as you scroll (scrubbed to the scroll position).
 export function BackgroundWhy() {
   const ref = useRef<HTMLParagraphElement>(null);
 
@@ -13,7 +13,7 @@ export function BackgroundWhy() {
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       gsap.to(ref.current, {
-        xPercent: 30,
+        xPercent: -30, // moves left, further into the screen
         ease: "none",
         scrollTrigger: { start: 0, end: "max", scrub: 0.8 },
       });

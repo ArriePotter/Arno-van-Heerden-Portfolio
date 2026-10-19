@@ -10,9 +10,10 @@
 .positioning {
   position: absolute;
   top: 26.04cqw;
-  /* Left edge sits on the "Home" tick: the scroll nav is 377px wide and centred, and
-     tick 4 is 32px in, so 50% − 188.5px + 32px. The nav label starts on the same line. */
-  left: calc(50% - 156.5px);
+  /* Left edge lines up with the "Home" label: the scroll nav is 377px wide and centred,
+     Home is its first tick, and the label (≈29px wide) is centred on it:
+     50% − 188.5px + 0.5px − 14.4px. */
+  left: calc(50% - 202.4px);
   width: 36.11cqw;
   display: grid;
   gap: 1.39cqw;
