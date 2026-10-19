@@ -22,3 +22,4 @@ This is a lightweight version of the Architecture Decision Records (ADRs) that e
 | [0006](0006-positioning-line.md) | Positioning: "Product Designer who proves the why" | Product strategy | Accepted |
 | [0007](0007-site-map.md) | Site map: one "book" home page plus case-study pages | Product strategy | Accepted |
 | [0008](0008-case-study-template.md) | Case-study template: 7 chapters on the lifecycle spine | Product strategy | Accepted |
+| [0020](0020-menu-holds-deep-links.md) | The menu holds deep links (case studies, email), not page sections | Interaction design | Accepted |
